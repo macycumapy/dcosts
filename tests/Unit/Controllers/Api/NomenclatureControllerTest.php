@@ -80,8 +80,8 @@ class NomenclatureControllerTest extends TestCase
         $response = $this->call('put', $this->url . '/' . $id, $data);
 
         $nomenclature = Nomenclature::find($id);
-        $nomenclatureTypy = NomenclatureType::find($data['nomenclature_type_id']);
-        if ($nomenclature && $nomenclatureTypy) {
+        $nomenclatureType = NomenclatureType::find($data['nomenclature_type_id']);
+        if ($nomenclature && $nomenclatureType) {
             $response->assertOk();
         } else {
             $response->assertStatus(404);
