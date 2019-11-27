@@ -16,9 +16,4 @@ class Nomenclature extends AbstractDictionary implements NomenclatureInterface
             'nomenclature_type_id' => 'integer|required',
         ];
     }
-
-    public function nomenclatureType()
-    {
-        return $this->belongsTo(NomenclatureTypeInterface::class);
-    }
 }

@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Controllers\Api;
 
+use App\Models\Nomenclature;
 use App\Models\NomenclatureType;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -89,25 +90,33 @@ class NomenclatureTypeControllerTest extends TestCase
      */
     public function testDestroy($id)
     {
+        factory(Nomenclature::class, 5)->create();
+
         $nomenclatureType = NomenclatureType::find($id);
+
+        $nomenclatureCount = $nomenclatureType ? $nomenclatureType->nomenclatures()->count() : null;
 
         $response = $this->call('delete',$this->url.'/'.$id);
 
-        if ($nomenclatureType){
+        if ($nomenclatureType && $nomenclatureCount == 0){
             $response->assertOk();
+            $this->assertNull(NomenclatureType::find($id));
+
+        } else if ($nomenclatureCount > 0) {
+            $response->assertStatus(406);
         } else {
             $response->assertStatus(404);
         }
 
-        $this->assertNull(NomenclatureType::find($id));
+
     }
 
     public function idProvider()
     {
         return [
             [0],
+            [1],
             [2],
-            [5],
             [15],
         ];
     }

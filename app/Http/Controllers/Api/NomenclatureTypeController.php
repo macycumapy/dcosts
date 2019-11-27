@@ -86,6 +86,9 @@ class NomenclatureTypeController extends Controller
         $nomenclatureType = $this->nomenclatureType->find($id);
         if (!$nomenclatureType) return response([],404);
 
+        $nomenclatures = $nomenclatureType->nomenclatures();
+        if ($nomenclatures->count() > 0) return response([],406);
+
         $nomenclatureType->delete();
 
         return response([]);

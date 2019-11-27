@@ -5,4 +5,6 @@ namespace App\Models;
 interface NomenclatureTypeInterface
 {
     public function rules():array;
+
+    public function nomenclatures();
 }
