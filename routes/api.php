@@ -18,3 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/nomenclature', 'Api\NomenclatureController@index');
+
+Route::resource('nomenclature_types', 'Api\NomenclatureTypeController')
+    ->only(['index', 'store', 'show', 'update', 'destroy']);

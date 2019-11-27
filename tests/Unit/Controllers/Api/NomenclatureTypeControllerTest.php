@@ -1,0 +1,122 @@
+<?php
+
+namespace Tests\Unit\Controllers\Api;
+
+use App\Models\NomenclatureType;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
+
+class NomenclatureTypeControllerTest extends TestCase
+{
+    use DatabaseMigrations;
+    use WithFaker;
+
+    private $url = '/api/nomenclature_types';
+
+    /**
+     * A basic unit test example.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        factory(NomenclatureType::class, 5)->create();
+    }
+
+    public function testIndex()
+    {
+        $nomenclatureTypes = NomenclatureType::all()->toArray();
+
+        $this->get($this->url)
+            ->assertOk()
+            ->assertJson($nomenclatureTypes);
+    }
+
+    /**
+     * @dataProvider idProvider
+     * @param $id
+     */
+    public function testShow($id)
+    {
+        $response = $this->get($this->url . '/' . $id);
+
+        $nomenclatureType = NomenclatureType::find($id);
+        if ($nomenclatureType) {
+            $response
+                ->assertOk()
+                ->assertJson($nomenclatureType->toArray());
+        } else {
+            $response->assertStatus(404);
+        }
+    }
+
+    /**
+     * @dataProvider dataProvider
+     * @param $data
+     */
+    public function testStore($data)
+    {
+        $this->post($this->url, $data)
+            ->assertOk();
+    }
+
+    /**
+     * @dataProvider idProvider
+     * @param $id
+     */
+    public function testUpdate($id)
+    {
+        $data = [
+          'name' => $this->faker->name,
+        ];
+
+        $response = $this->call('put',$this->url.'/'.$id, $data);
+
+        $nomenclatureType = NomenclatureType::find($id);
+        if ($nomenclatureType){
+            $response->assertOk();
+        } else {
+            $response->assertStatus(404);
+        }
+    }
+
+    /**
+     * @dataProvider idProvider
+     * @param $id
+     */
+    public function testDestroy($id)
+    {
+        $nomenclatureType = NomenclatureType::find($id);
+
+        $response = $this->call('delete',$this->url.'/'.$id);
+
+        if ($nomenclatureType){
+            $response->assertOk();
+        } else {
+            $response->assertStatus(404);
+        }
+
+        $this->assertNull(NomenclatureType::find($id));
+    }
+
+    public function idProvider()
+    {
+        return [
+            [0],
+            [2],
+            [5],
+            [15],
+        ];
+    }
+
+    public function dataProvider()
+    {
+        return [
+            ['string' => ['name' => 'test']],
+//            ['empty string' => ['name' => '']],
+        ];
+    }
+}

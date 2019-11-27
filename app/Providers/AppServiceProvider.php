@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
-use App\Models\INomenclature;
+use App\Models\NomenclatureInterface;
+use App\Models\NomenclatureTypeInterface;
 use App\Models\Nomenclature;
+use App\Models\NomenclatureType;
 use function foo\func;
 use Illuminate\Support\ServiceProvider;
 
@@ -16,7 +18,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(INomenclature::class, Nomenclature::class);
+        $this->app->bind(NomenclatureInterface::class, Nomenclature::class);
+        $this->app->bind(NomenclatureTypeInterface::class, NomenclatureType::class);
     }
 
     /**
