@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-interface NomenclatureTypeInterface
-{
-    public function rules():array;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-    public function nomenclatures();
+interface NomenclatureTypeInterface extends ModelInterface
+{
+    public function nomenclatures():HasMany;
 }

@@ -103,7 +103,7 @@ class NomenclatureTypeControllerTest extends TestCase
             $this->assertNull(NomenclatureType::find($id));
 
         } else if ($nomenclatureCount > 0) {
-            $response->assertStatus(406);
+            $response->assertStatus(400);
         } else {
             $response->assertStatus(404);
         }

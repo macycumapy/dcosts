@@ -9,7 +9,16 @@ class Nomenclature extends AbstractDictionary implements NomenclatureInterface
         'nomenclature_type_id',
     ];
 
-    public function rules(): array
+    protected $nomenclatureType;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->nomenclatureType = app()->make(NomenclatureTypeInterface::class);
+    }
+
+    public static function rules(): array
     {
         return [
             'name' => 'string|required',

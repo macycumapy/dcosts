@@ -4,24 +4,21 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\NomenclatureInterface;
-use App\Models\NomenclatureTypeInterface;
 use Illuminate\Http\Request;
 
 class NomenclatureController extends Controller
 {
     protected $nomenclature;
-    protected $nomenclatureType;
 
-    public function __construct(NomenclatureInterface $nomenclature, NomenclatureTypeInterface $nomenclatureType)
+    public function __construct(NomenclatureInterface $nomenclature)
     {
         $this->nomenclature = $nomenclature;
-        $this->nomenclatureType = $nomenclatureType;
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -34,16 +31,14 @@ class NomenclatureController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
         $fields = $request->validate($this->nomenclature->rules());
 
-        $nomenclatureType = $this->nomenclatureType->find($fields['nomenclature_type_id']);
-        if (!$nomenclatureType) return response([],404);
-
-        $nomenclature = $this->nomenclature->create($fields);
+        $nomenclature = $this->nomenclature->tryToCreate($fields);
+        if (!$nomenclature) return response()->json([],400);
 
         return response()->json($nomenclature);
     }
@@ -52,12 +47,12 @@ class NomenclatureController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        $nomenclature = $this->nomenclature->find($id);
-        if (!$nomenclature) return response([],404);
+        $nomenclature = $this->nomenclature->findById($id);
+        if (!$nomenclature) return response()->json([],404);
 
         return response()->json($nomenclature);
     }
@@ -67,17 +62,16 @@ class NomenclatureController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
         $fields = $request->validate($this->nomenclature->rules());
 
-        $nomenclature = $this->nomenclature->find($id);
-        $nomenclatureType = $this->nomenclatureType->find($fields['nomenclature_type_id']);
-        if (!$nomenclature || !$nomenclatureType) return response([],404);
+        $nomenclature = $this->nomenclature->findById($id);
+        if (!$nomenclature) return response()->json([],404);
 
-        $nomenclature->update($fields);
+        if (!$nomenclature->tryToUpdate($fields)) return response()->json($nomenclature,400);
 
         return response()->json($nomenclature);
     }
@@ -86,15 +80,15 @@ class NomenclatureController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        $nomenclature = $this->nomenclature->find($id);
-        if (!$nomenclature) return response([],404);
+        $nomenclature = $this->nomenclature->findById($id);
+        if (!$nomenclature) return response()->json([],404);
 
-        $nomenclature->delete();
+        $deleted = $nomenclature->tryToDelete();
 
-        return response([]);
+        return response()->json([],$deleted ? 200 : 400);
     }
 }

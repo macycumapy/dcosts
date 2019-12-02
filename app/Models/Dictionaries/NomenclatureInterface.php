@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-interface NomenclatureInterface
+interface NomenclatureInterface extends ModelInterface
 {
-    public function rules():array;
 }
