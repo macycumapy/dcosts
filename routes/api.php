@@ -22,3 +22,6 @@ Route::resource('nomenclature_types', 'Api\NomenclatureTypeController')
 
 Route::resource('nomenclature', 'Api\NomenclatureController')
     ->only(['index', 'store', 'show', 'update', 'destroy']);
+
+Route::resource('cash_flow', 'Api\CashFlowController')
+    ->only(['index', 'store', 'show', 'update', 'destroy']);

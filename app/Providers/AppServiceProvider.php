@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Documents\CashFlow;
+use App\Models\Documents\CashFlowDetails;
+use App\Models\Documents\CashFlowDetailsInterface;
+use App\Models\Documents\CashFlowInterface;
 use App\Models\NomenclatureInterface;
 use App\Models\NomenclatureTypeInterface;
 use App\Models\Nomenclature;
@@ -20,6 +24,8 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(NomenclatureInterface::class, Nomenclature::class);
         $this->app->bind(NomenclatureTypeInterface::class, NomenclatureType::class);
+        $this->app->bind(CashFlowInterface::class, CashFlow::class);
+        $this->app->bind(CashFlowDetailsInterface::class, CashFlowDetails::class);
     }
 
     /**
