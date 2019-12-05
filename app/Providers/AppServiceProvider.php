@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\CostItem;
+use App\Models\CostItemInterface;
 use App\Models\Documents\CashFlow;
 use App\Models\Documents\CashFlowDetails;
 use App\Models\Documents\CashFlowDetailsInterface;
@@ -26,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(NomenclatureTypeInterface::class, NomenclatureType::class);
         $this->app->bind(CashFlowInterface::class, CashFlow::class);
         $this->app->bind(CashFlowDetailsInterface::class, CashFlowDetails::class);
+        $this->app->bind(CostItemInterface::class, CostItem::class);
     }
 
     /**
