@@ -15,7 +15,7 @@ class CreateCashFlowsTable extends Migration
     {
         Schema::create('cash_flows', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('cost_item_id')->nullable();
+            $table->unsignedBigInteger('cost_item_id')->nullable();
             $table->timestamp('date');
             $table->timestamps();
 
