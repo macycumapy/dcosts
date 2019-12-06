@@ -197,32 +197,12 @@ class CashFlowControllerTest extends TestCase
                     ]
                 ]
             ],
-            [
-                [
-                    'date' => Carbon::now()->toDateTimeString(),
-                    'details' => [
-                        [
-                            'nomenclature_id' => 1,
-                            'quantity' => 12,
-                            'cost' => 111,
-                            'comment' => 'test1',
-                        ],
-                        [
-                            'nomenclature_id' => 1,
-                            'quantity' => 12,
-                            'cost' => 111,
-                            'comment' => 'test2',
-                        ]
-                    ]
-                ]
-            ],
         ];
     }
 
     public function idProvider()
     {
         return [
-            [0],
             [1],
             [15],
         ];
