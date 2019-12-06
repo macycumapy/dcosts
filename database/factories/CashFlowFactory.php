@@ -7,8 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(CashFlow::class, function (Faker $faker) {
     return [
-        'incoming' => $faker->boolean,
-        'created_at' => $faker->dateTime,
-        'updated_at' => $faker->dateTime,
+        'cost_item_id' => null,
+        'date' => $faker->dateTime,
     ];
 });

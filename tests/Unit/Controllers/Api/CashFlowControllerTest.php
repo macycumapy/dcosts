@@ -3,12 +3,13 @@
 namespace Tests\Unit\Controllers\Api;
 
 use App\Models\Documents\CashFlow;
-use App\Models\Documents\CashFlowInterface;
+use App\Models\Documents\CashFlowDetails;
 use App\Models\Nomenclature;
 use App\Models\NomenclatureType;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
+use Illuminate\Support\Arr;
 
 class CashFlowControllerTest extends TestCase
 {
@@ -16,15 +17,27 @@ class CashFlowControllerTest extends TestCase
 
     private $url = '/api/cash_flow';
 
-    public function testIndex()
+    protected function setUp(): void
     {
-        factory(CashFlow::class,5)->create();
+        parent::setUp();
 
-        $cashFlow = CashFlow::all();
+        factory(NomenclatureType::class, 5)->create();
+        factory(Nomenclature::class, 5)->create();
+    }
+
+    public function testIndex($n=3)
+    {
+        $this->get($this->url)
+            ->assertOk()
+            ->assertJson([])
+            ->assertJsonCount(0);
+
+        factory(CashFlow::class, $n)->create();
 
         $this->get($this->url)
             ->assertOk()
-            ->assertJson($cashFlow->toArray());
+            ->assertJson([])
+            ->assertJsonCount($n);
     }
 
     /**
@@ -33,23 +46,33 @@ class CashFlowControllerTest extends TestCase
      */
     public function testStore($data)
     {
-        factory(NomenclatureType::class,5)->create();
-        factory(Nomenclature::class,5)->create();
+        $details = $data['details'];
 
-        $cashFlow = CashFlow::create($data);
-        $this->assertNotNull($cashFlow);
+        $nomenclatureIds = array_unique(Arr::pluck($details,'nomenclature_id'));
+        $nomenclatures = Nomenclature::findById($nomenclatureIds);
+        if (count($nomenclatures) != count($nomenclatureIds)) {
+            $this->post($this->url,$data)
+                ->assertNotFound();
 
-        //todo add details tests
+            return;
+        }
 
-        $mockCashFlow = $this->mock(CashFlowInterface::class);
-        $mockCashFlow->shouldReceive('rules')
-            ->andReturn($cashFlow->rules());
-        $mockCashFlow->shouldReceive('tryToCreate')
-            ->andReturn($cashFlow);
+        $cashFlowCountBefore = CashFlow::all()->count();
+        $this->assertEquals(0,$cashFlowCountBefore);
+
+        $cashFlowDetailsBefore = CashFlowDetails::all()->count();
+        $this->assertEquals(0,$cashFlowDetailsBefore);
 
         $this->post($this->url,$data)
             ->assertOk()
-            ->assertJson($cashFlow->firstWithDetails()->toArray());
+            ->assertJson($data)
+            ->assertJsonStructure(['id','date','details']);
+
+        $cashFlowCountAfter = CashFlow::all()->count();
+        $this->assertEquals($cashFlowCountBefore+1,$cashFlowCountAfter);
+
+        $cashFlowDetailsAfter = CashFlowDetails::all()->count();
+        $this->assertEquals($cashFlowDetailsBefore+count($details),$cashFlowDetailsAfter);
     }
 
     /**
@@ -58,19 +81,17 @@ class CashFlowControllerTest extends TestCase
      */
     public function testShow($id)
     {
-        factory(CashFlow::class,5)->create();
+        $this->get($this->url.'/'.$id)
+            ->assertNotFound()
+            ->assertJson([]);
 
-        $cashFlow = CashFlow::findById($id);
+        factory(CashFlow::class)->create(['id'=>$id]);
+        factory(CashFlowDetails::class)->create(['cash_flow_id'=>$id]);
 
-        $response = $this->get($this->url.'/'.$id);
-
-        $cashFlow === null?
-            $response
-                ->assertNotFound()
-                ->assertJson([]):
-            $response
-                ->assertOk()
-                ->assertJson($cashFlow->firstWithDetails()->toArray());
+        $this->get($this->url.'/'.$id)
+            ->assertOk()
+            ->assertJson(['id'=>$id])
+            ->assertJsonStructure(['id','date','details']);
     }
 
     /**
@@ -80,19 +101,29 @@ class CashFlowControllerTest extends TestCase
      */
     public function testUpdate($id, $data)
     {
-        factory(CashFlow::class,5)->create();
+        $this->put($this->url.'/'.$id,$data)
+            ->assertNotFound()
+            ->assertJson([]);
 
-        $cashFlow = CashFlow::findById($id);
-        $response = $this->patch($this->url.'/'.$id, $data);
-        $updatedCashFlow = CashFlow::findById($id);
+        $details = $data['details'];
 
-        $cashFlow === null?
-            $response
-                ->assertNotFound()
-                ->assertJson([]):
-            $response
-                ->assertOk()
-                ->assertJson($updatedCashFlow->firstWithDetails()->toArray());
+        $nomenclatureIds = array_unique(Arr::pluck($details,'nomenclature_id'));
+        $nomenclatures = Nomenclature::findById($nomenclatureIds);
+        if (count($nomenclatures) != count($nomenclatureIds)) {
+            $this->put($this->url.'/'.$id,$data)
+                ->assertNotFound();
+
+            return;
+        }
+
+        factory(CashFlow::class)->create(['id'=>$id]);
+        factory(CashFlowDetails::class)->create(['cash_flow_id'=>$id]);
+
+        $this->put($this->url.'/'.$id,$data)
+            ->assertOk()
+            ->assertJson($data)
+            ->assertJsonStructure(['id','date','details']);
+
     }
 
     /**
@@ -101,16 +132,26 @@ class CashFlowControllerTest extends TestCase
      */
     public function testDestroy($id)
     {
-        factory(CashFlow::class,5)->create();
+        $this->delete($this->url.'/'.$id)
+            ->assertNotFound()
+            ->assertJson([]);
 
         $cashFlow = CashFlow::findById($id);
-        $response = $this->delete($this->url.'/'.$id);
+        $this->assertNull($cashFlow);
 
-        $cashFlow === null?
-            $response
-                ->assertNotFound():
-            $response
-                ->assertOk();
+
+        factory(CashFlow::class)->create(['id'=>$id]);
+        factory(CashFlowDetails::class)->create(['cash_flow_id'=>$id]);
+
+        $cashFlow = CashFlow::findById($id);
+        $this->assertNotNull($cashFlow);
+
+        $this->delete($this->url.'/'.$id)
+            ->assertOk();
+
+        $cashFlow = CashFlow::findById($id);
+        $this->assertNull($cashFlow);
+
     }
 
     function dataProvider()
@@ -119,10 +160,10 @@ class CashFlowControllerTest extends TestCase
         return [
             [
                 [
-                    'incoming' => true,
-                    'created_at' => Carbon::now()->toDateTimeString(),
+                    'date' => Carbon::now()->toDateTimeString(),
                     'details' => [
                         [
+                            'id' => 1,
                             'nomenclature_id' => 1,
                             'quantity' => 12,
                             'cost' => 111,
@@ -139,14 +180,40 @@ class CashFlowControllerTest extends TestCase
             ],
             [
                 [
-                    'incoming' => true,
-                    'created_at' => Carbon::yesterday()->toDateTimeString()
+                    'date' => Carbon::yesterday()->toDateTimeString(),
+                    'details' => [
+                        [
+                            'nomenclature_id' => 1,
+                            'quantity' => 12,
+                            'cost' => 111,
+                            'comment' => 'test1',
+                        ],
+                        [
+                            'nomenclature_id' => 111,
+                            'quantity' => 12,
+                            'cost' => 111,
+                            'comment' => 'test2',
+                        ]
+                    ]
                 ]
             ],
             [
                 [
-                    'incoming' => false,
-                    'created_at' => Carbon::now()->toDateTimeString()
+                    'date' => Carbon::now()->toDateTimeString(),
+                    'details' => [
+                        [
+                            'nomenclature_id' => 1,
+                            'quantity' => 12,
+                            'cost' => 111,
+                            'comment' => 'test1',
+                        ],
+                        [
+                            'nomenclature_id' => 1,
+                            'quantity' => 12,
+                            'cost' => 111,
+                            'comment' => 'test2',
+                        ]
+                    ]
                 ]
             ],
         ];

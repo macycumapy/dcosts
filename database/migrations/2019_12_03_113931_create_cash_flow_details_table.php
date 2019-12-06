@@ -19,14 +19,14 @@ class CreateCashFlowDetailsTable extends Migration
             $table->unsignedBigInteger('nomenclature_id');
             $table->integer('quantity')->default(1);
             $table->double('cost')->default(0);
-            $table->string('comment')->nullable();
+            $table->string('comment',100)->nullable();
 
-            $table->foreign('cash_flow_id')->references('id')->on('cash_flows');
+            $table->foreign('cash_flow_id')->references('id')->on('cash_flows')->onDelete('cascade');
             $table->foreign('nomenclature_id')->references('id')->on('nomenclatures');
         });
     }
 
-    /**
+    /**cost_item_id
      * Reverse the migrations.
      *
      * @return void

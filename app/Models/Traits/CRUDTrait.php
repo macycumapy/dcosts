@@ -35,4 +35,12 @@ Trait CRUDTrait
             return false;
         }
     }
+
+    public function findOrAbort(ModelInterface $model, int $id):ModelInterface
+    {
+        $model = $model->findById($id);
+        if (!$model) abort(response()->json([],404));
+
+        return $model;
+    }
 }

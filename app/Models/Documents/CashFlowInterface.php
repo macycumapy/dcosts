@@ -14,4 +14,6 @@ Interface CashFlowInterface extends ModelInterface
     public function firstWithDetails();
 
     public function addDetails(array $details);
+
+    public function updateDetails(array $details);
 }

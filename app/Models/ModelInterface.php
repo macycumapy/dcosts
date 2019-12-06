@@ -45,6 +45,14 @@ Interface ModelInterface
      */
     public function tryToDelete():bool;
 
+
+    /**
+     * @param ModelInterface $model
+     * @param integer $id
+     * @return ModelInterface|404
+     */
+    public function findOrAbort(ModelInterface $model, int $id):ModelInterface;
+
     /**
      * Rules of model attributes
      *

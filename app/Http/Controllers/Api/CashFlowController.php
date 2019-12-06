@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Documents\CashFlowInterface;
-use App\Models\ModelInterface;
 use Illuminate\Http\Request;
 
 class CashFlowController extends Controller
@@ -56,7 +55,7 @@ class CashFlowController extends Controller
      */
     public function show($id)
     {
-        $cashFlow = $this->findByIdOrAbort($this->cashFlow, $id);
+        $cashFlow = $this->cashFlow->findOrAbort($this->cashFlow, $id);
 
         return response()->json($cashFlow->firstWithDetails());
     }
@@ -72,8 +71,11 @@ class CashFlowController extends Controller
     {
         $attr = $request->validate($this->cashFlow->rules());
 
-        $cashFlow = $this->findByIdOrAbort($this->cashFlow,$id);
+        $cashFlow = $this->cashFlow->findOrAbort($this->cashFlow,$id);
         $cashFlow->tryToUpdate($attr);
+        if ($details = isset($attr['details']) ? $attr['details'] : null) {
+            $cashFlow->updateDetails($details);
+        }
 
         return response()->json($cashFlow->firstWithDetails());
     }
@@ -86,24 +88,10 @@ class CashFlowController extends Controller
      */
     public function destroy($id)
     {
-        $cashFlow = $this->findByIdOrAbort($this->cashFlow, $id);
+        $cashFlow = $this->cashFlow->findOrAbort($this->cashFlow, $id);
         $cashFlow->tryToDelete();
 
         return response()->json([]);
     }
 
-    /**
-     * Finding model by id
-     *
-     * @param CashFlowInterface $cashFlow
-     * @param $id
-     * @return CashFlowInterface|CashFlowInterface[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
-     */
-    private function findByIdOrAbort(CashFlowInterface $cashFlow, $id)
-    {
-        $cashFlow = $cashFlow->findById($id);
-        if (!$cashFlow) abort(response()->json([],404));
-
-        return $cashFlow;
-    }
 }
