@@ -6,8 +6,10 @@ use App\Models\Documents\CashFlow;
 use App\Models\Documents\CashFlowDetails;
 use App\Models\Nomenclature;
 use App\Models\NomenclatureType;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 use Illuminate\Support\Arr;
 
@@ -23,6 +25,11 @@ class CashFlowControllerTest extends TestCase
 
         factory(NomenclatureType::class, 5)->create();
         factory(Nomenclature::class, 5)->create();
+
+        Passport::actingAs(
+            factory(User::class)->create()
+        );
+
     }
 
     public function testIndex($n=3)

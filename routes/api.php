@@ -17,14 +17,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('nomenclature_types', 'Api\NomenclatureTypeController')
-    ->only(['index', 'store', 'show', 'update', 'destroy']);
+Route::middleware('auth:api')->group( function () {
+    Route::resource('nomenclature_types', 'Api\NomenclatureTypeController')
+        ->only(['index', 'store', 'show', 'update', 'destroy']);
 
-Route::resource('nomenclature', 'Api\NomenclatureController')
-    ->only(['index', 'store', 'show', 'update', 'destroy']);
+    Route::resource('nomenclature', 'Api\NomenclatureController')
+        ->only(['index', 'store', 'show', 'update', 'destroy']);
 
-Route::resource('cash_flow', 'Api\CashFlowController')
-    ->only(['index', 'store', 'show', 'update', 'destroy']);
+    Route::resource('cash_flow', 'Api\CashFlowController')
+        ->only(['index', 'store', 'show', 'update', 'destroy']);
 
-Route::resource('cost_item', 'Api\CostItemController')
-    ->only(['index', 'store', 'show', 'update', 'destroy']);
+    Route::resource('cost_item', 'Api\CostItemController')
+        ->only(['index', 'store', 'show', 'update', 'destroy']);
+});

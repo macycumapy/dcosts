@@ -3,7 +3,9 @@
 namespace Tests\Unit\Controllers\Api;
 
 use App\Models\CostItem;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class CostItemControllerTest extends TestCase
@@ -11,6 +13,15 @@ class CostItemControllerTest extends TestCase
     use DatabaseMigrations;
 
     private $url = '/api/cost_item';
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Passport::actingAs(
+            factory(User::class)->create()
+        );
+    }
 
     public function testIndex($n = 5)
     {

@@ -4,8 +4,10 @@ namespace Tests\Unit\Controllers\Api;
 
 use App\Models\Nomenclature;
 use App\Models\NomenclatureType;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class NomenclatureControllerTest extends TestCase
@@ -26,6 +28,10 @@ class NomenclatureControllerTest extends TestCase
 
         factory(NomenclatureType::class, 5)->create();
         factory(Nomenclature::class, 5)->create();
+
+        Passport::actingAs(
+            factory(User::class)->create()
+        );
     }
 
     public function testIndex()
