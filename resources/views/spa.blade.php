@@ -10,7 +10,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-<main id="app" class="py-4">
+<main id="app">
     <app></app>
 </main>
 
