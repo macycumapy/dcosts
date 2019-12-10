@@ -21,6 +21,11 @@ try {
 
 window.axios = require('axios');
 
+let access_token = window.localStorage.getItem('access_token');
+
+if (access_token) {
+    window.axios.defaults.headers.common['Authorization'] = access_token;
+}
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /**

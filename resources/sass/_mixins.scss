@@ -1,0 +1,78 @@
+
+@mixin sm($max: 575.98px) {
+  @media (max-width: $max) {
+    @content
+  }
+}
+
+@mixin md($max: 767.98px) {
+  @media (max-width: $max) {
+    @content
+  }
+}
+
+@mixin lg($max: 991.98px) {
+  @media (max-width: $max) {
+    @content
+  }
+}
+
+@mixin xl($max: 1199.98px) {
+  @media (max-width: $max) {
+    @content
+  }
+}
+
+@mixin maxW1920($max: 1920px) {
+  @media (max-width: $max) {
+    @content
+  }
+}
+
+@mixin maxW1870($max: 1870px) {
+  @media (max-width: $max) {
+    @content
+  }
+}
+
+@mixin maxW1700($max: 1700px) {
+  @media (max-width: $max) {
+    @content
+  }
+}
+
+
+@mixin maxW1440($max: 1440px) {
+  @media (max-width: $max) {
+    @content
+  }
+}
+
+@mixin maxW400($max: 400px) {
+  @media (max-width: $max) {
+    @content
+  }
+}
+
+@mixin maxW340($max: 340px) {
+  @media (max-width: $max) {
+    @content
+  }
+}
+
+.container-fluid {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+
+.wrapper {
+  max-width: 1920px;
+  padding: .1px 70px;
+  margin: 0 auto;
+
+  @include maxW1440(){
+    padding: .1px 40px;
+  }
+}
