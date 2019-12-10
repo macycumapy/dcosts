@@ -44,6 +44,22 @@ input {
     background-size: cover;
     width: 70px;
     height: 70px;
+    position: relative;
+    font-weight: 700;
+
+    &:before {
+        content: 'Daily';
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    &:after {
+        content: "Costs";
+        position: absolute;
+        bottom: -5px;
+        right: 0;
+    }
 }
 
 #enter-system {
@@ -69,10 +85,10 @@ input {
         color: #fff;
 
         .right {
-            a{
+            a {
                 margin: 5px 0 5px 10px;
                 padding: 6px 13px;
-                background-color: hsla(0,0%,100%,.15);
+                background-color: hsla(0, 0%, 100%, .15);
                 color: #fff;
                 text-align: center;
                 text-transform: uppercase;
@@ -83,8 +99,8 @@ input {
                 font-size: 10px;
                 font-weight: 700;
 
-                &:hover{
-                    background-color: hsla(0,0%,100%,0);
+                &:hover {
+                    background-color: hsla(0, 0%, 100%, 0);
                     text-decoration: none;
                 }
             }

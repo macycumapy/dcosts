@@ -11201,6 +11201,22 @@ input:-webkit-autofill:active {
   background-size: cover;
   width: 70px;
   height: 70px;
+  position: relative;
+  font-weight: 700;
+}
+
+.logo:before {
+  content: "Daily";
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.logo:after {
+  content: "Costs";
+  position: absolute;
+  bottom: -5px;
+  right: 0;
 }
 
 #enter-system {
