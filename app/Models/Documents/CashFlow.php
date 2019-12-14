@@ -16,7 +16,7 @@ class CashFlow extends AbstractDocument implements CashFlowInterface
     {
         return [
             'date' => 'date|required',
-            'cost_item_id' => 'integer',
+            'cost_item_id' => 'integer|nullable',
             'details' => 'array'
         ];
     }
