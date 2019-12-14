@@ -7,8 +7,10 @@ require('./bootstrap');
 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import VModal from 'vue-js-modal'
 
 Vue.use(VueRouter);
+Vue.use(VModal,{ dynamic: true, injectModalsContainer: true , dialog:true});
 
 import App from './components/App'
 import { store } from './vuex/store.js'
