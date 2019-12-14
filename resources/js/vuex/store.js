@@ -4,9 +4,17 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 import auth from './modules/auth'
+import request from './modules/request'
+import nomenclature from './modules/nomenclature'
+import nomenclature_type from './modules/nomenclature_type'
+import cost_item from './modules/cost_item'
 
 export const store = new Vuex.Store({
     modules: {
-        auth
+        auth,
+        request,
+        nomenclature,
+        nomenclature_type,
+        cost_item,
     }
 });
