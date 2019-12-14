@@ -22,7 +22,7 @@ class Nomenclature extends AbstractDictionary implements NomenclatureInterface
     {
         return [
             'name' => 'string|required',
-            'nomenclature_type_id' => 'integer',
+            'nomenclature_type_id' => 'integer|nullable',
         ];
     }
 }
