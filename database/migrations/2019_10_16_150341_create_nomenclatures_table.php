@@ -16,9 +16,9 @@ class CreateNomenclaturesTable extends Migration
         Schema::create('nomenclatures', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->unsignedBigInteger('nomenclature_type_id');
+            $table->unsignedBigInteger('nomenclature_type_id')->nullable();
 
-            $table->foreign('nomenclature_type_id')->references('id')->on('nomenclature_types');
+            $table->foreign('nomenclature_type_id')->references('id')->on('nomenclature_types')->onDelete('set null');
         });
     }
 
