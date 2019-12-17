@@ -9,12 +9,10 @@ use Illuminate\Http\Request;
 class CashFlowController extends Controller
 {
     private $cashFlow;
-    private $authUserId;
 
     public function __construct(CashFlowInterface $cashFlow)
     {
         $this->cashFlow = $cashFlow;
-        $this->authUserId = auth()->id();
     }
 
     /**
@@ -24,7 +22,7 @@ class CashFlowController extends Controller
      */
     public function index()
     {
-        $result = $this->cashFlow->allByUserId($this->authUserId);
+        $result = $this->cashFlow->allByUserId($this->authUserId());
 
         return response()->json($result);
     }
@@ -39,7 +37,7 @@ class CashFlowController extends Controller
     {
         $attr = $request->validate($this->cashFlow->rules());
 
-        $attr['user_id'] = $this->authUserId;
+        $attr['user_id'] = $this->authUserId();
 
         $newCashFlow = $this->cashFlow->tryToCreate($attr);
         if (!$newCashFlow) abort(response()->json([],400));
@@ -61,7 +59,7 @@ class CashFlowController extends Controller
      */
     public function show($id)
     {
-        $cashFlow = $this->cashFlow->findByConditionsOrAbort($this->cashFlow, ['id'=>$id, 'user_id' => $this->authUserId]);
+        $cashFlow = $this->cashFlow->findByConditionsOrAbort($this->cashFlow, ['id'=>$id, 'user_id' => $this->authUserId()]);
 
         return response()->json($cashFlow->firstWithDetails());
     }
@@ -77,7 +75,7 @@ class CashFlowController extends Controller
     {
         $attr = $request->validate($this->cashFlow->rules());
 
-        $cashFlow = $this->cashFlow->findByConditionsOrAbort($this->cashFlow, ['id'=>$id, 'user_id' => $this->authUserId]);;
+        $cashFlow = $this->cashFlow->findByConditionsOrAbort($this->cashFlow, ['id'=>$id, 'user_id' => $this->authUserId()]);;
         $cashFlow->tryToUpdate($attr);
         if ($details = isset($attr['details']) ? $attr['details'] : null) {
             $cashFlow->updateDetails($details);
@@ -94,10 +92,14 @@ class CashFlowController extends Controller
      */
     public function destroy($id)
     {
-        $cashFlow = $this->cashFlow->findByConditionsOrAbort($this->cashFlow, ['id'=>$id, 'user_id' => $this->authUserId]);;
+        $cashFlow = $this->cashFlow->findByConditionsOrAbort($this->cashFlow, ['id'=>$id, 'user_id' => $this->authUserId()]);;
         $cashFlow->tryToDelete();
 
         return response()->json([]);
     }
 
+    private function authUserId()
+    {
+        return auth()->id();
+    }
 }

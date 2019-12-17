@@ -10,12 +10,10 @@ use Illuminate\Http\Request;
 class CostItemController extends Controller
 {
     private $costItem;
-    private $authUserId;
 
     public function __construct(CostItemInterface $costItem)
     {
         $this->costItem = $costItem;
-        $this->authUserId = auth()->id();
     }
 
     /**
@@ -25,7 +23,7 @@ class CostItemController extends Controller
      */
     public function index()
     {
-        $response = $this->costItem->allByUserId($this->authUserId);
+        $response = $this->costItem->allByUserId($this->authUserId());
 
         return response()->json($response);
     }
@@ -39,7 +37,7 @@ class CostItemController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate($this->costItem::rules());
-        $data['user_id'] = $this->authUserId;
+        $data['user_id'] = $this->authUserId();
 
         $costItem = $this->costItem->tryToCreate($data);
         if (!$costItem) abort(response()->json([],400));
@@ -55,7 +53,7 @@ class CostItemController extends Controller
      */
     public function show($id)
     {
-        $costItem = $this->costItem->findByConditionsOrAbort($this->costItem, ['id'=>$id, 'user_id' => $this->authUserId]);
+        $costItem = $this->costItem->findByConditionsOrAbort($this->costItem, ['id'=>$id, 'user_id' => $this->authUserId()]);
 
         return response()->json($costItem);
     }
@@ -71,7 +69,7 @@ class CostItemController extends Controller
     {
         $data = $request->validate($this->costItem::rules());
 
-        $costItem = $this->costItem->findByConditionsOrAbort($this->costItem, ['id'=>$id, 'user_id' => $this->authUserId]);
+        $costItem = $this->costItem->findByConditionsOrAbort($this->costItem, ['id'=>$id, 'user_id' => $this->authUserId()]);
         $costItem->tryToUpdate($data);
 
         return response()->json($costItem);
@@ -85,9 +83,14 @@ class CostItemController extends Controller
      */
     public function destroy($id)
     {
-        $costItem = $this->costItem->findByConditionsOrAbort($this->costItem, ['id'=>$id, 'user_id' => $this->authUserId]);
+        $costItem = $this->costItem->findByConditionsOrAbort($this->costItem, ['id'=>$id, 'user_id' => $this->authUserId()]);
         $costItem->tryToDelete();
 
         return response()->json($costItem);
+    }
+
+    private function authUserId()
+    {
+        return auth()->id();
     }
 }
