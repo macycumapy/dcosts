@@ -16,6 +16,7 @@ class NomenclatureTypeControllerTest extends TestCase
     use WithFaker;
 
     private $url = '/api/nomenclature_types';
+    private $user;
 
     /**
      * A basic unit test example.
@@ -26,11 +27,10 @@ class NomenclatureTypeControllerTest extends TestCase
     {
         parent::setUp();
 
-        factory(NomenclatureType::class, 5)->create();
+        $this->user = factory(User::class)->create();
+        Passport::actingAs($this->user);
 
-        Passport::actingAs(
-            factory(User::class)->create()
-        );
+        factory(NomenclatureType::class, 5)->create(['user_id'=>$this->user->id]);
     }
 
     public function testIndex()
@@ -96,7 +96,7 @@ class NomenclatureTypeControllerTest extends TestCase
      */
     public function testDestroy($id)
     {
-        factory(Nomenclature::class, 5)->create();
+        factory(Nomenclature::class, 5)->create(['user_id'=>$this->user->id]);
 
         $nomenclatureType = NomenclatureType::find($id);
 

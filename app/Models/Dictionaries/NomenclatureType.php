@@ -6,8 +6,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class NomenclatureType extends AbstractDictionary implements NomenclatureTypeInterface
 {
+    use UserRelatedModelTrait;
+
     protected $fillable = [
         'name',
+        'user_id',
     ];
 
     public static function rules(): array
