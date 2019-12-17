@@ -13,14 +13,14 @@ class CostItemControllerTest extends TestCase
     use DatabaseMigrations;
 
     private $url = '/api/cost_item';
+    private $user;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        Passport::actingAs(
-            factory(User::class)->create()
-        );
+        $this->user = factory(User::class)->create();
+        Passport::actingAs($this->user);
     }
 
     public function testIndex($n = 5)
@@ -30,7 +30,7 @@ class CostItemControllerTest extends TestCase
             ->assertJson([])
             ->assertJsonCount(0);
 
-        factory(CostItem::class, $n)->create();
+        factory(CostItem::class, $n)->create(['user_id' => $this->user->id]);
 
         $this->get($this->url)
             ->assertOk()
@@ -62,7 +62,7 @@ class CostItemControllerTest extends TestCase
             ->assertNotFound()
             ->assertJson([]);
 
-        factory(CostItem::class)->create();
+        factory(CostItem::class)->create(['user_id' => $this->user->id]);
 
         $this->get($this->url.'/'.$id)
             ->assertOk()
@@ -80,7 +80,7 @@ class CostItemControllerTest extends TestCase
             ->assertNotFound()
             ->assertJson([]);
 
-        factory(CostItem::class)->create();
+        factory(CostItem::class)->create(['user_id' => $this->user->id]);
 
         $this->put($this->url.'/'.$id,$data)
             ->assertOk()
@@ -97,7 +97,7 @@ class CostItemControllerTest extends TestCase
         $costItem = CostItem::findById($id);
         $this->assertNull($costItem);
 
-        factory(CostItem::class)->create();
+        factory(CostItem::class)->create(['user_id' => $this->user->id]);
 
         $costItem = CostItem::findById($id);
         $this->assertNotNull($costItem);
