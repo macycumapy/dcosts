@@ -3,13 +3,17 @@
 namespace App\Models\Documents;
 
 use App\Models\AbstractDocument;
+use App\Models\UserRelatedModelTrait;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CashFlow extends AbstractDocument implements CashFlowInterface
 {
+    use UserRelatedModelTrait;
+
     protected $fillable = [
         'cost_item_id',
         'date',
+        'user_id',
     ];
 
     public static function rules(): array
@@ -40,6 +44,7 @@ class CashFlow extends AbstractDocument implements CashFlowInterface
 
     public function updateDetails(array $detailsArray)
     {
+        $this->all();
         $detailsToRemove = $this->details();
         foreach ($detailsArray as $details) {
             if(isset($details['id'])) {

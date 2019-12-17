@@ -18,18 +18,17 @@ class CashFlowControllerTest extends TestCase
     use DatabaseMigrations;
 
     private $url = '/api/cash_flow';
+    private $user;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        factory(NomenclatureType::class, 5)->create();
-        factory(Nomenclature::class, 5)->create();
+        $this->user = factory(User::class)->create();
+        Passport::actingAs($this->user);
 
-        Passport::actingAs(
-            factory(User::class)->create()
-        );
-
+        factory(NomenclatureType::class, 5)->create(['user_id' => $this->user->id]);
+        factory(Nomenclature::class, 5)->create(['user_id' => $this->user->id]);
     }
 
     public function testIndex($n=3)
@@ -39,7 +38,7 @@ class CashFlowControllerTest extends TestCase
             ->assertJson([])
             ->assertJsonCount(0);
 
-        factory(CashFlow::class, $n)->create();
+        factory(CashFlow::class, $n)->create(['user_id' => $this->user->id]);
 
         $this->get($this->url)
             ->assertOk()
@@ -92,7 +91,7 @@ class CashFlowControllerTest extends TestCase
             ->assertNotFound()
             ->assertJson([]);
 
-        factory(CashFlow::class)->create(['id'=>$id]);
+        factory(CashFlow::class)->create(['id'=>$id, 'user_id' => $this->user->id]);
         factory(CashFlowDetails::class)->create(['cash_flow_id'=>$id]);
 
         $this->get($this->url.'/'.$id)
@@ -123,7 +122,7 @@ class CashFlowControllerTest extends TestCase
             return;
         }
 
-        factory(CashFlow::class)->create(['id'=>$id]);
+        factory(CashFlow::class)->create(['id'=>$id, 'user_id' => $this->user->id]);
         factory(CashFlowDetails::class)->create(['cash_flow_id'=>$id]);
 
         $this->put($this->url.'/'.$id,$data)
@@ -147,7 +146,7 @@ class CashFlowControllerTest extends TestCase
         $this->assertNull($cashFlow);
 
 
-        factory(CashFlow::class)->create(['id'=>$id]);
+        factory(CashFlow::class)->create(['id'=>$id, 'user_id' => $this->user->id]);
         factory(CashFlowDetails::class)->create(['cash_flow_id'=>$id]);
 
         $cashFlow = CashFlow::findById($id);

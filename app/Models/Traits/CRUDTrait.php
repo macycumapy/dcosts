@@ -43,4 +43,12 @@ Trait CRUDTrait
 
         return $model;
     }
+
+    public function findByConditionsOrAbort(ModelInterface $model, array $conditions):ModelInterface
+    {
+        $model = $model->query()->where($conditions)->get()->first();
+        if (!$model) abort(response()->json([],404));
+
+        return $model;
+    }
 }

@@ -59,4 +59,11 @@ Interface ModelInterface
      * @return array
      */
     public static function rules():array;
+
+    /**
+     * @param ModelInterface $model
+     * @param array $conditions
+     * @return ModelInterface|404
+     */
+    public function findByConditionsOrAbort(ModelInterface $model, array $conditions):ModelInterface;
 }
