@@ -16,6 +16,7 @@ class NomenclatureControllerTest extends TestCase
     use WithFaker;
 
     private $url = '/api/nomenclature';
+    private $user;
 
     /**
      * A basic unit test example.
@@ -26,12 +27,11 @@ class NomenclatureControllerTest extends TestCase
     {
         parent::setUp();
 
-        factory(NomenclatureType::class, 5)->create();
-        factory(Nomenclature::class, 5)->create();
+        $this->user = factory(User::class)->create();
+        Passport::actingAs($this->user);
 
-        Passport::actingAs(
-            factory(User::class)->create()
-        );
+        factory(NomenclatureType::class, 5)->create(['user_id' => $this->user->id]);
+        factory(Nomenclature::class, 5)->create(['user_id' => $this->user->id]);
     }
 
     public function testIndex()
@@ -72,7 +72,7 @@ class NomenclatureControllerTest extends TestCase
         if (NomenclatureType::find($data['nomenclature_type_id']))
             $response->assertOk();
         else
-            $response->assertStatus(400);
+            $response->assertStatus(404);
     }
 
     /**
@@ -89,8 +89,6 @@ class NomenclatureControllerTest extends TestCase
         $nomenclatureType = NomenclatureType::find($data['nomenclature_type_id']);
         if ($nomenclature && $nomenclatureType) {
             $response->assertOk();
-        } elseif (!$nomenclatureType) {
-            $response->assertStatus(400);
         } else {
             $response->assertStatus(404);
         }

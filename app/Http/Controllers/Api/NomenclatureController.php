@@ -22,7 +22,7 @@ class NomenclatureController extends Controller
      */
     public function index()
     {
-        $result = $this->nomenclature->all();
+        $result = $this->nomenclature->allByUserId($this->authUserId());
 
         return response()->json($result);
     }
@@ -36,9 +36,9 @@ class NomenclatureController extends Controller
     public function store(Request $request)
     {
         $fields = $request->validate($this->nomenclature->rules());
+        $fields['user_id'] = $this->authUserId();
 
-        $nomenclature = $this->nomenclature->tryToCreate($fields);
-        if (!$nomenclature) return response()->json([],400);
+        $nomenclature = $this->nomenclature->create($fields);
 
         return response()->json($nomenclature);
     }
@@ -51,8 +51,7 @@ class NomenclatureController extends Controller
      */
     public function show($id)
     {
-        $nomenclature = $this->nomenclature->findById($id);
-        if (!$nomenclature) return response()->json([],404);
+        $nomenclature = $this->nomenclature->findByConditionsOrAbort($this->nomenclature, ['id'=>$id, 'user_id' => $this->authUserId()]);
 
         return response()->json($nomenclature);
     }
@@ -68,10 +67,8 @@ class NomenclatureController extends Controller
     {
         $fields = $request->validate($this->nomenclature->rules());
 
-        $nomenclature = $this->nomenclature->findById($id);
-        if (!$nomenclature) return response()->json([],404);
-
-        if (!$nomenclature->tryToUpdate($fields)) return response()->json($nomenclature,400);
+        $nomenclature = $this->nomenclature->findByConditionsOrAbort($this->nomenclature, ['id'=>$id, 'user_id' => $this->authUserId()]);
+        $nomenclature->update($fields);
 
         return response()->json($nomenclature);
     }
@@ -84,11 +81,14 @@ class NomenclatureController extends Controller
      */
     public function destroy($id)
     {
-        $nomenclature = $this->nomenclature->findById($id);
-        if (!$nomenclature) return response()->json([],404);
-
-        $deleted = $nomenclature->tryToDelete();
+        $nomenclature = $this->nomenclature->findByConditionsOrAbort($this->nomenclature, ['id'=>$id, 'user_id' => $this->authUserId()]);
+        $deleted = $nomenclature->delete();
 
         return response()->json([],$deleted ? 200 : 400);
+    }
+
+    private function authUserId()
+    {
+        return auth()->id();
     }
 }

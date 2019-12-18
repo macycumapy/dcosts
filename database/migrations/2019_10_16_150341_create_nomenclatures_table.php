@@ -17,7 +17,9 @@ class CreateNomenclaturesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->unsignedBigInteger('nomenclature_type_id')->nullable();
+            $table->unsignedBigInteger('user_id');
 
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('nomenclature_type_id')->references('id')->on('nomenclature_types')->onDelete('set null');
         });
     }
