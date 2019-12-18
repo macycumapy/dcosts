@@ -34,4 +34,7 @@ Route::middleware('auth:api')->group( function () {
 
     Route::resource('cost_item', 'Api\CostItemController')
         ->only(['index', 'store', 'show', 'update', 'destroy']);
+
+    Route::resource('partner', 'Api\PartnerController')
+        ->only(['index', 'store', 'show', 'update', 'destroy']);
 });

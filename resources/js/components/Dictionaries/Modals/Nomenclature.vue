@@ -74,8 +74,6 @@
                     nomenclature_type_id: this.nomenclature_type_id ? this.nomenclature_type_id : null
                 };
 
-                console.log(params)
-
                 if (this.id) {
                     this.$store.dispatch('updateNomenclature', params)
                 } else {
