@@ -100,16 +100,11 @@ class NomenclatureTypeControllerTest extends TestCase
 
         $nomenclatureType = NomenclatureType::find($id);
 
-        $nomenclatureCount = $nomenclatureType ? $nomenclatureType->nomenclatures()->count() : null;
-
         $response = $this->call('delete',$this->url.'/'.$id);
 
-        if ($nomenclatureType && $nomenclatureCount == 0){
+        if ($nomenclatureType){
             $response->assertOk();
             $this->assertNull(NomenclatureType::find($id));
-
-        } else if ($nomenclatureCount > 0) {
-            $response->assertStatus(400);
         } else {
             $response->assertStatus(404);
         }

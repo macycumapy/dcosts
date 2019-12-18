@@ -39,7 +39,7 @@ class CashFlowController extends Controller
 
         $attr['user_id'] = $this->authUserId();
 
-        $newCashFlow = $this->cashFlow->tryToCreate($attr);
+        $newCashFlow = $this->cashFlow->create($attr);
         if (!$newCashFlow) abort(response()->json([],400));
 
         if ($details = isset($attr['details']) ? $attr['details'] : null) {
@@ -76,7 +76,7 @@ class CashFlowController extends Controller
         $attr = $request->validate($this->cashFlow->rules());
 
         $cashFlow = $this->cashFlow->findByConditionsOrAbort($this->cashFlow, ['id'=>$id, 'user_id' => $this->authUserId()]);;
-        $cashFlow->tryToUpdate($attr);
+        $cashFlow->update($attr);
         if ($details = isset($attr['details']) ? $attr['details'] : null) {
             $cashFlow->updateDetails($details);
         }
@@ -93,7 +93,7 @@ class CashFlowController extends Controller
     public function destroy($id)
     {
         $cashFlow = $this->cashFlow->findByConditionsOrAbort($this->cashFlow, ['id'=>$id, 'user_id' => $this->authUserId()]);;
-        $cashFlow->tryToDelete();
+        $cashFlow->delete();
 
         return response()->json([]);
     }

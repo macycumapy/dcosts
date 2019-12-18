@@ -39,8 +39,7 @@ class CostItemController extends Controller
         $data = $request->validate($this->costItem::rules());
         $data['user_id'] = $this->authUserId();
 
-        $costItem = $this->costItem->tryToCreate($data);
-        if (!$costItem) abort(response()->json([],400));
+        $costItem = $this->costItem->create($data);
 
         return response()->json($costItem);
     }
@@ -70,7 +69,7 @@ class CostItemController extends Controller
         $data = $request->validate($this->costItem::rules());
 
         $costItem = $this->costItem->findByConditionsOrAbort($this->costItem, ['id'=>$id, 'user_id' => $this->authUserId()]);
-        $costItem->tryToUpdate($data);
+        $costItem->update($data);
 
         return response()->json($costItem);
     }
@@ -84,7 +83,7 @@ class CostItemController extends Controller
     public function destroy($id)
     {
         $costItem = $this->costItem->findByConditionsOrAbort($this->costItem, ['id'=>$id, 'user_id' => $this->authUserId()]);
-        $costItem->tryToDelete();
+        $costItem->delete();
 
         return response()->json($costItem);
     }

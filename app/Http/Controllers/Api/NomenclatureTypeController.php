@@ -38,8 +38,7 @@ class NomenclatureTypeController extends Controller
         $fields = $request->validate($this->nomenclatureType->rules());
         $fields['user_id'] = $this->authUserId();
 
-        $nomenclatureType = $this->nomenclatureType->tryToCreate($fields);
-        if(!$nomenclatureType) return response()->json([],400);
+        $nomenclatureType = $this->nomenclatureType->create($fields);
 
         return response()->json($nomenclatureType);
     }
@@ -69,7 +68,7 @@ class NomenclatureTypeController extends Controller
         $fields = $request->validate($this->nomenclatureType->rules());
 
         $nomenclatureType = $this->nomenclatureType->findByConditionsOrAbort($this->nomenclatureType, ['id'=>$id, 'user_id' => $this->authUserId()]);
-        $nomenclatureType->tryToUpdate($fields);
+        $nomenclatureType->update($fields);
 
         return response()->json($nomenclatureType);
     }
@@ -84,7 +83,7 @@ class NomenclatureTypeController extends Controller
     {
         $nomenclatureType = $this->nomenclatureType->findByConditionsOrAbort($this->nomenclatureType, ['id'=>$id, 'user_id' => $this->authUserId()]);
 
-        $deleted = $nomenclatureType->tryToDelete();
+        $deleted = $nomenclatureType->delete();
 
         return response()->json([],$deleted ? 200 : 400);
     }
