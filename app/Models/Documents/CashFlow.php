@@ -2,13 +2,14 @@
 
 namespace App\Models\Documents;
 
-use App\Models\AbstractDocument;
+use App\Models\CRUDTrait;
 use App\Models\UserRelatedModelTrait;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class CashFlow extends AbstractDocument implements CashFlowInterface
+class CashFlow extends Model implements CashFlowInterface
 {
-    use UserRelatedModelTrait;
+    use CRUDTrait, UserRelatedModelTrait;
 
     protected $fillable = [
         'cost_item_id',
@@ -37,9 +38,7 @@ class CashFlow extends AbstractDocument implements CashFlowInterface
 
     public function addDetails(array $details)
     {
-        $cashFlowDetails = $this->details()->create($details);
-
-        return $cashFlowDetails;
+        return $this->details()->create($details);
     }
 
     public function updateDetails(array $detailsArray)

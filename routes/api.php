@@ -32,6 +32,9 @@ Route::middleware('auth:api')->group( function () {
     Route::resource('cash_flow', 'Api\CashFlowController')
         ->only(['index', 'store', 'show', 'update', 'destroy']);
 
+    Route::resource('cash_inflow', 'Api\CashInflowController')
+        ->only(['index', 'store', 'show', 'update', 'destroy']);
+
     Route::resource('cost_item', 'Api\CostItemController')
         ->only(['index', 'store', 'show', 'update', 'destroy']);
 

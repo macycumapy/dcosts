@@ -9,6 +9,8 @@ use App\Models\Documents\CashFlow;
 use App\Models\Documents\CashFlowDetails;
 use App\Models\Documents\CashFlowDetailsInterface;
 use App\Models\Documents\CashFlowInterface;
+use App\Models\Documents\CashInflow;
+use App\Models\Documents\CashInflowInterface;
 use App\Models\NomenclatureInterface;
 use App\Models\NomenclatureTypeInterface;
 use App\Models\Nomenclature;
@@ -32,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CashFlowDetailsInterface::class, CashFlowDetails::class);
         $this->app->bind(CostItemInterface::class, CostItem::class);
         $this->app->bind(PartnerInterface::class, Partner::class);
+        $this->app->bind(CashInflowInterface::class, CashInflow::class);
     }
 
     /**
