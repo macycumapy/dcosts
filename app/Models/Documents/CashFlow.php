@@ -43,11 +43,10 @@ class CashFlow extends Model implements CashFlowInterface
 
     public function updateDetails(array $detailsArray)
     {
-        $this->all();
         $detailsToRemove = $this->details();
         foreach ($detailsArray as $details) {
             if(isset($details['id'])) {
-                $foundedDetails = $detailsToRemove->find($details['id']);
+                $foundedDetails = $this->details()->find($details['id']);
                 if ($foundedDetails) {
                     $foundedDetails->update($details);
                     $detailsToRemove->where('id','<>',$details['id']);
