@@ -65,4 +65,11 @@ class CashFlow extends Model implements CashFlowInterface
 
         return true;
     }
+
+    public static function allByUserId($id, $columns = ['*'])
+    {
+        return static::query()->with('details')->where('user_id', $id)->get(
+            is_array($columns) ? $columns : func_get_args()
+        );
+    }
 }
