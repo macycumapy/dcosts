@@ -11,8 +11,9 @@
                 </div>
                 <ul class="py-4 pl-1">
                     <li><router-link :to="{ name: 'nomenclature' }">Номенклатура</router-link></li>
-                    <li><router-link :to="{ name: 'nomenclatureType' }">Номенклатурные группы</router-link></li>
+                    <li><router-link :to="{ name: 'nomenclatureType' }">Типы номенклатуры</router-link></li>
                     <li><router-link :to="{ name: 'costItems' }">Статьи затрат</router-link></li>
+                    <li><router-link :to="{ name: 'cashFlow' }">Расходы</router-link></li>
                 </ul>
                 <ul class="py-1 pl-1">
                     <li><a href="javascript:void(0);" @click="logout">Выйти</a></li>

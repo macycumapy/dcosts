@@ -11209,6 +11209,10 @@ ul {
   list-style-type: none;
 }
 
+.text-end {
+  text-align: end;
+}
+
 .logo {
   background-image: url(/images/logo.png?d19a3d54e3c68b04eea2939b0a3c3165);
   background-position: 50% 50%;
@@ -11572,6 +11576,8 @@ ul {
   border-radius: 10px;
   padding: 20px 35px;
   height: auto !important;
+  margin: auto !important;
+  left: 0 !important;
 }
 
 #lk .v--modal select,
@@ -11659,5 +11665,42 @@ ul {
 #lk .v--modal .selection .menu .selected {
   color: white;
   background: #424649;
+}
+
+#lk #cash-flow .v--modal {
+  width: 800px !important;
+  top: 100px !important;
+}
+
+#lk #cash-flow .v--modal input {
+  padding: 7px;
+  height: 100%;
+}
+
+#lk #cash-flow .v--modal .details {
+  background: #424649;
+  margin-top: 10px;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+#lk #cash-flow .v--modal .details input {
+  padding: 5px;
+  height: 100%;
+}
+
+#lk #cash-flow .v--modal .details .greed-details {
+  display: grid;
+  grid-template-columns: 5fr 2fr 3fr 3fr 5fr 1fr;
+  grid-gap: 1vw;
+  padding-bottom: 10px;
+}
+
+#lk #cash-flow .v--modal .details .greed-details:first-of-type {
+  padding-top: 10px;
+}
+
+#lk #cash-flow .v--modal .details img {
+  cursor: pointer;
 }
 

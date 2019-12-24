@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import {store} from './vuex/store.js'
 
-
 const onlyAuthenticated = (to, from, next) => {
     if (store.getters.isAuthenticated) {
         next();
@@ -23,6 +22,7 @@ import Home from './components/Home'
 import CostItems from './components/Dictionaries/CostItem'
 import Nomenclature from './components/Dictionaries/Nomenclature'
 import NomenclatureType from './components/Dictionaries/NomenclatureType'
+import CashFlow from './components/Documents/CashFlow'
 import Login from './components/Auth/Login'
 import Register from './components/Auth/Register'
 
@@ -65,6 +65,12 @@ export const router = new Router({
             path: '/nomenclature_type',
             name: 'nomenclatureType',
             component: NomenclatureType,
+            beforeEnter: onlyAuthenticated,
+        },
+        {
+            path: '/cash_flow',
+            name: 'cashFlow',
+            component: CashFlow,
             beforeEnter: onlyAuthenticated,
         },
     ],
