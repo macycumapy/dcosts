@@ -13,6 +13,7 @@
                     <li><router-link :to="{ name: 'nomenclature' }">Номенклатура</router-link></li>
                     <li><router-link :to="{ name: 'nomenclatureType' }">Типы номенклатуры</router-link></li>
                     <li><router-link :to="{ name: 'costItems' }">Статьи затрат</router-link></li>
+                    <li><router-link :to="{ name: 'partners' }">Контрагенты</router-link></li>
                     <li><router-link :to="{ name: 'cashFlow' }">Расходы</router-link></li>
                 </ul>
                 <ul class="py-1 pl-1">

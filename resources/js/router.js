@@ -22,6 +22,7 @@ import Home from './components/Home'
 import CostItems from './components/Dictionaries/CostItem'
 import Nomenclature from './components/Dictionaries/Nomenclature'
 import NomenclatureType from './components/Dictionaries/NomenclatureType'
+import Partner from './components/Dictionaries/Partner'
 import CashFlow from './components/Documents/CashFlow'
 import Login from './components/Auth/Login'
 import Register from './components/Auth/Register'
@@ -71,6 +72,12 @@ export const router = new Router({
             path: '/cash_flow',
             name: 'cashFlow',
             component: CashFlow,
+            beforeEnter: onlyAuthenticated,
+        },
+        {
+            path: '/partners',
+            name: 'partners',
+            component: Partner,
             beforeEnter: onlyAuthenticated,
         },
     ],
