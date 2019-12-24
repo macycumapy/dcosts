@@ -63,16 +63,19 @@ class CashFlowControllerTest extends TestCase
             return;
         }
 
+        $sum = CashFlow::getSumByDetails($details);
+
         $cashFlowCountBefore = CashFlow::all()->count();
         $this->assertEquals(0,$cashFlowCountBefore);
 
         $cashFlowDetailsBefore = CashFlowDetails::all()->count();
         $this->assertEquals(0,$cashFlowDetailsBefore);
 
-        $this->post($this->url,$data)
+        $response = $this->post($this->url,$data)
             ->assertOk()
             ->assertJson($data)
-            ->assertJsonStructure(['id','date','details']);
+            ->assertJson(['sum'=>$sum])
+            ->assertJsonStructure(['id','date','details','sum']);
 
         $cashFlowCountAfter = CashFlow::all()->count();
         $this->assertEquals($cashFlowCountBefore+1,$cashFlowCountAfter);
@@ -97,7 +100,7 @@ class CashFlowControllerTest extends TestCase
         $this->get($this->url.'/'.$id)
             ->assertOk()
             ->assertJson(['id'=>$id])
-            ->assertJsonStructure(['id','date','details']);
+            ->assertJsonStructure(['id','date','details','sum']);
     }
 
     /**
@@ -122,13 +125,16 @@ class CashFlowControllerTest extends TestCase
             return;
         }
 
+        $sum = CashFlow::getSumByDetails($details);
+
         factory(CashFlow::class)->create(['id'=>$id, 'user_id' => $this->user->id]);
         factory(CashFlowDetails::class)->create(['cash_flow_id'=>$id]);
 
         $this->put($this->url.'/'.$id,$data)
             ->assertOk()
             ->assertJson($data)
-            ->assertJsonStructure(['id','date','details']);
+            ->assertJson(['sum'=>$sum])
+            ->assertJsonStructure(['id','date','details','sum']);
 
     }
 

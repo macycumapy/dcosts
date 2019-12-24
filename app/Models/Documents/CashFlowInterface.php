@@ -21,4 +21,6 @@ Interface CashFlowInterface extends ModelInterface
     public function user():BelongsTo;
 
     public static function allByUserId($id, $columns = ['*']);
+
+    public static function getSumByDetails(array $details);
 }

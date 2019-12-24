@@ -37,12 +37,14 @@ class CashFlowController extends Controller
     {
         $attr = $request->validate($this->cashFlow->rules());
 
+        $details = isset($attr['details']) ? $attr['details'] : null;
         $attr['user_id'] = $this->authUserId();
+        $attr['sum'] = $this->cashFlow->getSumByDetails($details);
 
         $newCashFlow = $this->cashFlow->create($attr);
         if (!$newCashFlow) abort(response()->json([],400));
 
-        if ($details = isset($attr['details']) ? $attr['details'] : null) {
+        if ($details) {
             foreach ($details as $detail){
                 $newCashFlow->addDetails($detail);
             }
@@ -76,8 +78,12 @@ class CashFlowController extends Controller
         $attr = $request->validate($this->cashFlow->rules());
 
         $cashFlow = $this->cashFlow->findByConditionsOrAbort($this->cashFlow, ['id'=>$id, 'user_id' => $this->authUserId()]);;
+
+        $details = isset($attr['details']) ? $attr['details'] : null;
+        $attr['sum'] = $this->cashFlow::getSumByDetails($details);
+
         $cashFlow->update($attr);
-        if ($details = isset($attr['details']) ? $attr['details'] : null) {
+        if ($details) {
             $cashFlow->updateDetails($details);
         }
 

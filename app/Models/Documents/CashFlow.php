@@ -15,6 +15,7 @@ class CashFlow extends Model implements CashFlowInterface
         'cost_item_id',
         'date',
         'user_id',
+        'sum',
     ];
 
     public static function rules(): array
@@ -70,5 +71,12 @@ class CashFlow extends Model implements CashFlowInterface
         return static::query()->with('details')->where('user_id', $id)->get(
             is_array($columns) ? $columns : func_get_args()
         );
+    }
+
+    public static function getSumByDetails($details)
+    {
+        return array_sum(array_map(function ($item) {
+            return $item['cost'] * $item['quantity'];
+        }, $details));
     }
 }
