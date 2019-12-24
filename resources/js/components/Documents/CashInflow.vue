@@ -1,14 +1,18 @@
 <template>
-    <div class="partner">
+    <div id="cash-inflow">
         <div class="w-100 text-center">
             <div class="header-text py-3">{{title}}</div>
         </div>
         <div class="list-header">
-            <div class="col-11">Наименование</div>
+            <div class="row">
+                <div class="col-xl-3 col-lg-3 col-md-3 col-3">Дата</div>
+                <div class="col-xl-6 col-lg-4 col-md-3 col-3">Сумма</div>
+            </div>
         </div>
         <div class="list">
-            <div class="row pl-4" v-for="item in partners">
-                <div class="col-xl-9 col-lg-7 col-md-6 col-6">{{ item.name }}</div>
+            <div class="row pl-4" v-for="item in cashInflows">
+                <div class="col-xl-3 col-lg-3 col-md-3 col-3">{{ item.date }}</div>
+                <div class="col-xl-6 col-lg-4 col-md-3 col-3">{{ item.sum.toFixed(2) }}</div>
                 <div class="col-xl-3 col-lg-5 col-md-6 col-6">
                     <img src="./../../../img/delete.png" alt="delete" @click="remove(item)">
                     <img src="./../../../img/copy.png" alt="copy" @click="copy(item)">
@@ -24,22 +28,24 @@
     </div>
 </template>
 <script>
-    import Modal from './Modals/Partner'
+    import Modal from './Modals/CashInflow'
 
     export default {
         data() {
             return {
-                title: 'Контрагенты',
+                title: 'Поступления',
                 loading: true,
                 error: null,
             };
         },
         created() {
+            this.$store.dispatch('getCashInflows')
+            this.$store.dispatch('getCostItems')
             this.$store.dispatch('getPartners')
         },
         computed: {
-            partners: function () {
-                return this.$store.getters.getPartners;
+            cashInflows: function () {
+                return this.$store.getters.getCashInflows;
             }
         },
         methods: {
@@ -53,13 +59,16 @@
 
             copy(item) {
                 this.$modal.show(Modal, {
-                    name: item.name
+                    date: item.date,
+                    cost_item_id: item.cost_item_id,
+                    partner_id:item.partner_id,
+                    sum:item.sum,
                 })
             },
 
             remove(item){
                 this.$modal.show('dialog', {
-                    title:'Удалить ' + item.name +'?',
+                    title:'Удалить поступление?',
                     buttons: [
                         {
                             title: 'Нет',
@@ -68,7 +77,7 @@
                         {
                             title: 'Да',
                             handler: () => {
-                                this.$store.dispatch('deletePartner', item.id);
+                                this.$store.dispatch('deleteCashInflow', item.id);
                                 this.$modal.hide('dialog');
                             },
                             default: true,

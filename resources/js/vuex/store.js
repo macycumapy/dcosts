@@ -10,6 +10,7 @@ import nomenclature_type from './modules/nomenclature_type'
 import cost_item from './modules/cost_item'
 import cash_flow from './modules/cash_flow'
 import partner from './modules/partner'
+import cash_inflow from './modules/cash_inflow'
 
 export const store = new Vuex.Store({
     modules: {
@@ -20,5 +21,6 @@ export const store = new Vuex.Store({
         cost_item,
         cash_flow,
         partner,
+        cash_inflow,
     }
 });

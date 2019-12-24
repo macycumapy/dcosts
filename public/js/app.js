@@ -1884,6 +1884,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {
     logout: function logout() {
@@ -2817,6 +2818,104 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Documents/CashInflow.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Documents/CashInflow.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Modals_CashInflow__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Modals/CashInflow */ "./resources/js/components/Documents/Modals/CashInflow.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      title: 'Поступления',
+      loading: true,
+      error: null
+    };
+  },
+  created: function created() {
+    this.$store.dispatch('getCashInflows');
+    this.$store.dispatch('getCostItems');
+    this.$store.dispatch('getPartners');
+  },
+  computed: {
+    cashInflows: function cashInflows() {
+      return this.$store.getters.getCashInflows;
+    }
+  },
+  methods: {
+    add: function add() {
+      this.$modal.show(_Modals_CashInflow__WEBPACK_IMPORTED_MODULE_0__["default"]);
+    },
+    edit: function edit(item) {
+      this.$modal.show(_Modals_CashInflow__WEBPACK_IMPORTED_MODULE_0__["default"], item);
+    },
+    copy: function copy(item) {
+      this.$modal.show(_Modals_CashInflow__WEBPACK_IMPORTED_MODULE_0__["default"], {
+        date: item.date,
+        cost_item_id: item.cost_item_id,
+        partner_id: item.partner_id,
+        sum: item.sum
+      });
+    },
+    remove: function remove(item) {
+      var _this = this;
+
+      this.$modal.show('dialog', {
+        title: 'Удалить поступление?',
+        buttons: [{
+          title: 'Нет',
+          "class": 'btn red'
+        }, {
+          title: 'Да',
+          handler: function handler() {
+            _this.$store.dispatch('deleteCashInflow', item.id);
+
+            _this.$modal.hide('dialog');
+          },
+          "default": true,
+          "class": 'btn'
+        }]
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Documents/Modals/CashFlow.vue?vue&type=script&lang=js&":
 /*!************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Documents/Modals/CashFlow.vue?vue&type=script&lang=js& ***!
@@ -2963,6 +3062,126 @@ __webpack_require__.r(__webpack_exports__);
         this.$store.dispatch('updateCashFlow', params);
       } else {
         this.$store.dispatch('addCashFlow', params);
+      }
+
+      this.close();
+    },
+    close: function close() {
+      this.$emit('close');
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Documents/Modals/CashInflow.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Documents/Modals/CashInflow.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_search_select__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-search-select */ "./node_modules/vue-search-select/dist/VueSearchSelect.common.js");
+/* harmony import */ var vue_search_select__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_search_select__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'cashInflowModal',
+  components: {
+    ModelListSelect: vue_search_select__WEBPACK_IMPORTED_MODULE_0__["ModelListSelect"]
+  },
+  data: function data() {
+    return {
+      title: 'Поступление',
+      date: new Date($.now()).toISOString().substr(0, 16),
+      id: null,
+      cost_item_id: null,
+      partner_id: null,
+      sum: 0
+    };
+  },
+  computed: {
+    cost_items: function cost_items() {
+      return this.$store.getters.getCostItems;
+    },
+    partners: function partners() {
+      return this.$store.getters.getPartners;
+    }
+  },
+  beforeMount: function beforeMount() {
+    this.title = this.$attrs.id ? 'Поступление' : 'Новое поступление';
+    this.id = this.$attrs.id;
+    this.cost_item_id = this.$attrs.cost_item_id;
+    this.partner_id = this.$attrs.partner_id;
+    this.sum = this.$attrs.sum;
+    if (this.$attrs.date) this.date = this.$attrs.date.slice(0, 10) + 'T' + this.$attrs.date.slice(11, 16);
+  },
+  methods: {
+    save: function save() {
+      var params = {
+        id: this.id,
+        cost_item_id: this.cost_item_id,
+        date: this.date,
+        partner_id: this.partner_id,
+        sum: this.sum
+      };
+
+      if (this.id) {
+        this.$store.dispatch('updateCashInflow', params);
+      } else {
+        this.$store.dispatch('addCashInflow', params);
       }
 
       this.close();
@@ -38362,6 +38581,18 @@ var render = function() {
                   ])
                 ],
                 1
+              ),
+              _vm._v(" "),
+              _c(
+                "li",
+                [
+                  _c(
+                    "router-link",
+                    { attrs: { to: { name: "cashInflows" } } },
+                    [_vm._v("Поступления")]
+                  )
+                ],
+                1
               )
             ]),
             _vm._v(" "),
@@ -39462,7 +39693,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "nomenclature-type" },
+    { staticClass: "partner" },
     [
       _c("div", { staticClass: "w-100 text-center" }, [
         _c("div", { staticClass: "header-text py-3" }, [
@@ -39638,6 +39869,119 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "list-header" }, [
       _c("div", { staticClass: "col-11" }, [_vm._v("Дата")])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Documents/CashInflow.vue?vue&type=template&id=8492a9b0&":
+/*!***********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Documents/CashInflow.vue?vue&type=template&id=8492a9b0& ***!
+  \***********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { attrs: { id: "cash-inflow" } },
+    [
+      _c("div", { staticClass: "w-100 text-center" }, [
+        _c("div", { staticClass: "header-text py-3" }, [
+          _vm._v(_vm._s(_vm.title))
+        ])
+      ]),
+      _vm._v(" "),
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "list" },
+        _vm._l(_vm.cashInflows, function(item) {
+          return _c("div", { staticClass: "row pl-4" }, [
+            _c("div", { staticClass: "col-xl-3 col-lg-3 col-md-3 col-3" }, [
+              _vm._v(_vm._s(item.date))
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-xl-6 col-lg-4 col-md-3 col-3" }, [
+              _vm._v(_vm._s(item.sum.toFixed(2)))
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-xl-3 col-lg-5 col-md-6 col-6" }, [
+              _c("img", {
+                attrs: {
+                  src: __webpack_require__(/*! ./../../../img/delete.png */ "./resources/img/delete.png"),
+                  alt: "delete"
+                },
+                on: {
+                  click: function($event) {
+                    return _vm.remove(item)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("img", {
+                attrs: { src: __webpack_require__(/*! ./../../../img/copy.png */ "./resources/img/copy.png"), alt: "copy" },
+                on: {
+                  click: function($event) {
+                    return _vm.copy(item)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("img", {
+                attrs: { src: __webpack_require__(/*! ./../../../img/edit.png */ "./resources/img/edit.png"), alt: "edit" },
+                on: {
+                  click: function($event) {
+                    return _vm.edit(item)
+                  }
+                }
+              })
+            ])
+          ])
+        }),
+        0
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "btn-group py-2" }, [
+        _c("button", { staticClass: "btn", on: { click: _vm.add } }, [
+          _vm._v("Добавить")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("modals-container"),
+      _vm._v(" "),
+      _c("v-dialog")
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "list-header" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-xl-3 col-lg-3 col-md-3 col-3" }, [
+          _vm._v("Дата")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-xl-6 col-lg-4 col-md-3 col-3" }, [
+          _vm._v("Сумма")
+        ])
+      ])
     ])
   }
 ]
@@ -39958,6 +40302,180 @@ var staticRenderFns = [
     ])
   }
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Documents/Modals/CashInflow.vue?vue&type=template&id=23c56706&":
+/*!******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Documents/Modals/CashInflow.vue?vue&type=template&id=23c56706& ***!
+  \******************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "row hd py-3" }, [
+      _c("div", { staticClass: "col text-center" }, [
+        _c("div", { staticClass: "header-text" }, [_vm._v(_vm._s(_vm.title))])
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "form",
+      {
+        staticClass: "form-horizontal",
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.save($event)
+          }
+        }
+      },
+      [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "w-100 m-auto" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.date,
+                  expression: "date"
+                }
+              ],
+              staticClass: "w-100",
+              attrs: {
+                id: "date",
+                type: "datetime-local",
+                name: "date",
+                required: "",
+                placeholder: "Дата"
+              },
+              domProps: { value: _vm.date },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.date = $event.target.value
+                }
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "w-100 m-auto pt-3" },
+            [
+              _c("model-list-select", {
+                attrs: {
+                  list: _vm.cost_items,
+                  "option-value": "id",
+                  "option-text": "name",
+                  placeholder: "Статья затрат"
+                },
+                model: {
+                  value: _vm.cost_item_id,
+                  callback: function($$v) {
+                    _vm.cost_item_id = $$v
+                  },
+                  expression: "cost_item_id"
+                }
+              })
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "w-100 m-auto pt-3" },
+            [
+              _c("model-list-select", {
+                attrs: {
+                  list: _vm.partners,
+                  "option-value": "id",
+                  "option-text": "name",
+                  placeholder: "Контрагент"
+                },
+                model: {
+                  value: _vm.partner_id,
+                  callback: function($$v) {
+                    _vm.partner_id = $$v
+                  },
+                  expression: "partner_id"
+                }
+              })
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "w-100 m-auto pt-3" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.sum,
+                  expression: "sum"
+                }
+              ],
+              staticClass: "w-100",
+              attrs: {
+                type: "number",
+                name: "date",
+                step: "0.01",
+                required: ""
+              },
+              domProps: { value: _vm.sum },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.sum = $event.target.value
+                }
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "w-100 m-auto pt-3" }, [
+            _c("div", { staticClass: "btn-group" }, [
+              _c("input", {
+                staticClass: "btn red mr-3",
+                attrs: { type: "button", value: "Отменить" },
+                on: { click: _vm.close }
+              }),
+              _vm._v(" "),
+              _c("input", {
+                staticClass: "btn",
+                attrs: { type: "submit", value: "Записать" }
+              })
+            ])
+          ])
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -62083,6 +62601,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Documents/CashInflow.vue":
+/*!**********************************************************!*\
+  !*** ./resources/js/components/Documents/CashInflow.vue ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _CashInflow_vue_vue_type_template_id_8492a9b0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CashInflow.vue?vue&type=template&id=8492a9b0& */ "./resources/js/components/Documents/CashInflow.vue?vue&type=template&id=8492a9b0&");
+/* harmony import */ var _CashInflow_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CashInflow.vue?vue&type=script&lang=js& */ "./resources/js/components/Documents/CashInflow.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _CashInflow_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _CashInflow_vue_vue_type_template_id_8492a9b0___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _CashInflow_vue_vue_type_template_id_8492a9b0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Documents/CashInflow.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Documents/CashInflow.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/Documents/CashInflow.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CashInflow_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./CashInflow.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Documents/CashInflow.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CashInflow_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Documents/CashInflow.vue?vue&type=template&id=8492a9b0&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/Documents/CashInflow.vue?vue&type=template&id=8492a9b0& ***!
+  \*****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CashInflow_vue_vue_type_template_id_8492a9b0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./CashInflow.vue?vue&type=template&id=8492a9b0& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Documents/CashInflow.vue?vue&type=template&id=8492a9b0&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CashInflow_vue_vue_type_template_id_8492a9b0___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CashInflow_vue_vue_type_template_id_8492a9b0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/Documents/Modals/CashFlow.vue":
 /*!***************************************************************!*\
   !*** ./resources/js/components/Documents/Modals/CashFlow.vue ***!
@@ -62147,6 +62734,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CashFlow_vue_vue_type_template_id_16b21e50___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CashFlow_vue_vue_type_template_id_16b21e50___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Documents/Modals/CashInflow.vue":
+/*!*****************************************************************!*\
+  !*** ./resources/js/components/Documents/Modals/CashInflow.vue ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _CashInflow_vue_vue_type_template_id_23c56706___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CashInflow.vue?vue&type=template&id=23c56706& */ "./resources/js/components/Documents/Modals/CashInflow.vue?vue&type=template&id=23c56706&");
+/* harmony import */ var _CashInflow_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CashInflow.vue?vue&type=script&lang=js& */ "./resources/js/components/Documents/Modals/CashInflow.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _CashInflow_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _CashInflow_vue_vue_type_template_id_23c56706___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _CashInflow_vue_vue_type_template_id_23c56706___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Documents/Modals/CashInflow.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Documents/Modals/CashInflow.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/components/Documents/Modals/CashInflow.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CashInflow_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./CashInflow.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Documents/Modals/CashInflow.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CashInflow_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Documents/Modals/CashInflow.vue?vue&type=template&id=23c56706&":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/components/Documents/Modals/CashInflow.vue?vue&type=template&id=23c56706& ***!
+  \************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CashInflow_vue_vue_type_template_id_23c56706___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./CashInflow.vue?vue&type=template&id=23c56706& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Documents/Modals/CashInflow.vue?vue&type=template&id=23c56706&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CashInflow_vue_vue_type_template_id_23c56706___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CashInflow_vue_vue_type_template_id_23c56706___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -62225,8 +62881,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Dictionaries_NomenclatureType__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Dictionaries/NomenclatureType */ "./resources/js/components/Dictionaries/NomenclatureType.vue");
 /* harmony import */ var _components_Dictionaries_Partner__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/Dictionaries/Partner */ "./resources/js/components/Dictionaries/Partner.vue");
 /* harmony import */ var _components_Documents_CashFlow__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/Documents/CashFlow */ "./resources/js/components/Documents/CashFlow.vue");
-/* harmony import */ var _components_Auth_Login__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/Auth/Login */ "./resources/js/components/Auth/Login.vue");
-/* harmony import */ var _components_Auth_Register__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/Auth/Register */ "./resources/js/components/Auth/Register.vue");
+/* harmony import */ var _components_Documents_CashInflow__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/Documents/CashInflow */ "./resources/js/components/Documents/CashInflow.vue");
+/* harmony import */ var _components_Auth_Login__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/Auth/Login */ "./resources/js/components/Auth/Login.vue");
+/* harmony import */ var _components_Auth_Register__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/Auth/Register */ "./resources/js/components/Auth/Register.vue");
 
 
 
@@ -62257,6 +62914,7 @@ var onlyNotAuthenticated = function onlyNotAuthenticated(to, from, next) {
 
 
 
+
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',
@@ -62268,12 +62926,12 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   }, {
     path: '/login',
     name: 'login',
-    component: _components_Auth_Login__WEBPACK_IMPORTED_MODULE_9__["default"],
+    component: _components_Auth_Login__WEBPACK_IMPORTED_MODULE_10__["default"],
     beforeEnter: onlyNotAuthenticated
   }, {
     path: '/register',
     name: 'register',
-    component: _components_Auth_Register__WEBPACK_IMPORTED_MODULE_10__["default"],
+    component: _components_Auth_Register__WEBPACK_IMPORTED_MODULE_11__["default"],
     beforeEnter: onlyNotAuthenticated
   }, {
     path: '/cost_items',
@@ -62294,6 +62952,11 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     path: '/cash_flow',
     name: 'cashFlow',
     component: _components_Documents_CashFlow__WEBPACK_IMPORTED_MODULE_8__["default"],
+    beforeEnter: onlyAuthenticated
+  }, {
+    path: '/cash_inflows',
+    name: 'cashInflows',
+    component: _components_Documents_CashInflow__WEBPACK_IMPORTED_MODULE_9__["default"],
     beforeEnter: onlyAuthenticated
   }, {
     path: '/partners',
@@ -62478,6 +63141,74 @@ var actions = {
 var mutations = {
   updateCashFlows: function updateCashFlows(state, payload) {
     state.cash_flows = payload;
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state,
+  getters: getters,
+  actions: actions,
+  mutations: mutations
+});
+
+/***/ }),
+
+/***/ "./resources/js/vuex/modules/cash_inflow.js":
+/*!**************************************************!*\
+  !*** ./resources/js/vuex/modules/cash_inflow.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var state = {
+  cash_inflows: []
+};
+var getters = {
+  getCashInflows: function getCashInflows(state) {
+    return state.cash_inflows;
+  }
+};
+var actions = {
+  getCashInflows: function getCashInflows(_ref) {
+    var commit = _ref.commit,
+        dispatch = _ref.dispatch;
+    dispatch('getRequest', {
+      url: 'cash_inflow'
+    }).then(function (resp) {
+      commit('updateCashInflows', resp);
+    });
+  },
+  addCashInflow: function addCashInflow(_ref2, payload) {
+    var dispatch = _ref2.dispatch;
+    dispatch('postRequest', {
+      url: 'cash_inflow',
+      params: payload
+    }).then(function () {
+      dispatch('getCashInflows');
+    });
+  },
+  updateCashInflow: function updateCashInflow(_ref3, payload) {
+    var dispatch = _ref3.dispatch;
+    dispatch('putRequest', {
+      url: 'cash_inflow/' + payload.id,
+      params: payload
+    }).then(function () {
+      dispatch('getCashInflows');
+    });
+  },
+  deleteCashInflow: function deleteCashInflow(_ref4, id) {
+    var dispatch = _ref4.dispatch;
+    dispatch('delRequest', {
+      url: 'cash_inflow/' + id
+    }).then(function () {
+      dispatch('getCashInflows');
+    });
+  }
+};
+var mutations = {
+  updateCashInflows: function updateCashInflows(state, payload) {
+    state.cash_inflows = payload;
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -62844,9 +63575,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_cost_item__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/cost_item */ "./resources/js/vuex/modules/cost_item.js");
 /* harmony import */ var _modules_cash_flow__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/cash_flow */ "./resources/js/vuex/modules/cash_flow.js");
 /* harmony import */ var _modules_partner__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/partner */ "./resources/js/vuex/modules/partner.js");
+/* harmony import */ var _modules_cash_inflow__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/cash_inflow */ "./resources/js/vuex/modules/cash_inflow.js");
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
+
 
 
 
@@ -62862,7 +63595,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     nomenclature_type: _modules_nomenclature_type__WEBPACK_IMPORTED_MODULE_5__["default"],
     cost_item: _modules_cost_item__WEBPACK_IMPORTED_MODULE_6__["default"],
     cash_flow: _modules_cash_flow__WEBPACK_IMPORTED_MODULE_7__["default"],
-    partner: _modules_partner__WEBPACK_IMPORTED_MODULE_8__["default"]
+    partner: _modules_partner__WEBPACK_IMPORTED_MODULE_8__["default"],
+    cash_inflow: _modules_cash_inflow__WEBPACK_IMPORTED_MODULE_9__["default"]
   }
 });
 

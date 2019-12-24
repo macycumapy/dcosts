@@ -24,6 +24,7 @@ import Nomenclature from './components/Dictionaries/Nomenclature'
 import NomenclatureType from './components/Dictionaries/NomenclatureType'
 import Partner from './components/Dictionaries/Partner'
 import CashFlow from './components/Documents/CashFlow'
+import CashInflow from './components/Documents/CashInflow'
 import Login from './components/Auth/Login'
 import Register from './components/Auth/Register'
 
@@ -72,6 +73,12 @@ export const router = new Router({
             path: '/cash_flow',
             name: 'cashFlow',
             component: CashFlow,
+            beforeEnter: onlyAuthenticated,
+        },
+        {
+            path: '/cash_inflows',
+            name: 'cashInflows',
+            component: CashInflow,
             beforeEnter: onlyAuthenticated,
         },
         {
