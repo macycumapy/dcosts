@@ -40,4 +40,7 @@ Route::middleware('auth:api')->group( function () {
 
     Route::resource('partner', 'Api\PartnerController')
         ->only(['index', 'store', 'show', 'update', 'destroy']);
+
+    Route::get('balance','Api\HomeController@balance');
+    Route::get('cash_list','Api\HomeController@cashList');
 });

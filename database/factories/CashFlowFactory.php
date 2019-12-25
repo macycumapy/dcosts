@@ -9,5 +9,6 @@ $factory->define(CashFlow::class, function (Faker $faker) {
     return [
         'cost_item_id' => null,
         'date' => $faker->dateTime,
+        'sum' => $faker->randomFloat(2,0,1000),
     ];
 });
