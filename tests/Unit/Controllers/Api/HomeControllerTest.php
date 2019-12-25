@@ -55,7 +55,7 @@ class HomeControllerTest extends TestCase
                 [
                     'id',
                     'date',
-                    'type',
+                    'is_flow',
                     'sum',
                     'cost_item',
                 ]

@@ -59,9 +59,9 @@ class HomeController extends Controller
                 'cash_flows.sum',
                 'cash_flows.cost_item_id',
                 $this->db::raw('cost_items.name as cost_item'),
-                $this->db::raw('-1 as type'))
+                $this->db::raw('true as is_flow'))
             ->where('cash_flows.user_id', auth()->id())
-            ->groupBy('id', 'type');
+            ->groupBy('id', 'is_flow');
 
         $totalList = $this->cashInflow
             ->leftJoin('cost_items', 'cash_inflows.cost_item_id', '=', 'cost_items.id')
@@ -72,10 +72,10 @@ class HomeController extends Controller
                 'cash_inflows.sum',
                 'cash_inflows.cost_item_id',
                 $this->db::raw('cost_items.name as cost_item'),
-                $this->db::raw('1 as type'))
+                $this->db::raw('false as is_flow'))
             ->where('cash_inflows.user_id', auth()->id())
             ->union($cashFlows)
-            ->groupBy('id', 'type')
+            ->groupBy('id', 'is_flow')
             ->orderBy('date')
             ->get();
 
