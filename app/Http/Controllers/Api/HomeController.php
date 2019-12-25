@@ -77,6 +77,7 @@ class HomeController extends Controller
             ->union($cashFlows)
             ->groupBy('id', 'is_flow')
             ->orderBy('date')
+            ->orderBy('id')
             ->get();
 
         return response()->json($totalList);
