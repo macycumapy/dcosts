@@ -52,6 +52,7 @@ class HomeController extends Controller
     {
         $cashFlows = $this->cashFlow
             ->leftJoin('cost_items', 'cash_flows.cost_item_id', '=', 'cost_items.id')
+            ->with('details')
             ->select(
                 'cash_flows.id',
                 'cash_flows.date',
@@ -59,11 +60,12 @@ class HomeController extends Controller
                 'cash_flows.sum',
                 'cash_flows.cost_item_id',
                 $this->db::raw('cost_items.name as cost_item'),
+                $this->db::raw('null as partner_id'),
                 $this->db::raw('true as is_flow'))
             ->where('cash_flows.user_id', auth()->id())
             ->groupBy('id', 'is_flow');
 
-        $totalList = $this->cashInflow
+        $cashInflows = $this->cashInflow
             ->leftJoin('cost_items', 'cash_inflows.cost_item_id', '=', 'cost_items.id')
             ->select(
                 'cash_inflows.id',
@@ -72,10 +74,13 @@ class HomeController extends Controller
                 'cash_inflows.sum',
                 'cash_inflows.cost_item_id',
                 $this->db::raw('cost_items.name as cost_item'),
+                'cash_inflows.partner_id',
                 $this->db::raw('false as is_flow'))
             ->where('cash_inflows.user_id', auth()->id())
-            ->union($cashFlows)
-            ->groupBy('id', 'is_flow')
+            ->groupBy('id', 'is_flow');
+
+        $totalList = $cashFlows
+            ->union($cashInflows)
             ->orderBy('date')
             ->orderBy('id')
             ->get();
