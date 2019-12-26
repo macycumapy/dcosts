@@ -1,3 +1,5 @@
+import {router} from "../../router";
+
 const state = {
     cash_flows: [],
 };
@@ -19,7 +21,8 @@ const actions = {
             url: 'cash_flow',
             params:payload
         }).then(() => {
-            dispatch('getCashFlows')
+            if (router.currentRoute.name === 'home') dispatch('getCashTotalList')
+            else dispatch('getCashFlows')
         });
     },
     updateCashFlow: ({dispatch},payload) => {
@@ -27,14 +30,16 @@ const actions = {
             url: 'cash_flow/'+payload.id,
             params:payload
         }).then(() => {
-            dispatch('getCashFlows')
+            if (router.currentRoute.name === 'home') dispatch('getCashTotalList')
+            else dispatch('getCashFlows')
         });
     },
     deleteCashFlow: ({dispatch},id) => {
         dispatch('delRequest', {
             url: 'cash_flow/'+id
         }).then(() => {
-            dispatch('getCashFlows')
+            if (router.currentRoute.name === 'home') dispatch('getCashTotalList')
+            else dispatch('getCashFlows')
         });
     },
 };

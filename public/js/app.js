@@ -2087,6 +2087,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2491,6 +2495,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2557,6 +2565,10 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Modals_NomenclatureType__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Modals/NomenclatureType */ "./resources/js/components/Dictionaries/Modals/NomenclatureType.vue");
+//
+//
+//
+//
 //
 //
 //
@@ -2671,6 +2683,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2760,6 +2776,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2788,7 +2814,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     copy: function copy(item) {
       this.$modal.show(_Modals_CashFlow__WEBPACK_IMPORTED_MODULE_0__["default"], {
-        date: item.date,
         cost_item_id: item.cost_item_id,
         details: item.details
       });
@@ -2857,6 +2882,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2885,7 +2916,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     copy: function copy(item) {
       this.$modal.show(_Modals_CashInflow__WEBPACK_IMPORTED_MODULE_0__["default"], {
-        date: item.date,
         cost_item_id: item.cost_item_id,
         partner_id: item.partner_id,
         sum: item.sum
@@ -3188,6 +3218,123 @@ __webpack_require__.r(__webpack_exports__);
     },
     close: function close() {
       this.$emit('close');
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Home.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Home.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Documents_Modals_CashFlow__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Documents/Modals/CashFlow */ "./resources/js/components/Documents/Modals/CashFlow.vue");
+/* harmony import */ var _Documents_Modals_CashInflow__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Documents/Modals/CashInflow */ "./resources/js/components/Documents/Modals/CashInflow.vue");
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../router */ "./resources/js/router.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      title: 'Движения',
+      loading: true,
+      error: null
+    };
+  },
+  created: function created() {
+    this.$store.dispatch('getCashTotalList');
+    this.$store.dispatch('getCostItems');
+    this.$store.dispatch('getNomenclature');
+    this.$store.dispatch('getPartners');
+  },
+  computed: {
+    cashFlows: function cashFlows() {
+      return this.$store.getters.getCashTotalList;
+    }
+  },
+  methods: {
+    add: function add(isFlow) {
+      this.$modal.show(isFlow ? _Documents_Modals_CashFlow__WEBPACK_IMPORTED_MODULE_0__["default"] : _Documents_Modals_CashInflow__WEBPACK_IMPORTED_MODULE_1__["default"]);
+    },
+    edit: function edit(item) {
+      this.$modal.show(item.is_flow ? _Documents_Modals_CashFlow__WEBPACK_IMPORTED_MODULE_0__["default"] : _Documents_Modals_CashInflow__WEBPACK_IMPORTED_MODULE_1__["default"], item);
+    },
+    copy: function copy(item) {
+      this.$modal.show(item.is_flow ? _Documents_Modals_CashFlow__WEBPACK_IMPORTED_MODULE_0__["default"] : _Documents_Modals_CashInflow__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        cost_item_id: item.cost_item_id,
+        partner_id: item.partner_id,
+        details: item.details,
+        sum: item.sum
+      });
+    },
+    remove: function remove(item) {
+      var _this = this;
+
+      this.$modal.show('dialog', {
+        title: 'Удалить документ?',
+        buttons: [{
+          title: 'Нет',
+          "class": 'btn red'
+        }, {
+          title: 'Да',
+          handler: function handler() {
+            if (item.is_flow) _this.$store.dispatch('deleteCashFlow', item.id).then(function () {
+              _this.$store.dispatch('getCashTotalList');
+            });else _this.$store.dispatch('deleteCashInflow', item.id).then(function () {
+              _this.$store.dispatch('getCashTotalList');
+            });
+
+            _this.$modal.hide('dialog');
+          },
+          "default": true,
+          "class": 'btn'
+        }]
+      });
     }
   }
 });
@@ -38985,64 +39132,74 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "nomenclature-type" },
+    { staticClass: "cost-items" },
     [
-      _c("div", { staticClass: "w-100 text-center" }, [
-        _c("div", { staticClass: "header-text py-3" }, [
-          _vm._v(_vm._s(_vm.title))
-        ])
-      ]),
-      _vm._v(" "),
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "list" },
-        _vm._l(_vm.costItems, function(item) {
-          return _c("div", { staticClass: "row pl-4" }, [
-            _c("div", { staticClass: "col-xl-9 col-lg-7 col-md-6 col-6" }, [
-              _vm._v(_vm._s(item.name))
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-xl-3 col-lg-5 col-md-6 col-6" }, [
-              _c("img", {
-                attrs: {
-                  src: __webpack_require__(/*! ./../../../img/delete.png */ "./resources/img/delete.png"),
-                  alt: "delete"
-                },
-                on: {
-                  click: function($event) {
-                    return _vm.remove(item)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("img", {
-                attrs: { src: __webpack_require__(/*! ./../../../img/copy.png */ "./resources/img/copy.png"), alt: "copy" },
-                on: {
-                  click: function($event) {
-                    return _vm.copy(item)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("img", {
-                attrs: { src: __webpack_require__(/*! ./../../../img/edit.png */ "./resources/img/edit.png"), alt: "edit" },
-                on: {
-                  click: function($event) {
-                    return _vm.edit(item)
-                  }
-                }
-              })
+      _c("div", { staticClass: "row justify-content-center" }, [
+        _c("div", { staticClass: "col-xl-7 col-lg-12 col-md-12 col-12" }, [
+          _c("div", { staticClass: "w-100 text-center" }, [
+            _c("div", { staticClass: "header-text py-3" }, [
+              _vm._v(_vm._s(_vm.title))
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "list" },
+            _vm._l(_vm.costItems, function(item) {
+              return _c("div", { staticClass: "row pl-4 position-relative" }, [
+                _c("div", { staticClass: "col-xl-3 col-lg-3 col-md-6 col-6" }, [
+                  _vm._v(_vm._s(item.name))
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "list-btn-group" }, [
+                  _c("img", {
+                    attrs: {
+                      src: __webpack_require__(/*! ./../../../img/edit.png */ "./resources/img/edit.png"),
+                      alt: "edit"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.edit(item)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("img", {
+                    attrs: {
+                      src: __webpack_require__(/*! ./../../../img/copy.png */ "./resources/img/copy.png"),
+                      alt: "copy"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.copy(item)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("img", {
+                    attrs: {
+                      src: __webpack_require__(/*! ./../../../img/delete.png */ "./resources/img/delete.png"),
+                      alt: "delete"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.remove(item)
+                      }
+                    }
+                  })
+                ])
+              ])
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "btn-group py-2" }, [
+            _c("button", { staticClass: "btn", on: { click: _vm.add } }, [
+              _vm._v("Добавить")
             ])
           ])
-        }),
-        0
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "btn-group py-2" }, [
-        _c("button", { staticClass: "btn", on: { click: _vm.add } }, [
-          _vm._v("Добавить")
         ])
       ]),
       _vm._v(" "),
@@ -39059,7 +39216,11 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "list-header" }, [
-      _c("div", { staticClass: "col-11" }, [_vm._v("Наименование")])
+      _c(
+        "div",
+        { staticClass: "col-xl-3 col-lg-3 col-md-6 col-6 text-start" },
+        [_vm._v("Наименование")]
+      )
     ])
   }
 ]
@@ -39088,7 +39249,7 @@ var render = function() {
     _c("div", { staticClass: "row hd py-3" }, [
       _c("div", { staticClass: "col text-center" }, [
         _c("div", { staticClass: "header-text" }, [
-          _vm._v(_vm._s(_vm.oldName ? _vm.oldName : "Новая группа"))
+          _vm._v(_vm._s(_vm.oldName ? _vm.oldName : "Новая статья"))
         ])
       ])
     ]),
@@ -39493,62 +39654,72 @@ var render = function() {
     "div",
     { staticClass: "nomenclature" },
     [
-      _c("div", { staticClass: "w-100 text-center" }, [
-        _c("div", { staticClass: "header-text py-3" }, [
-          _vm._v(_vm._s(_vm.title))
-        ])
-      ]),
-      _vm._v(" "),
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "list" },
-        _vm._l(_vm.nomenclatures, function(item) {
-          return _c("div", { staticClass: "row pl-4" }, [
-            _c("div", { staticClass: "col-xl-9 col-lg-7 col-md-6 col-6" }, [
-              _vm._v(_vm._s(item.name))
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-xl-3 col-lg-5 col-md-6 col-6" }, [
-              _c("img", {
-                attrs: {
-                  src: __webpack_require__(/*! ./../../../img/delete.png */ "./resources/img/delete.png"),
-                  alt: "delete"
-                },
-                on: {
-                  click: function($event) {
-                    return _vm.remove(item)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("img", {
-                attrs: { src: __webpack_require__(/*! ./../../../img/copy.png */ "./resources/img/copy.png"), alt: "copy" },
-                on: {
-                  click: function($event) {
-                    return _vm.copy(item)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("img", {
-                attrs: { src: __webpack_require__(/*! ./../../../img/edit.png */ "./resources/img/edit.png"), alt: "edit" },
-                on: {
-                  click: function($event) {
-                    return _vm.edit(item)
-                  }
-                }
-              })
+      _c("div", { staticClass: "row justify-content-center" }, [
+        _c("div", { staticClass: "col-xl-7 col-lg-12 col-md-12 col-12" }, [
+          _c("div", { staticClass: "w-100 text-center" }, [
+            _c("div", { staticClass: "header-text py-3" }, [
+              _vm._v(_vm._s(_vm.title))
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "list" },
+            _vm._l(_vm.nomenclatures, function(item) {
+              return _c("div", { staticClass: "row pl-4 position-relative" }, [
+                _c("div", { staticClass: "col-xl-3 col-lg-3 col-md-6 col-6" }, [
+                  _vm._v(_vm._s(item.name))
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "list-btn-group" }, [
+                  _c("img", {
+                    attrs: {
+                      src: __webpack_require__(/*! ./../../../img/edit.png */ "./resources/img/edit.png"),
+                      alt: "edit"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.edit(item)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("img", {
+                    attrs: {
+                      src: __webpack_require__(/*! ./../../../img/copy.png */ "./resources/img/copy.png"),
+                      alt: "copy"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.copy(item)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("img", {
+                    attrs: {
+                      src: __webpack_require__(/*! ./../../../img/delete.png */ "./resources/img/delete.png"),
+                      alt: "delete"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.remove(item)
+                      }
+                    }
+                  })
+                ])
+              ])
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "btn-group py-2" }, [
+            _c("button", { staticClass: "btn", on: { click: _vm.add } }, [
+              _vm._v("Добавить")
             ])
           ])
-        }),
-        0
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "btn-group py-2" }, [
-        _c("button", { staticClass: "btn", on: { click: _vm.add } }, [
-          _vm._v("Добавить")
         ])
       ]),
       _vm._v(" "),
@@ -39565,7 +39736,11 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "list-header" }, [
-      _c("div", { staticClass: "col-11" }, [_vm._v("Наименование")])
+      _c(
+        "div",
+        { staticClass: "col-xl-3 col-lg-3 col-md-6 col-6 text-start" },
+        [_vm._v("Наименование")]
+      )
     ])
   }
 ]
@@ -39594,62 +39769,72 @@ var render = function() {
     "div",
     { staticClass: "nomenclature-type" },
     [
-      _c("div", { staticClass: "w-100 text-center" }, [
-        _c("div", { staticClass: "header-text py-3" }, [
-          _vm._v(_vm._s(_vm.title))
-        ])
-      ]),
-      _vm._v(" "),
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "list" },
-        _vm._l(_vm.nomenclatureTypes, function(item) {
-          return _c("div", { staticClass: "row pl-4" }, [
-            _c("div", { staticClass: "col-xl-9 col-lg-7 col-md-6 col-6" }, [
-              _vm._v(_vm._s(item.name))
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-xl-3 col-lg-5 col-md-6 col-6" }, [
-              _c("img", {
-                attrs: {
-                  src: __webpack_require__(/*! ./../../../img/delete.png */ "./resources/img/delete.png"),
-                  alt: "delete"
-                },
-                on: {
-                  click: function($event) {
-                    return _vm.remove(item)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("img", {
-                attrs: { src: __webpack_require__(/*! ./../../../img/copy.png */ "./resources/img/copy.png"), alt: "copy" },
-                on: {
-                  click: function($event) {
-                    return _vm.copy(item)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("img", {
-                attrs: { src: __webpack_require__(/*! ./../../../img/edit.png */ "./resources/img/edit.png"), alt: "edit" },
-                on: {
-                  click: function($event) {
-                    return _vm.edit(item)
-                  }
-                }
-              })
+      _c("div", { staticClass: "row justify-content-center" }, [
+        _c("div", { staticClass: "col-xl-7 col-lg-12 col-md-12 col-12" }, [
+          _c("div", { staticClass: "w-100 text-center" }, [
+            _c("div", { staticClass: "header-text py-3" }, [
+              _vm._v(_vm._s(_vm.title))
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "list" },
+            _vm._l(_vm.nomenclatureTypes, function(item) {
+              return _c("div", { staticClass: "row pl-4 position-relative" }, [
+                _c("div", { staticClass: "col-xl-3 col-lg-3 col-md-6 col-6" }, [
+                  _vm._v(_vm._s(item.name))
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "list-btn-group" }, [
+                  _c("img", {
+                    attrs: {
+                      src: __webpack_require__(/*! ./../../../img/edit.png */ "./resources/img/edit.png"),
+                      alt: "edit"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.edit(item)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("img", {
+                    attrs: {
+                      src: __webpack_require__(/*! ./../../../img/copy.png */ "./resources/img/copy.png"),
+                      alt: "copy"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.copy(item)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("img", {
+                    attrs: {
+                      src: __webpack_require__(/*! ./../../../img/delete.png */ "./resources/img/delete.png"),
+                      alt: "delete"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.remove(item)
+                      }
+                    }
+                  })
+                ])
+              ])
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "btn-group py-2" }, [
+            _c("button", { staticClass: "btn", on: { click: _vm.add } }, [
+              _vm._v("Добавить")
             ])
           ])
-        }),
-        0
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "btn-group py-2" }, [
-        _c("button", { staticClass: "btn", on: { click: _vm.add } }, [
-          _vm._v("Добавить")
         ])
       ]),
       _vm._v(" "),
@@ -39666,7 +39851,11 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "list-header" }, [
-      _c("div", { staticClass: "col-11" }, [_vm._v("Наименование")])
+      _c(
+        "div",
+        { staticClass: "col-xl-3 col-lg-3 col-md-6 col-6 text-start" },
+        [_vm._v("Наименование")]
+      )
     ])
   }
 ]
@@ -39695,62 +39884,72 @@ var render = function() {
     "div",
     { staticClass: "partner" },
     [
-      _c("div", { staticClass: "w-100 text-center" }, [
-        _c("div", { staticClass: "header-text py-3" }, [
-          _vm._v(_vm._s(_vm.title))
-        ])
-      ]),
-      _vm._v(" "),
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "list" },
-        _vm._l(_vm.partners, function(item) {
-          return _c("div", { staticClass: "row pl-4" }, [
-            _c("div", { staticClass: "col-xl-9 col-lg-7 col-md-6 col-6" }, [
-              _vm._v(_vm._s(item.name))
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-xl-3 col-lg-5 col-md-6 col-6" }, [
-              _c("img", {
-                attrs: {
-                  src: __webpack_require__(/*! ./../../../img/delete.png */ "./resources/img/delete.png"),
-                  alt: "delete"
-                },
-                on: {
-                  click: function($event) {
-                    return _vm.remove(item)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("img", {
-                attrs: { src: __webpack_require__(/*! ./../../../img/copy.png */ "./resources/img/copy.png"), alt: "copy" },
-                on: {
-                  click: function($event) {
-                    return _vm.copy(item)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("img", {
-                attrs: { src: __webpack_require__(/*! ./../../../img/edit.png */ "./resources/img/edit.png"), alt: "edit" },
-                on: {
-                  click: function($event) {
-                    return _vm.edit(item)
-                  }
-                }
-              })
+      _c("div", { staticClass: "row justify-content-center" }, [
+        _c("div", { staticClass: "col-xl-7 col-lg-12 col-md-12 col-12" }, [
+          _c("div", { staticClass: "w-100 text-center" }, [
+            _c("div", { staticClass: "header-text py-3" }, [
+              _vm._v(_vm._s(_vm.title))
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "list" },
+            _vm._l(_vm.partners, function(item) {
+              return _c("div", { staticClass: "row pl-4 position-relative" }, [
+                _c("div", { staticClass: "col-xl-3 col-lg-3 col-md-6 col-6" }, [
+                  _vm._v(_vm._s(item.name))
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "list-btn-group" }, [
+                  _c("img", {
+                    attrs: {
+                      src: __webpack_require__(/*! ./../../../img/edit.png */ "./resources/img/edit.png"),
+                      alt: "edit"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.edit(item)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("img", {
+                    attrs: {
+                      src: __webpack_require__(/*! ./../../../img/copy.png */ "./resources/img/copy.png"),
+                      alt: "copy"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.copy(item)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("img", {
+                    attrs: {
+                      src: __webpack_require__(/*! ./../../../img/delete.png */ "./resources/img/delete.png"),
+                      alt: "delete"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.remove(item)
+                      }
+                    }
+                  })
+                ])
+              ])
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "btn-group py-2" }, [
+            _c("button", { staticClass: "btn", on: { click: _vm.add } }, [
+              _vm._v("Добавить")
             ])
           ])
-        }),
-        0
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "btn-group py-2" }, [
-        _c("button", { staticClass: "btn", on: { click: _vm.add } }, [
-          _vm._v("Добавить")
         ])
       ]),
       _vm._v(" "),
@@ -39767,7 +39966,11 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "list-header" }, [
-      _c("div", { staticClass: "col-11" }, [_vm._v("Наименование")])
+      _c(
+        "div",
+        { staticClass: "col-xl-3 col-lg-3 col-md-6 col-6 text-start" },
+        [_vm._v("Наименование")]
+      )
     ])
   }
 ]
@@ -39796,62 +39999,93 @@ var render = function() {
     "div",
     { attrs: { id: "cash-flow" } },
     [
-      _c("div", { staticClass: "w-100 text-center" }, [
-        _c("div", { staticClass: "header-text py-3" }, [
-          _vm._v(_vm._s(_vm.title))
-        ])
-      ]),
-      _vm._v(" "),
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "list" },
-        _vm._l(_vm.cashFlows, function(item) {
-          return _c("div", { staticClass: "row pl-4" }, [
-            _c("div", { staticClass: "col-xl-9 col-lg-7 col-md-6 col-6" }, [
-              _vm._v(_vm._s(item.date))
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-xl-3 col-lg-5 col-md-6 col-6" }, [
-              _c("img", {
-                attrs: {
-                  src: __webpack_require__(/*! ./../../../img/delete.png */ "./resources/img/delete.png"),
-                  alt: "delete"
-                },
-                on: {
-                  click: function($event) {
-                    return _vm.remove(item)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("img", {
-                attrs: { src: __webpack_require__(/*! ./../../../img/copy.png */ "./resources/img/copy.png"), alt: "copy" },
-                on: {
-                  click: function($event) {
-                    return _vm.copy(item)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("img", {
-                attrs: { src: __webpack_require__(/*! ./../../../img/edit.png */ "./resources/img/edit.png"), alt: "edit" },
-                on: {
-                  click: function($event) {
-                    return _vm.edit(item)
-                  }
-                }
-              })
+      _c("div", { staticClass: "row justify-content-center" }, [
+        _c("div", { staticClass: "col-xl-7 col-lg-12 col-md-12 col-12" }, [
+          _c("div", { staticClass: "w-100 text-center" }, [
+            _c("div", { staticClass: "header-text py-3" }, [
+              _vm._v(_vm._s(_vm.title))
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "list" },
+            _vm._l(_vm.cashFlows, function(item) {
+              return _c("div", { staticClass: "row pl-4 position-relative" }, [
+                _c("div", { staticClass: "col-xl-3 col-lg-3 col-md-6 col-6" }, [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(
+                        new Date(item.date).toLocaleString().substr(0, 17)
+                      ) +
+                      "\n                    "
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "col-xl-9 col-lg-9 col-md-6 col-6 text-end pr-4"
+                  },
+                  [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(item.sum.toFixed(2)) +
+                        "\n                    "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "list-btn-group" }, [
+                  _c("img", {
+                    attrs: {
+                      src: __webpack_require__(/*! ./../../../img/edit.png */ "./resources/img/edit.png"),
+                      alt: "edit"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.edit(item)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("img", {
+                    attrs: {
+                      src: __webpack_require__(/*! ./../../../img/copy.png */ "./resources/img/copy.png"),
+                      alt: "copy"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.copy(item)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("img", {
+                    attrs: {
+                      src: __webpack_require__(/*! ./../../../img/delete.png */ "./resources/img/delete.png"),
+                      alt: "delete"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.remove(item)
+                      }
+                    }
+                  })
+                ])
+              ])
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "btn-group py-2" }, [
+            _c("button", { staticClass: "btn", on: { click: _vm.add } }, [
+              _vm._v("Добавить")
             ])
           ])
-        }),
-        0
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "btn-group py-2" }, [
-        _c("button", { staticClass: "btn", on: { click: _vm.add } }, [
-          _vm._v("Добавить")
         ])
       ]),
       _vm._v(" "),
@@ -39868,7 +40102,15 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "list-header" }, [
-      _c("div", { staticClass: "col-11" }, [_vm._v("Дата")])
+      _c(
+        "div",
+        { staticClass: "col-xl-3 col-lg-3 col-md-6 col-6 text-start" },
+        [_vm._v("Дата")]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-xl-9 col-lg-9 col-md-6 col-6 text-end" }, [
+        _vm._v("Сумма")
+      ])
     ])
   }
 ]
@@ -39897,66 +40139,93 @@ var render = function() {
     "div",
     { attrs: { id: "cash-inflow" } },
     [
-      _c("div", { staticClass: "w-100 text-center" }, [
-        _c("div", { staticClass: "header-text py-3" }, [
-          _vm._v(_vm._s(_vm.title))
-        ])
-      ]),
-      _vm._v(" "),
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "list" },
-        _vm._l(_vm.cashInflows, function(item) {
-          return _c("div", { staticClass: "row pl-4" }, [
-            _c("div", { staticClass: "col-xl-3 col-lg-3 col-md-3 col-3" }, [
-              _vm._v(_vm._s(item.date))
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-xl-6 col-lg-4 col-md-3 col-3" }, [
-              _vm._v(_vm._s(item.sum.toFixed(2)))
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-xl-3 col-lg-5 col-md-6 col-6" }, [
-              _c("img", {
-                attrs: {
-                  src: __webpack_require__(/*! ./../../../img/delete.png */ "./resources/img/delete.png"),
-                  alt: "delete"
-                },
-                on: {
-                  click: function($event) {
-                    return _vm.remove(item)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("img", {
-                attrs: { src: __webpack_require__(/*! ./../../../img/copy.png */ "./resources/img/copy.png"), alt: "copy" },
-                on: {
-                  click: function($event) {
-                    return _vm.copy(item)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("img", {
-                attrs: { src: __webpack_require__(/*! ./../../../img/edit.png */ "./resources/img/edit.png"), alt: "edit" },
-                on: {
-                  click: function($event) {
-                    return _vm.edit(item)
-                  }
-                }
-              })
+      _c("div", { staticClass: "row justify-content-center" }, [
+        _c("div", { staticClass: "col-xl-7 col-lg-12 col-md-12 col-12" }, [
+          _c("div", { staticClass: "w-100 text-center" }, [
+            _c("div", { staticClass: "header-text py-3" }, [
+              _vm._v(_vm._s(_vm.title))
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "list" },
+            _vm._l(_vm.cashInflows, function(item) {
+              return _c("div", { staticClass: "row pl-4 position-relative" }, [
+                _c("div", { staticClass: "col-xl-3 col-lg-3 col-md-6 col-6" }, [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(
+                        new Date(item.date).toLocaleString().substr(0, 17)
+                      ) +
+                      "\n                    "
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "col-xl-9 col-lg-9 col-md-6 col-6 text-end pr-4"
+                  },
+                  [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(item.sum.toFixed(2)) +
+                        "\n                    "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "list-btn-group" }, [
+                  _c("img", {
+                    attrs: {
+                      src: __webpack_require__(/*! ./../../../img/edit.png */ "./resources/img/edit.png"),
+                      alt: "edit"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.edit(item)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("img", {
+                    attrs: {
+                      src: __webpack_require__(/*! ./../../../img/copy.png */ "./resources/img/copy.png"),
+                      alt: "copy"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.copy(item)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("img", {
+                    attrs: {
+                      src: __webpack_require__(/*! ./../../../img/delete.png */ "./resources/img/delete.png"),
+                      alt: "delete"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.remove(item)
+                      }
+                    }
+                  })
+                ])
+              ])
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "btn-group py-2" }, [
+            _c("button", { staticClass: "btn", on: { click: _vm.add } }, [
+              _vm._v("Добавить")
             ])
           ])
-        }),
-        0
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "btn-group py-2" }, [
-        _c("button", { staticClass: "btn", on: { click: _vm.add } }, [
-          _vm._v("Добавить")
         ])
       ]),
       _vm._v(" "),
@@ -39973,14 +40242,14 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "list-header" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-xl-3 col-lg-3 col-md-3 col-3" }, [
-          _vm._v("Дата")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-xl-6 col-lg-4 col-md-3 col-3" }, [
-          _vm._v("Сумма")
-        ])
+      _c(
+        "div",
+        { staticClass: "col-xl-3 col-lg-3 col-md-6 col-6 text-start" },
+        [_vm._v("Дата")]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-xl-9 col-lg-9 col-md-6 col-6 text-end" }, [
+        _vm._v("Сумма")
       ])
     ])
   }
@@ -40497,9 +40766,159 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("p", [_vm._v("This is the homepage")])
+  return _c(
+    "div",
+    { attrs: { id: "home" } },
+    [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-xl-8 col-lg-12 col-md-12 col-12" }, [
+          _c("div", { staticClass: "w-100 text-center" }, [
+            _c("div", { staticClass: "header-text py-3" }, [
+              _vm._v(_vm._s(_vm.title))
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "list" },
+            _vm._l(_vm.cashFlows, function(item) {
+              return _c("div", { staticClass: "row pl-4 position-relative" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "col-xl-3 col-lg-3 col-md-4 col-4 text-center"
+                  },
+                  [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(
+                          new Date(item.date).toLocaleString().substr(0, 17)
+                        ) +
+                        "\n                    "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "col-xl-7 col-lg-7 col-md-6 col-5 text-center"
+                  },
+                  [_vm._v(_vm._s(item.cost_item))]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "col-md-2 col-3 text-end pr-4",
+                    class: { red: item.is_flow }
+                  },
+                  [
+                    _vm._v(
+                      _vm._s(item.sum.toFixed(2)) + "\n                    "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "list-btn-group" }, [
+                  _c("img", {
+                    attrs: {
+                      src: __webpack_require__(/*! ./../../img/edit.png */ "./resources/img/edit.png"),
+                      alt: "edit"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.edit(item)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("img", {
+                    attrs: {
+                      src: __webpack_require__(/*! ./../../img/copy.png */ "./resources/img/copy.png"),
+                      alt: "copy"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.copy(item)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("img", {
+                    attrs: {
+                      src: __webpack_require__(/*! ./../../img/delete.png */ "./resources/img/delete.png"),
+                      alt: "delete"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.remove(item)
+                      }
+                    }
+                  })
+                ])
+              ])
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "btn-group py-2" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn mr-2",
+                on: {
+                  click: function($event) {
+                    return _vm.add(false)
+                  }
+                }
+              },
+              [_vm._v("Поступление")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn",
+                on: {
+                  click: function($event) {
+                    return _vm.add(true)
+                  }
+                }
+              },
+              [_vm._v("Расход")]
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("modals-container"),
+      _vm._v(" "),
+      _c("v-dialog")
+    ],
+    1
+  )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "list-header" }, [
+      _c("div", { staticClass: "col-xl-3 col-lg-3 col-md-4 col-4" }, [
+        _vm._v("Дата")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-xl-7 col-lg-7 col-md-6 col-5" }, [
+        _vm._v("Статья")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-2 col-3" }, [_vm._v("Сумма")])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -62818,15 +63237,17 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Home_vue_vue_type_template_id_f2b6376c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Home.vue?vue&type=template&id=f2b6376c& */ "./resources/js/components/Home.vue?vue&type=template&id=f2b6376c&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _Home_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Home.vue?vue&type=script&lang=js& */ "./resources/js/components/Home.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
-var script = {}
+
+
 
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
-  script,
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Home_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _Home_vue_vue_type_template_id_f2b6376c___WEBPACK_IMPORTED_MODULE_0__["render"],
   _Home_vue_vue_type_template_id_f2b6376c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
@@ -62840,6 +63261,20 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 if (false) { var api; }
 component.options.__file = "resources/js/components/Home.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Home.vue?vue&type=script&lang=js&":
+/*!*******************************************************************!*\
+  !*** ./resources/js/components/Home.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Home.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Home.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
@@ -63093,6 +63528,8 @@ var mutations = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../router */ "./resources/js/router.js");
+
 var state = {
   cash_flows: []
 };
@@ -63117,7 +63554,7 @@ var actions = {
       url: 'cash_flow',
       params: payload
     }).then(function () {
-      dispatch('getCashFlows');
+      if (_router__WEBPACK_IMPORTED_MODULE_0__["router"].currentRoute.name === 'home') dispatch('getCashTotalList');else dispatch('getCashFlows');
     });
   },
   updateCashFlow: function updateCashFlow(_ref3, payload) {
@@ -63126,7 +63563,7 @@ var actions = {
       url: 'cash_flow/' + payload.id,
       params: payload
     }).then(function () {
-      dispatch('getCashFlows');
+      if (_router__WEBPACK_IMPORTED_MODULE_0__["router"].currentRoute.name === 'home') dispatch('getCashTotalList');else dispatch('getCashFlows');
     });
   },
   deleteCashFlow: function deleteCashFlow(_ref4, id) {
@@ -63134,7 +63571,7 @@ var actions = {
     dispatch('delRequest', {
       url: 'cash_flow/' + id
     }).then(function () {
-      dispatch('getCashFlows');
+      if (_router__WEBPACK_IMPORTED_MODULE_0__["router"].currentRoute.name === 'home') dispatch('getCashTotalList');else dispatch('getCashFlows');
     });
   }
 };
@@ -63161,6 +63598,8 @@ var mutations = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../router */ "./resources/js/router.js");
+
 var state = {
   cash_inflows: []
 };
@@ -63185,7 +63624,7 @@ var actions = {
       url: 'cash_inflow',
       params: payload
     }).then(function () {
-      dispatch('getCashInflows');
+      if (_router__WEBPACK_IMPORTED_MODULE_0__["router"].currentRoute.name === 'home') dispatch('getCashTotalList');else dispatch('getCashInflows');
     });
   },
   updateCashInflow: function updateCashInflow(_ref3, payload) {
@@ -63194,7 +63633,7 @@ var actions = {
       url: 'cash_inflow/' + payload.id,
       params: payload
     }).then(function () {
-      dispatch('getCashInflows');
+      if (_router__WEBPACK_IMPORTED_MODULE_0__["router"].currentRoute.name === 'home') dispatch('getCashTotalList');else dispatch('getCashInflows');
     });
   },
   deleteCashInflow: function deleteCashInflow(_ref4, id) {
@@ -63202,7 +63641,7 @@ var actions = {
     dispatch('delRequest', {
       url: 'cash_inflow/' + id
     }).then(function () {
-      dispatch('getCashInflows');
+      if (_router__WEBPACK_IMPORTED_MODULE_0__["router"].currentRoute.name === 'home') dispatch('getCashTotalList');else dispatch('getCashInflows');
     });
   }
 };
@@ -63277,6 +63716,64 @@ var actions = {
 var mutations = {
   updateCostItems: function updateCostItems(state, payload) {
     state.cost_items = payload;
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state,
+  getters: getters,
+  actions: actions,
+  mutations: mutations
+});
+
+/***/ }),
+
+/***/ "./resources/js/vuex/modules/home.js":
+/*!*******************************************!*\
+  !*** ./resources/js/vuex/modules/home.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var state = {
+  balance: 0,
+  cashTotalList: []
+};
+var getters = {
+  getBalance: function getBalance(state) {
+    return state.balance;
+  },
+  getCashTotalList: function getCashTotalList(state) {
+    return state.cashTotalList;
+  }
+};
+var actions = {
+  getBalance: function getBalance(_ref) {
+    var commit = _ref.commit,
+        dispatch = _ref.dispatch;
+    dispatch('getRequest', {
+      url: 'balance'
+    }).then(function (resp) {
+      commit('updateBalance', resp);
+    });
+  },
+  getCashTotalList: function getCashTotalList(_ref2) {
+    var commit = _ref2.commit,
+        dispatch = _ref2.dispatch;
+    dispatch('getRequest', {
+      url: 'cash_list'
+    }).then(function (resp) {
+      commit('updateCashTotalList', resp);
+    });
+  }
+};
+var mutations = {
+  updateBalance: function updateBalance(state, payload) {
+    state.balance = payload.sum;
+  },
+  updateCashTotalList: function updateCashTotalList(state, payload) {
+    state.cashTotalList = payload;
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -63576,9 +64073,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_cash_flow__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/cash_flow */ "./resources/js/vuex/modules/cash_flow.js");
 /* harmony import */ var _modules_partner__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/partner */ "./resources/js/vuex/modules/partner.js");
 /* harmony import */ var _modules_cash_inflow__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/cash_inflow */ "./resources/js/vuex/modules/cash_inflow.js");
+/* harmony import */ var _modules_home__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modules/home */ "./resources/js/vuex/modules/home.js");
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
+
 
 
 
@@ -63596,7 +64095,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     cost_item: _modules_cost_item__WEBPACK_IMPORTED_MODULE_6__["default"],
     cash_flow: _modules_cash_flow__WEBPACK_IMPORTED_MODULE_7__["default"],
     partner: _modules_partner__WEBPACK_IMPORTED_MODULE_8__["default"],
-    cash_inflow: _modules_cash_inflow__WEBPACK_IMPORTED_MODULE_9__["default"]
+    cash_inflow: _modules_cash_inflow__WEBPACK_IMPORTED_MODULE_9__["default"],
+    home: _modules_home__WEBPACK_IMPORTED_MODULE_10__["default"]
   }
 });
 

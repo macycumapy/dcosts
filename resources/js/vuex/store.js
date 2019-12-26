@@ -11,6 +11,7 @@ import cost_item from './modules/cost_item'
 import cash_flow from './modules/cash_flow'
 import partner from './modules/partner'
 import cash_inflow from './modules/cash_inflow'
+import home from './modules/home'
 
 export const store = new Vuex.Store({
     modules: {
@@ -22,5 +23,6 @@ export const store = new Vuex.Store({
         cash_flow,
         partner,
         cash_inflow,
+        home,
     }
 });

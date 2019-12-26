@@ -2,7 +2,7 @@
     <div>
         <div class="row hd py-3">
             <div class="col text-center">
-                <div class="header-text">{{oldName ? oldName : 'Новая группа'}}</div>
+                <div class="header-text">{{oldName ? oldName : 'Новая статья'}}</div>
             </div>
         </div>
         <form @submit.prevent="save" class="form-horizontal">

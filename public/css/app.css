@@ -11213,6 +11213,10 @@ ul {
   text-align: end;
 }
 
+.text-start {
+  text-align: start;
+}
+
 .logo {
   background-image: url(/images/logo.png?d19a3d54e3c68b04eea2939b0a3c3165);
   background-position: 50% 50%;
@@ -11473,6 +11477,9 @@ ul {
   font-weight: 700;
   font-size: 20px;
   padding: 15px 5px;
+  display: -webkit-box;
+  display: flex;
+  text-align: center;
 }
 
 #lk .list {
@@ -11512,15 +11519,36 @@ ul {
   background: #328e59;
 }
 
-#lk .list .row:hover {
-  background: linear-gradient(175deg, #328e59, #1e4a21);
+#lk .list .row:hover .list-btn-group {
+  position: absolute;
+  height: 100%;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+          align-items: center;
+  width: 100%;
+  background: -webkit-gradient(linear, left top, right top, from(transparent), color-stop(40%, #1e4a21), color-stop(60%, #1e4a21), to(transparent));
+  background: linear-gradient(to right, transparent, #1e4a21 40%, #1e4a21 60%, transparent);
 }
 
-#lk .list .row img {
-  width: 32px;
+#lk .list .row .list-btn-group {
+  display: none;
+}
+
+#lk .list .row .list-btn-group img {
+  height: 32px;
   cursor: pointer;
   float: right;
   margin: 0 15px;
+  opacity: 0.7;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+#lk .list .row .list-btn-group img:hover {
+  opacity: 1;
 }
 
 #lk .header-text {
@@ -11668,15 +11696,23 @@ ul {
   background: #424649;
 }
 
+#lk #home .v--modal,
 #lk #cash-flow .v--modal {
   width: 800px !important;
 }
 
+#lk #home .v--modal.vue-dialog,
+#lk #cash-flow .v--modal.vue-dialog {
+  width: 400px !important;
+}
+
+#lk #home .v--modal input,
 #lk #cash-flow .v--modal input {
   padding: 7px;
   height: 100%;
 }
 
+#lk #home .v--modal .details,
 #lk #cash-flow .v--modal .details {
   background: #424649;
   margin-top: 10px;
@@ -11684,11 +11720,13 @@ ul {
   padding: 5px 10px;
 }
 
+#lk #home .v--modal .details input,
 #lk #cash-flow .v--modal .details input {
   padding: 5px;
   height: 100%;
 }
 
+#lk #home .v--modal .details .greed-details,
 #lk #cash-flow .v--modal .details .greed-details {
   display: grid;
   grid-template-columns: 5fr 2fr 3fr 3fr 5fr 1fr;
@@ -11696,11 +11734,17 @@ ul {
   padding-bottom: 10px;
 }
 
+#lk #home .v--modal .details .greed-details:first-of-type,
 #lk #cash-flow .v--modal .details .greed-details:first-of-type {
   padding-top: 10px;
 }
 
+#lk #home .v--modal .details img,
 #lk #cash-flow .v--modal .details img {
   cursor: pointer;
+}
+
+.red {
+  color: #cc4e50;
 }
 

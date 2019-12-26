@@ -47,6 +47,10 @@ ul {
     text-align: end;
 }
 
+.text-start {
+    text-align: start;
+}
+
 .logo {
     background-image: url(./../img/logo.png);
     background-position: 50% 50%;
@@ -269,11 +273,13 @@ ul {
         min-width: 200px;
     }
 
-    .list-header{
+    .list-header {
         background: #1d643b;
         font-weight: 700;
         font-size: 20px;
         padding: 15px 5px;
+        display: flex;
+        text-align: center;
     }
 
     .list {
@@ -281,23 +287,27 @@ ul {
         overflow-y: auto;
         max-height: 75vh;
 
-        &::-webkit-scrollbar{
+        &::-webkit-scrollbar {
             border-radius: 100px;
             max-width: 5px;
         }
-        &::-webkit-scrollbar-button{
+
+        &::-webkit-scrollbar-button {
             display: none;
         }
-        &::-webkit-scrollbar-thumb{
+
+        &::-webkit-scrollbar-thumb {
             background: $dark-grey;
             border-top-right-radius: 50px;
             border-bottom-right-radius: 50px;
         }
-        &::-webkit-scrollbar-track-piece{
+
+        &::-webkit-scrollbar-track-piece {
             background: $dark-green;
             border-top-right-radius: 50px;
             border-bottom-right-radius: 50px;
         }
+
         .row {
             padding: 5px;
             align-items: center;
@@ -306,15 +316,35 @@ ul {
                 background: $light-green;
             }
 
-            &:hover{
-                background: $green-gradient;
+            &:hover {
+                //background: $green-gradient;
+
+                .list-btn-group{
+                    position: absolute;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 100%;
+                    background: linear-gradient(to right, transparent, $dark-green 40%, $dark-green 60%, transparent);
+                }
             }
 
-            img{
-                width:32px;
-                cursor: pointer;
-                float: right;
-                margin: 0 15px;
+            .list-btn-group{
+                display: none;
+
+                img {
+                    height: 32px;
+                    cursor: pointer;
+                    float: right;
+                    margin: 0 15px;
+                    opacity: 0.7;
+                    transition: 0.3s;
+
+                    &:hover {
+                        opacity: 1;
+                    }
+                }
             }
         }
     }
@@ -360,15 +390,15 @@ ul {
         }
     }
 
-    .v--modal{
+    .v--modal {
         background: $dark-grey;
         color: white;
         border-radius: 10px;
         padding: 20px 35px;
-        height: auto!important;
-        margin:auto!important;
-        left: 0!important;
-        top: 100px!important;
+        height: auto !important;
+        margin: auto !important;
+        left: 0 !important;
+        top: 100px !important;
         //overflow: auto;
 
         select,
@@ -376,11 +406,11 @@ ul {
             padding: 10px;
         }
 
-        .vue-dialog-buttons{
+        .vue-dialog-buttons {
             border: none;
         }
 
-        .dialog-c-title{
+        .dialog-c-title {
             text-align: center;
         }
 
@@ -398,6 +428,7 @@ ul {
             border: none;
             transition: all 0.3s linear;
             margin: 10px;
+
             &:hover {
                 background: $green-gradient-reverse;
             }
@@ -415,7 +446,7 @@ ul {
                 padding: 8px 10px;
             }
 
-            &.red{
+            &.red {
                 background: $red-gradient;
 
                 &:hover {
@@ -424,7 +455,7 @@ ul {
             }
         }
 
-        .selection{
+        .selection {
             background-color: hsla(0, 0%, 100%, .15);
             font-weight: 500;
             color: #fff;
@@ -437,55 +468,66 @@ ul {
                 padding: 12px 17px;
             }
 
-            .menu{
+            .menu {
                 border: none;
                 outline: none;
-                .item{
+
+                .item {
                     border: none;
                 }
+
                 .selected {
-                    color:white;
+                    color: white;
                     background: $grey;
                 }
             }
         }
     }
 
-    #cash-flow{
-        .v--modal{
-            width:800px!important;
+    #home,
+    #cash-flow {
+        .v--modal {
+            width: 800px !important;
 
-            input{
+            &.vue-dialog{
+                width:400px!important;
+            }
+
+            input {
                 padding: 7px;
                 height: 100%;
             }
 
-            .details{
+            .details {
                 background: $grey;
                 margin-top: 10px;
                 border-radius: 5px;
                 padding: 5px 10px;
 
-                input{
+                input {
                     padding: 5px;
                     height: 100%;
                 }
 
-                .greed-details{
+                .greed-details {
                     display: grid;
                     grid-template-columns: 5fr 2fr 3fr 3fr 5fr 1fr;
                     grid-gap: 1vw;
                     padding-bottom: 10px;
 
-                    &:first-of-type{
+                    &:first-of-type {
                         padding-top: 10px;
                     }
                 }
 
-                img{
+                img {
                     cursor: pointer;
                 }
             }
         }
     }
+}
+
+.red {
+    color: $red;
 }
