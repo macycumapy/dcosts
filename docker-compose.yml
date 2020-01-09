@@ -1,0 +1,85 @@
+version: '3'
+
+networks:
+  laravel:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16
+
+services:
+  nginx:
+    image: nginx
+    container_name: nginx
+    ports:
+      - 8080:80
+    volumes:
+      - ./:${DOCKER_APP_PATH_CONTAINER}
+      - ${DOCKER_NGINX_PATH_HOST}:${DOCKER_NGINX_PATH_CONTAINER}
+    depends_on:
+      - php
+      - redis
+      - mysql
+      - mysql_test
+    networks:
+      - laravel
+
+  mysql:
+    image: mysql:5.7.22
+    container_name: mysql
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${DOCKER_DB_DATABASE}
+      MYSQL_USER: ${DOCKER_DB_USERNAME}
+      MYSQL_PASSWORD: ${DOCKER_DB_PASS}
+      MYSQL_ROOT_PASSWORD: ${DOCKER_DB_PASS}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ${DOCKER_DB_PATH_HOST}:/var/lib/mysql
+    networks:
+      - laravel
+
+  mysql_test:
+    image: mysql:5.7.22
+    container_name: mysql_test
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: ${DOCKER_DB_DATABASE}
+      MYSQL_USER: ${DOCKER_DB_USERNAME}
+      MYSQL_PASSWORD: ${DOCKER_DB_PASS}
+      MYSQL_ROOT_PASSWORD: ${DOCKER_DB_PASS}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql_test
+    volumes:
+      - ${DOCKER_DB_TEST_PATH_HOST}:/var/lib/mysql
+    networks:
+      - laravel
+
+  php:
+    build: docker/php
+    container_name: php
+    volumes:
+      - ./:${DOCKER_APP_PATH_CONTAINER}
+    ports:
+    - "9000:9000"
+    working_dir: ${DOCKER_APP_PATH_CONTAINER}
+    environment:
+      XDEBUG_CONFIG: "remote_host=172.21.0.1 remote_enable=1 remote_port=9001 idkey=PHPSTORM remote_connect_back=0 remote_autostart=0"
+      PHP_IDE_CONFIG: "serverName=Docker"
+    networks:
+      - laravel
+
+  redis:
+    container_name: redis
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - laravel
