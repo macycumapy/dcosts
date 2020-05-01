@@ -7,7 +7,7 @@
         </div>
         <form @submit.prevent="save" class="form-horizontal">
             <div class="row">
-                <div class="col-4">
+                <div class="col-6">
                     <div class="row mr-1">
                         <label>
                             <input id="date" class="w-100" type="datetime-local" name="date" v-model="date" required
@@ -16,7 +16,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="col-8">
+                <div class="col-6">
                     <div class="row">
                         <label for="sum">
                             <input id="sum" class="w-100" type="number" name="sum" step="0.01" v-model="sum" required placeholder=" ">

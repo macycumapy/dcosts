@@ -2,9 +2,8 @@
     <div class="w-100">
         <div class="select-list w-100" v-on:keydown.enter.prevent="chose">
             <label>
-                <input type="text" class="w-100" @click="show" @focus="show" v-model="search"
-                       :placeholder="!chosen? 'qwe' : ' '">
-                <span v-text="title" :class="{q:chosen}"></span>
+                <input type="text" class="w-100" @click="show" @focus="show" v-model="search">
+                <span v-text="title" :class="{'not-chosen':!chosen && !showList}"></span>
             </label>
             <div class="select-list-chosen" @click="show" :class="{hide:showList}" v-text="chosen"></div>
             <div class="dropdown-list" :style="{width:this.$el.offsetWidth+'px'}" v-if="showList">
@@ -144,105 +143,3 @@
 
     }
 </script>
-
-<style scoped lang="scss">
-    .select-list {
-        position: relative;
-
-        input {
-            min-height: 41px;
-            z-index: 2;
-            position: inherit;
-        }
-
-        label {
-            z-index: 2;
-            position: inherit;
-            display: unset;
-
-            span {
-                position: absolute;
-                transition: 0.3s;
-                transform: translate(-5px, -35px) scale(0.8);
-                color: green;
-            }
-
-            //input:empty ~ span {
-            //    color: red;
-            //    transform: translate(0,0) scale(1);
-            //}
-
-            //input:not(:placeholder-shown) ~ span,
-            ///*input:not(:empty) ~ span,*/
-            //input:focus ~ span{
-            //    /*top: 0;*/
-            //    transform: translate(-5px, -22px) scale(0.8);
-            //    color: red;
-            //}
-        }
-
-        .select-list-chosen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            padding: 8px 7px;
-            font-weight: 500;
-            font-size: 16px;
-            width: 100%;
-            overflow: hidden;
-        }
-
-        .dropdown-list {
-            position: fixed;
-            z-index: 2;
-            color: black;
-            background: lightgrey;
-            width: 50vh;
-            max-height: 150px;
-            overflow-y: auto;
-
-            &::-webkit-scrollbar {
-                max-width: 5px;
-            }
-
-            &::-webkit-scrollbar-button {
-                display: none;
-            }
-
-            &::-webkit-scrollbar-thumb {
-                background: #212529;
-            }
-
-
-            .dropdown-list-item {
-                cursor: pointer;
-                overflow: hidden;
-                padding: 3px 5px;
-
-                &:hover,
-                &:focus,
-                &:active {
-                    background: white;
-                }
-
-                &.new {
-                    border-top: 1px solid black;
-                    position: relative;
-                }
-            }
-        }
-    }
-
-    .select-list-background {
-        position: absolute;
-        height: 200vh;
-        width: 200vh;
-        z-index: 1;
-        left: -100vh;
-        bottom: -100vh;
-    }
-
-    .hide {
-        display: none;
-    }
-</style>

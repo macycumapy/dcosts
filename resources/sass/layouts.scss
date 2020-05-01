@@ -29,15 +29,15 @@ label {
         top: 0;
         transition: 0.3s;
         transform: translate(5px, -22px) scale(0.8);
-        color: green;
+        color: $light-green;
     }
 
-    //input:not(:placeholder-shown) ~ span,
-    //input:not(:empty) ~ span,
-    //input:focus ~ span{
-    //    transform: translate(-5px, -22px) scale(0.8);
-    //    color: red;
-    //}
+    input[type=number]:not(:focus):placeholder-shown ~ span,
+    input[type=text]:not(:focus):placeholder-shown ~ span{
+        transform: translate(10px,-2px) scale(1);
+        color: $red;
+        top:12px;
+    }
 }
 
 select,
@@ -76,6 +76,10 @@ ul {
 
 .text-start {
     text-align: start;
+}
+
+.hide {
+    display: none;
 }
 
 .logo {

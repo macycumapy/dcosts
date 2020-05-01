@@ -8,8 +8,8 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-//VueSearchSelect
-@import '~vue-search-select/dist/VueSearchSelect.css';
+// Components
+@import "components/select-list";
 
 @import "mixins";
 @import "layouts";
