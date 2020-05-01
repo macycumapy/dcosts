@@ -1,7 +1,11 @@
 <template>
     <div class="w-100">
         <div class="select-list w-100" v-on:keydown.enter.prevent="chose">
-            <input type="text" class="w-100" @click="show" @focus="show" v-model="search">
+            <label>
+                <input type="text" class="w-100" @click="show" @focus="show" v-model="search"
+                       :placeholder="!chosen? 'qwe' : ' '">
+                <span v-text="title" :class="{q:chosen}"></span>
+            </label>
             <div class="select-list-chosen" @click="show" :class="{hide:showList}" v-text="chosen"></div>
             <div class="dropdown-list" :style="{width:this.$el.offsetWidth+'px'}" v-if="showList">
                 <div class="dropdown-list-item" @click="chose(item)" v-for="item in list">{{item[optionText]}}</div>
@@ -42,6 +46,7 @@
                 }
             },
             value: Number,
+            title: String,
         },
         created() {
             switch (this.listName) {
@@ -98,7 +103,6 @@
                     this.search = this.chosen;
                 }
                 this.$el.style.zIndex = 15;
-                // $('.dropdown-list')[0].style.width = this.$el.offsetWidth;
             },
 
             hide() {
@@ -144,18 +148,43 @@
 <style scoped lang="scss">
     .select-list {
         position: relative;
+
         input {
             min-height: 41px;
             z-index: 2;
             position: inherit;
         }
 
-        /*z-index: 2;*/
+        label {
+            z-index: 2;
+            position: inherit;
+            display: unset;
+
+            span {
+                position: absolute;
+                transition: 0.3s;
+                transform: translate(-5px, -35px) scale(0.8);
+                color: green;
+            }
+
+            //input:empty ~ span {
+            //    color: red;
+            //    transform: translate(0,0) scale(1);
+            //}
+
+            //input:not(:placeholder-shown) ~ span,
+            ///*input:not(:empty) ~ span,*/
+            //input:focus ~ span{
+            //    /*top: 0;*/
+            //    transform: translate(-5px, -22px) scale(0.8);
+            //    color: red;
+            //}
+        }
 
         .select-list-chosen {
             position: absolute;
             top: 0;
-            left:0;
+            left: 0;
             padding: 8px 7px;
             font-weight: 500;
             font-size: 16px;

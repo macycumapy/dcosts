@@ -7,20 +7,22 @@
         </div>
         <form @submit.prevent="save" class="form-horizontal">
             <div class="row">
-                <div class="col-5">
-                    <div class="w-100 m-auto">
-                        <input id="date" class="w-100" type="datetime-local" name="date" v-model="date" required
-                               placeholder="Дата">
+                <div class="col-4">
+                    <div class="row mr-1">
+                        <label for="date">
+                            <input id="date" class="w-100 mr-2" type="datetime-local" name="date" v-model="date" required
+                                                         placeholder="Дата">
+                            <span>Дата</span>
+                        </label>
                     </div>
                 </div>
-                <div class="col-7">
-                    <div class="w-100 m-auto">
-                        <model-list-select :list="cost_items"
-                                           v-model="cost_item_id"
-                                           option-value="id"
-                                           option-text="name"
-                                           placeholder="Статья затрат">
-                        </model-list-select>
+                <div class="col-8">
+                    <div class="row">
+                        <select-list
+                            v-model="cost_item_id"
+                            list-name="costItems"
+                            title="Статья затрат"
+                        />
                     </div>
                 </div>
             </div>
@@ -31,23 +33,19 @@
                         <div>Кол-во</div>
                         <div>Цена</div>
                         <div>Сумма</div>
-                        <div>Коммент</div>
                         <div></div>
                     </div>
                     <div class="greed-details" v-for="item in details">
-                        <model-list-select :list="nomenclatures"
-                                           v-model="item.nomenclature_id"
-                                           option-value="id"
-                                           option-text="name"
-                                           placeholder="Номенклатура">
-                        </model-list-select>
+                        <select-list
+                            v-model="item.nomenclature_id"
+                            list-name="nomenclatures"
+                        />
                         <input class="w-100" type="number" v-model="item.quantity" required
                                placeholder="Количество">
                         <input class="w-100 text-end" type="number" step="0.01" v-model="item.cost" required
                                placeholder="Цена">
                         <input class="w-100 text-end" type="number" readonly
                                v-model="(item.quantity * item.cost).toFixed(2)">
-                        <input class="w-100" type="text" v-model="item.comment">
                         <img class="m-auto" src="./../../../../img/remove.png" alt="" @click="removeRow(item)">
                     </div>
                     <div class="greed-details">
@@ -55,8 +53,7 @@
                         <div></div>
                         <div class="text-end m-auto">Итого:</div>
                         <div class="text-end m-auto">{{ sum.toFixed(2) }}</div>
-                        <div></div>
-                        <div><img src="./../../../../img/add.png" alt="" @click="addNewRow"></div>
+                        <img class="m-auto" src="./../../../../img/add.png" alt="" @click="addNewRow">
                     </div>
                 </div>
             </div>
@@ -73,10 +70,11 @@
 </template>
 <script>
     import {ModelListSelect} from 'vue-search-select'
+    import SelectList from './../../Additional/SelectList'
 
     export default {
         name: 'cashFlowModal',
-        components: {ModelListSelect},
+        components: {ModelListSelect, SelectList},
         data() {
             return {
                 title: 'Расход',
@@ -87,12 +85,6 @@
             }
         },
         computed: {
-            cost_items: function () {
-                return this.$store.getters.getCostItems;
-            },
-            nomenclatures: function () {
-                return this.$store.getters.getNomenclature;
-            },
             sum: function () {
                 return this.details.length > 0 ?
                     this.details.map((item) => {
@@ -116,7 +108,6 @@
                     nomenclature_id: null,
                     quantity: 1,
                     cost: 0,
-                    comment: null
                 })
             },
             removeRow(item) {

@@ -11182,6 +11182,21 @@ a:hover {
   text-decoration: none;
 }
 
+label {
+  width: 100%;
+}
+
+label span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  -webkit-transform: translate(5px, -22px) scale(0.8);
+          transform: translate(5px, -22px) scale(0.8);
+  color: green;
+}
+
 select,
 input {
   background-color: rgba(255, 255, 255, 0.15);
@@ -11191,6 +11206,7 @@ input {
   padding: 17px 23px;
   border: none;
   outline: none;
+  min-height: 41px;
 }
 
 select:-webkit-autofill,
@@ -11203,6 +11219,11 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px rgba(0, 0, 0, 0.8) inset !important;
   -webkit-text-fill-color: white;
+}
+
+input[type=button],
+input[type=submit] {
+  min-height: unset;
 }
 
 ul {
@@ -11716,20 +11737,13 @@ ul {
 #lk #cash-flow .v--modal .details {
   background: #424649;
   margin-top: 10px;
-  border-radius: 5px;
   padding: 5px 10px;
-}
-
-#lk #home .v--modal .details input,
-#lk #cash-flow .v--modal .details input {
-  padding: 5px;
-  height: 100%;
 }
 
 #lk #home .v--modal .details .greed-details,
 #lk #cash-flow .v--modal .details .greed-details {
   display: grid;
-  grid-template-columns: 5fr 2fr 3fr 3fr 5fr 1fr;
+  grid-template-columns: 8fr 2fr 3fr 3fr 1fr;
   grid-gap: 1vw;
   padding-bottom: 10px;
 }

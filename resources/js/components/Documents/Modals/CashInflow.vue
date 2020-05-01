@@ -1,45 +1,52 @@
 <template>
     <div>
         <div class="row hd py-3">
-            <div class="col text-center">
+            <div class="col-12 text-center">
                 <div class="header-text">{{ title }}</div>
             </div>
         </div>
         <form @submit.prevent="save" class="form-horizontal">
             <div class="row">
-                <div class="w-100 m-auto">
-                    <input id="date" class="w-100" type="datetime-local" name="date" v-model="date" required
-                           placeholder="Дата">
+                <div class="col-4">
+                    <div class="row mr-1">
+                        <label>
+                            <input id="date" class="w-100" type="datetime-local" name="date" v-model="date" required
+                            placeholder=" ">
+                            <span>Дата</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="row">
+                        <label for="sum">
+                            <input id="sum" class="w-100" type="number" name="sum" step="0.01" v-model="sum" required placeholder=" ">
+                            <span>Сумма</span>
+                        </label>
+                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="w-100 m-auto pt-3">
-                    <model-list-select :list="cost_items"
-                                       v-model="cost_item_id"
-                                       option-value="id"
-                                       option-text="name"
-                                       placeholder="Статья затрат">
-                    </model-list-select>
+                <div class="col-6 pt-3">
+                    <div class="row mr-1">
+                        <select-list
+                            v-model="cost_item_id"
+                            list-name="costItems"
+                            title="Статья затрат"
+                        />
+                    </div>
+                </div>
+                <div class="col-6 pt-3">
+                    <div class="row">
+                        <select-list
+                            v-model="partner_id"
+                            list-name="partners"
+                            title="Контрагент"
+                        />
+                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="w-100 m-auto pt-3">
-                    <model-list-select :list="partners"
-                                       v-model="partner_id"
-                                       option-value="id"
-                                       option-text="name"
-                                       placeholder="Контрагент">
-                    </model-list-select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="w-100 m-auto pt-3">
-                    <input class="w-100" type="number" name="date" step="0.01" v-model="sum" required>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="w-100 m-auto pt-3">
+                <div class="col-12 pt-3">
                     <div class="btn-group">
                         <input type="button" @click="close" value="Отменить" class="btn red mr-3">
                         <input type="submit" value="Записать" class="btn">
@@ -51,10 +58,11 @@
 </template>
 <script>
     import {ModelListSelect} from 'vue-search-select'
+    import SelectList from "../../Additional/SelectList";
 
     export default {
         name: 'cashInflowModal',
-        components: {ModelListSelect},
+        components: {ModelListSelect, SelectList},
         data() {
             return {
                 title: 'Поступление',

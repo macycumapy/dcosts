@@ -20,6 +20,26 @@ a {
     }
 }
 
+label {
+    width: 100%;
+
+    span {
+        position: absolute;
+        left: 0;
+        top: 0;
+        transition: 0.3s;
+        transform: translate(5px, -22px) scale(0.8);
+        color: green;
+    }
+
+    //input:not(:placeholder-shown) ~ span,
+    //input:not(:empty) ~ span,
+    //input:focus ~ span{
+    //    transform: translate(-5px, -22px) scale(0.8);
+    //    color: red;
+    //}
+}
+
 select,
 input {
     background-color: hsla(0, 0%, 100%, .15);
@@ -29,6 +49,7 @@ input {
     padding: 17px 23px;
     border: none;
     outline: none;
+    min-height: 41px;
 
     &:-webkit-autofill,
     &:-webkit-autofill:hover,
@@ -37,6 +58,12 @@ input {
         -webkit-box-shadow: 0 0 0 30px rgba(0, 0, 0, .8) inset !important;
         -webkit-text-fill-color: white;
     }
+}
+
+input[type=button],
+input[type=submit],
+{
+    min-height: unset;
 }
 
 ul {
@@ -501,17 +528,16 @@ ul {
             .details {
                 background: $grey;
                 margin-top: 10px;
-                border-radius: 5px;
                 padding: 5px 10px;
 
-                input {
-                    padding: 5px;
-                    height: 100%;
-                }
+                //input {
+                //    padding: 5px;
+                //    height: 100%;
+                //}
 
                 .greed-details {
                     display: grid;
-                    grid-template-columns: 5fr 2fr 3fr 3fr 5fr 1fr;
+                    grid-template-columns: 8fr 2fr 3fr 3fr 1fr;
                     grid-gap: 1vw;
                     padding-bottom: 10px;
 
