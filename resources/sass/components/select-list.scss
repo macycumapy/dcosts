@@ -15,14 +15,15 @@
         span {
             position: absolute;
             transition: 0.3s;
-            transform: translate(10px, -35px) scale(0.8);
+            transform: translate(0, -30px);
             color: $light-green;
             top: 0!important;
         }
 
         .not-chosen {
-            transform: translate(10px,-2px) scale(1);
+            transform: translate(10px,-4px);
             color: $red;
+            font-size: 16px;
         }
     }
 
@@ -30,7 +31,7 @@
         position: absolute;
         top: 0;
         left: 0;
-        padding: 8px 7px;
+        padding: 8px 10px;
         font-weight: 500;
         font-size: 16px;
         width: 100%;
