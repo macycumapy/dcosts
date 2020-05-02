@@ -1,7 +1,7 @@
-FROM php:7.2-fpm
+FROM php:7.4-fpm
 
 RUN apt-get update && apt-get install -y wget git unzip \
-        && pecl install xdebug-2.7.1 \
+        && pecl install xdebug-2.9.3 \
         && pecl install redis \
         && docker-php-ext-install pdo pdo_mysql \
         && docker-php-ext-enable xdebug redis
