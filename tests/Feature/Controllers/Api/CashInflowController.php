@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Controllers\Api;
+namespace Tests\Feature\Controllers\Api;
 
 use App\Models\Documents\CashInflow;
 use App\Models\User;

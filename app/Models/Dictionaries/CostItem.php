@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Dictionaries;
+
+use App\Models\Traits\UserRelatedModelTrait;
 
 class CostItem extends AbstractDictionary implements CostItemInterface
 {

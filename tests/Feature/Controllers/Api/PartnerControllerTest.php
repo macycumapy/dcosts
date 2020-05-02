@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Controllers\Api;
+namespace Tests\Feature\Controllers\Api;
 
 use App\Models\Dictionaries\Partner;
 use App\Models\User;

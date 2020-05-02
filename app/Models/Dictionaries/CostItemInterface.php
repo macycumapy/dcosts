@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Dictionaries;
 
+use App\Models\ModelInterface;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 interface CostItemInterface extends ModelInterface

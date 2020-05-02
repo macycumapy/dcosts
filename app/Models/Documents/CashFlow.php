@@ -2,8 +2,8 @@
 
 namespace App\Models\Documents;
 
-use App\Models\CRUDTrait;
-use App\Models\UserRelatedModelTrait;
+use App\Models\Traits\CRUDTrait;
+use App\Models\Traits\UserRelatedModelTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 

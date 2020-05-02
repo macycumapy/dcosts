@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Dictionaries;
 
+use App\Models\Traits\UserRelatedModelTrait;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class NomenclatureType extends AbstractDictionary implements NomenclatureTypeInterface

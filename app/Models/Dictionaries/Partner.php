@@ -2,9 +2,7 @@
 
 namespace App\Models\Dictionaries;
 
-use App\Models\AbstractDictionary;
-use App\Models\PartnerInterface;
-use App\Models\UserRelatedModelTrait;
+use App\Models\Traits\UserRelatedModelTrait;
 
 class Partner extends AbstractDictionary implements PartnerInterface
 {

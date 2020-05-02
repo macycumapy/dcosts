@@ -2,8 +2,8 @@
 
 namespace App\Models\Documents;
 
-use App\Models\CRUDTrait;
-use App\Models\NomenclatureInterface;
+use App\Models\Traits\CRUDTrait;
+use App\Models\Dictionaries\NomenclatureInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class CashFlowDetails extends Model implements CashFlowDetailsInterface

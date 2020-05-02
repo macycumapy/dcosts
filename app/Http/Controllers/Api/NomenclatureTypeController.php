@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\NomenclatureTypeInterface;
+use App\Models\Dictionaries\NomenclatureType;
 use Illuminate\Http\Request;
 
 class NomenclatureTypeController extends Controller
 {
     protected $nomenclatureType;
 
-    public function __construct(NomenclatureTypeInterface $nomenclatureType)
+    public function __construct(NomenclatureType $nomenclatureType)
     {
         $this->nomenclatureType = $nomenclatureType;
     }

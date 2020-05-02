@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\CostItemInterface;
+use App\Models\Dictionaries\CostItemInterface;
 use App\Models\Documents\CashFlowInterface;
 use Illuminate\Http\Request;
 

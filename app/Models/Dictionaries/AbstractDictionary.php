@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Dictionaries;
 
+use App\Models\Traits\CRUDTrait;
+use App\Models\ModelInterface;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class AbstractDictionary extends Model implements ModelInterface

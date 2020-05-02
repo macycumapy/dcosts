@@ -77,7 +77,7 @@ class CashFlowController extends Controller
     {
         $attr = $request->validate($this->cashFlow->rules());
 
-        $cashFlow = $this->cashFlow->findByConditionsOrAbort($this->cashFlow, ['id'=>$id, 'user_id' => $this->authUserId()]);;
+        $cashFlow = $this->cashFlow->findByConditionsOrAbort($this->cashFlow, ['id'=>$id, 'user_id' => $this->authUserId()]);
 
         $details = isset($attr['details']) ? $attr['details'] : null;
         $attr['sum'] = $this->cashFlow::getSumByDetails($details);
@@ -98,7 +98,7 @@ class CashFlowController extends Controller
      */
     public function destroy($id)
     {
-        $cashFlow = $this->cashFlow->findByConditionsOrAbort($this->cashFlow, ['id'=>$id, 'user_id' => $this->authUserId()]);;
+        $cashFlow = $this->cashFlow->findByConditionsOrAbort($this->cashFlow, ['id'=>$id, 'user_id' => $this->authUserId()]);
         $cashFlow->delete();
 
         return response()->json([]);

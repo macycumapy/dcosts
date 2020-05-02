@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\NomenclatureInterface;
+use App\Models\Dictionaries\NomenclatureInterface;
 use Illuminate\Http\Request;
 
 class NomenclatureController extends Controller

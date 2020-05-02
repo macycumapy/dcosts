@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Controllers\Api;
+namespace Tests\Feature\Controllers\Api;
 
 use App\Models\Nomenclature;
 use App\Models\NomenclatureType;

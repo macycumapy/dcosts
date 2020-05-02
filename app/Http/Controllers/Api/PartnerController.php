@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\PartnerInterface;
+use App\Models\Dictionaries\PartnerInterface;
 use Illuminate\Http\Request;
 
 class PartnerController extends Controller
