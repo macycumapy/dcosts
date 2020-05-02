@@ -57,12 +57,8 @@
     </div>
 </template>
 <script>
-    import {ModelListSelect} from 'vue-search-select'
-    import SelectList from "../../Additional/SelectList";
-
     export default {
         name: 'cashInflowModal',
-        components: {ModelListSelect, SelectList},
         data() {
             return {
                 title: 'Поступление',

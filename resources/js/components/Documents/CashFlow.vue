@@ -46,8 +46,6 @@
         },
         created() {
             this.$store.dispatch('getCashFlows')
-            this.$store.dispatch('getCostItems')
-            this.$store.dispatch('getNomenclature')
         },
         computed: {
             cashFlows: function () {

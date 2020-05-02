@@ -6,28 +6,18 @@
             </div>
         </div>
         <form @submit.prevent="save" class="form-horizontal">
-            <div class="row">
-                <div class="w-100 m-auto">
-                    <input id="name" class="w-100" type="text" name="name" v-model="name" required
-                           placeholder="Наименование">
-                </div>
+            <div class="row mb-3">
+                <label for="name">
+                    <input id="name" class="w-100" type="text" name="name" v-model="name" required placeholder=" ">
+                    <span>Наименование</span>
+                </label>
             </div>
-            <!--            <div class="row">-->
-            <!--                <div class="w-100 m-auto pt-3">-->
-            <!--                    <select v-model="nomenclature_type_id" class="w-100">-->
-            <!--                        <option v-for="row in nomenclature_types" :value="row.id">{{ row.name }}</option>-->
-            <!--                    </select>-->
-            <!--                </div>-->
-            <!--            </div>-->
             <div class="row">
-                <div class="w-100 m-auto pt-3">
-                    <model-list-select :list="nomenclature_types"
-                                       v-model="nomenclature_type_id"
-                                       option-value="id"
-                                       option-text="name"
-                                       placeholder="Тип">
-                    </model-list-select>
-                </div>
+                <select-list
+                    v-model="nomenclature_type_id"
+                    list-name="nomenclatureTypes"
+                    title="Тип"
+                />
             </div>
             <div class="row">
                 <div class="w-100 m-auto pt-3">
@@ -41,11 +31,9 @@
     </div>
 </template>
 <script>
-    import {ModelListSelect} from 'vue-search-select'
 
     export default {
         name: 'nomenclatureModal',
-        components: {ModelListSelect},
         data() {
             return {
                 oldName: '',

@@ -46,8 +46,6 @@
         },
         created() {
             this.$store.dispatch('getCashInflows')
-            this.$store.dispatch('getCostItems')
-            this.$store.dispatch('getPartners')
         },
         computed: {
             cashInflows: function () {

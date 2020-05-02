@@ -69,12 +69,8 @@
     </div>
 </template>
 <script>
-    import {ModelListSelect} from 'vue-search-select'
-    import SelectList from './../../Additional/SelectList'
-
     export default {
         name: 'cashFlowModal',
-        components: {ModelListSelect, SelectList},
         data() {
             return {
                 title: 'Расход',

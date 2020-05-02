@@ -13,8 +13,13 @@ Vue.use(VueRouter);
 Vue.use(VModal,{ dynamic: true, injectModalsContainer: true , dialog:true});
 
 import App from './components/App'
+import SelectList from "./components/Additional/SelectList";
+import NomenclatureModal from "./components/Dictionaries/Modals/Nomenclature";
 import { store } from './vuex/store.js'
 import { router } from './router.js'
+
+Vue.component('SelectList',SelectList)
+Vue.component('NomenclatureModal',NomenclatureModal)
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -15,8 +15,9 @@
         span {
             position: absolute;
             transition: 0.3s;
-            transform: translate(-5px, -35px) scale(0.8);
-            color: $light-green
+            transform: translate(10px, -35px) scale(0.8);
+            color: $light-green;
+            top: 0!important;
         }
 
         .not-chosen {
