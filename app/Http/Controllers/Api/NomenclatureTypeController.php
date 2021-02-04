@@ -3,16 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\NomenclatureTypeRequest;
 use App\Models\Dictionaries\NomenclatureType;
-use Illuminate\Http\Request;
 
 class NomenclatureTypeController extends Controller
 {
-    protected $nomenclatureType;
+    protected NomenclatureType $nomenclatureType;
 
     public function __construct(NomenclatureType $nomenclatureType)
     {
         $this->nomenclatureType = $nomenclatureType;
+        $this->nomenclatureType->whereAuthUserOwner();
     }
 
     /**
@@ -22,7 +23,7 @@ class NomenclatureTypeController extends Controller
      */
     public function index()
     {
-        $result = $this->nomenclatureType->allByUserId($this->authUserId());
+        $result = $this->nomenclatureType->all();
 
         return response()->json($result);
     }
@@ -30,15 +31,12 @@ class NomenclatureTypeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param NomenclatureTypeRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(NomenclatureTypeRequest $request)
     {
-        $fields = $request->validate($this->nomenclatureType->rules());
-        $fields['user_id'] = $this->authUserId();
-
-        $nomenclatureType = $this->nomenclatureType->create($fields);
+        $nomenclatureType = $this->nomenclatureType->create($request->validated());
 
         return response()->json($nomenclatureType);
     }
@@ -51,7 +49,7 @@ class NomenclatureTypeController extends Controller
      */
     public function show($id)
     {
-        $nomenclatureType = $this->nomenclatureType->findByConditionsOrAbort($this->nomenclatureType, ['id'=>$id, 'user_id' => $this->authUserId()]);
+        $nomenclatureType = $this->nomenclatureType->findOrFail($id);
 
         return response()->json($nomenclatureType);
     }
@@ -59,16 +57,14 @@ class NomenclatureTypeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param NomenclatureTypeRequest $request
+     * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(NomenclatureTypeRequest $request, $id)
     {
-        $fields = $request->validate($this->nomenclatureType->rules());
-
-        $nomenclatureType = $this->nomenclatureType->findByConditionsOrAbort($this->nomenclatureType, ['id'=>$id, 'user_id' => $this->authUserId()]);
-        $nomenclatureType->update($fields);
+        $nomenclatureType = $this->nomenclatureType->findOrFail($id);
+        $nomenclatureType->update($request->validated());
 
         return response()->json($nomenclatureType);
     }
@@ -81,15 +77,9 @@ class NomenclatureTypeController extends Controller
      */
     public function destroy($id)
     {
-        $nomenclatureType = $this->nomenclatureType->findByConditionsOrAbort($this->nomenclatureType, ['id'=>$id, 'user_id' => $this->authUserId()]);
+        $nomenclatureType = $this->nomenclatureType->findOrFail($id);
+        $nomenclatureType->delete();
 
-        $deleted = $nomenclatureType->delete();
-
-        return response()->json([],$deleted ? 200 : 400);
-    }
-
-    private function authUserId()
-    {
-        return auth()->id();
+        return response()->json([]);
     }
 }

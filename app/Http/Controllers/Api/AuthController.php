@@ -5,13 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    private $user;
+    private User $user;
 
     public function __construct(User $user)
     {
@@ -48,6 +45,7 @@ class AuthController extends Controller
         ]);
 
         if (auth()->attempt($data)) {
+            /** @var User $user */
             $user = auth()->user();
         } else {
             return response()->json([

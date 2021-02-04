@@ -2,16 +2,13 @@
 
 namespace Tests\Feature\Controllers\Api;
 
-use App\Models\CostItem;
+use App\Models\Dictionaries\CostItem;
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class CostItemControllerTest extends TestCase
 {
-    use DatabaseMigrations;
-
     private $url = '/api/cost_item';
     private $user;
 
@@ -94,18 +91,18 @@ class CostItemControllerTest extends TestCase
             ->assertNotFound()
             ->assertJson([]);
 
-        $costItem = CostItem::findById($id);
+        $costItem = CostItem::find($id);
         $this->assertNull($costItem);
 
         factory(CostItem::class)->create(['user_id' => $this->user->id]);
 
-        $costItem = CostItem::findById($id);
+        $costItem = CostItem::find($id);
         $this->assertNotNull($costItem);
 
         $this->delete($this->url.'/'.$id)
             ->assertOk();
 
-        $costItem = CostItem::findById($id);
+        $costItem = CostItem::find($id);
         $this->assertNull($costItem);
     }
 }

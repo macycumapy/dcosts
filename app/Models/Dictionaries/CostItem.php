@@ -4,7 +4,7 @@ namespace App\Models\Dictionaries;
 
 use App\Models\Traits\UserRelatedModelTrait;
 
-class CostItem extends AbstractDictionary implements CostItemInterface
+class CostItem extends AbstractDictionary
 {
     use UserRelatedModelTrait;
 
@@ -12,11 +12,4 @@ class CostItem extends AbstractDictionary implements CostItemInterface
         'name',
         'user_id',
     ];
-
-    public static function rules(): array
-    {
-        return [
-          'name' => 'required|string'
-        ];
-    }
 }

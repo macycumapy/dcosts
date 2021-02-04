@@ -4,7 +4,6 @@ namespace Tests\Feature\Controllers\Api;
 
 use App\Models\Documents\CashInflow;
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Carbon;
 use Laravel\Passport\Passport;
@@ -12,7 +11,7 @@ use Tests\TestCase;
 
 class CashInflowController extends TestCase
 {
-    use DatabaseMigrations, WithFaker;
+    use WithFaker;
 
     private $url = '/api/cash_inflow';
     private $user;
@@ -97,18 +96,18 @@ class CashInflowController extends TestCase
             ->assertNotFound()
             ->assertJson([]);
 
-        $costItem = CashInflow::findById($id);
+        $costItem = CashInflow::find($id);
         $this->assertNull($costItem);
 
         factory(CashInflow::class)->create(['user_id' => $this->user->id]);
 
-        $costItem = CashInflow::findById($id);
+        $costItem = CashInflow::find($id);
         $this->assertNotNull($costItem);
 
         $this->delete($this->url.'/'.$id)
             ->assertOk();
 
-        $costItem = CashInflow::findById($id);
+        $costItem = CashInflow::find($id);
         $this->assertNull($costItem);
     }
 

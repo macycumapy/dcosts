@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\CostItem;
+use App\Models\Dictionaries\CostItem;
 
 class CostItemSeeder extends Seeder
 {

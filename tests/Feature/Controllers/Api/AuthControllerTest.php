@@ -3,15 +3,13 @@
 namespace Tests\Feature\Controllers\Api;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class AuthControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function testRegister()
     {
         $data = [
@@ -20,13 +18,12 @@ class AuthControllerTest extends TestCase
             'password' => 'pass'
         ];
 
-        $this->post('/api/register',$data)
+        $this->postJson('/api/register',$data)
             ->assertCreated();
 
-        $this->post('/api/register',$data)
+        $this->postJson('/api/register',$data)
             ->assertStatus(422);
 
-        return $data;
     }
 
     public function testLogin()
@@ -35,15 +32,15 @@ class AuthControllerTest extends TestCase
 
         $data = [
             'email' => 'test@test.ru',
-            'password' => 'pass'
+            'password' => 'password'
         ];
 
-        $this->post('/api/login',$data)
+        $this->postJson('/api/login',$data)
             ->assertStatus(422);
 
-        $this->testRegister();
+        factory(User::class)->create(array_merge($data,['password'=>Hash::make($data['password'])]));
 
-        $this->post('/api/login',$data)
+        $this->postJson('/api/login',$data)
             ->assertOk()
             ->assertJsonStructure(['access_token','expires_in','user']);
 
@@ -53,7 +50,7 @@ class AuthControllerTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->create());
 
-        $this->post('/api/logout')
+        $this->postJson('/api/logout')
             ->assertOk();
     }
 }

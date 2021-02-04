@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(CashFlowDetails::class, function (Faker $faker) {
     return [
-        'nomenclature_id' => 1,
+        'nomenclature_id' => factory(\App\Models\Dictionaries\Nomenclature::class)->create()->id,
         'quantity' => rand(1,3),
         'cost' => $faker->randomFloat(),
     ];

@@ -3,16 +3,18 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Documents\CashInflowInterface;
-use Illuminate\Http\Request;
+use App\Http\Requests\CashInflowRequest;
+use App\Http\Resources\CashInflowResource;
+use App\Models\Documents\CashInflow;
 
 class CashInflowController extends Controller
 {
-    protected $cashInflow;
+    protected CashInflow $cashInflow;
 
-    public function __construct(CashInflowInterface $cashInflow)
+    public function __construct(CashInflow $cashInflow)
     {
         $this->cashInflow = $cashInflow;
+        $this->cashInflow->whereAuthUserOwner();
     }
 
     /**
@@ -22,26 +24,22 @@ class CashInflowController extends Controller
      */
     public function index()
     {
-        $cashInflow = $this->cashInflow->allByUserId($this->authUserId());
+        $cashInflows = $this->cashInflow->allByAuthUser();
 
-        return response()->json($cashInflow);
+        return response()->json(CashInflowResource::collection($cashInflows));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param CashInflowRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(CashInflowRequest $request)
     {
-        $attr = $request->validate($this->cashInflow->rules());
+        $cashInflow = $this->cashInflow->create($request->validated());
 
-        $attr['user_id'] = $this->authUserId();
-
-        $cashInflow = $this->cashInflow->create($attr);
-
-        return response()->json($cashInflow);
+        return response()->json(CashInflowResource::make($cashInflow));
     }
 
     /**
@@ -52,26 +50,31 @@ class CashInflowController extends Controller
      */
     public function show($id)
     {
-        $cashInflow = $this->cashInflow->findByConditionsOrAbort($this->cashInflow, ['id'=>$id, 'user_id' => $this->authUserId()]);
+        $cashInflow = $this->cashInflow->whereAuthUserOwner()->find($id);
+        if (!$cashInflow) {
+            return response()->json([],404);
+        }
 
-        return response()->json($cashInflow);
+        return response()->json(CashInflowResource::make($cashInflow));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param CashInflowRequest $request
+     * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(CashInflowRequest $request, $id)
     {
-        $data = $request->validate($this->cashInflow::rules());
+        $cashInflow = $this->cashInflow->whereAuthUserOwner()->find($id);
+        if (!$cashInflow) {
+            return response()->json([],404);
+        }
 
-        $cashInflow = $this->cashInflow->findByConditionsOrAbort($this->cashInflow, ['id'=>$id, 'user_id' => $this->authUserId()]);
-        $cashInflow->update($data);
+        $cashInflow->update($request->validated());
 
-        return response()->json($cashInflow);
+        return response()->json(CashInflowResource::make($cashInflow));
     }
 
     /**
@@ -82,14 +85,12 @@ class CashInflowController extends Controller
      */
     public function destroy($id)
     {
-        $costItem = $this->cashInflow->findByConditionsOrAbort($this->cashInflow, ['id'=>$id, 'user_id' => $this->authUserId()]);
-        $costItem->delete();
+        $cashInflow = $this->cashInflow->whereAuthUserOwner()->find($id);
+        if (!$cashInflow) {
+            return response()->json([],404);
+        }
+        $deleted = $cashInflow->delete();
 
-        return response()->json($costItem);
-    }
-
-    private function authUserId()
-    {
-        return auth()->id();
+        return response()->json([],$deleted ? 200 : 400);
     }
 }

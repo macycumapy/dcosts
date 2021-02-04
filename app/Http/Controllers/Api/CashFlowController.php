@@ -3,16 +3,18 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Documents\CashFlowInterface;
-use Illuminate\Http\Request;
+use App\Http\Requests\CashFlowRequest;
+use App\Http\Resources\CashFlowResource;
+use App\Models\Documents\CashFlow;
 
 class CashFlowController extends Controller
 {
-    private $cashFlow;
+    private CashFlow $cashFlow;
 
-    public function __construct(CashFlowInterface $cashFlow)
+    public function __construct(CashFlow $cashFlow)
     {
         $this->cashFlow = $cashFlow;
+        $this->cashFlow->whereAuthUserOwner();
     }
 
     /**
@@ -22,35 +24,30 @@ class CashFlowController extends Controller
      */
     public function index()
     {
-        $result = $this->cashFlow->allByUserId($this->authUserId());
+        $result = $this->cashFlow->all();
 
-        return response()->json($result);
+        return response()->json(CashFlowResource::collection($result));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  CashFlowRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(CashFlowRequest $request)
     {
-        $attr = $request->validate($this->cashFlow->rules());
-
-        $details = isset($attr['details']) ? $attr['details'] : null;
-        $attr['user_id'] = $this->authUserId();
-        $attr['sum'] = $this->cashFlow->getSumByDetails($details);
-
+        $attr = $request->validated();
         $newCashFlow = $this->cashFlow->create($attr);
-        if (!$newCashFlow) abort(response()->json([],400));
 
-        if ($details) {
-            foreach ($details as $detail){
+        if (isset($attr['details'])) {
+            foreach ($attr['details'] as $detail){
+                unset($detail['id']);
                 $newCashFlow->addDetails($detail);
             }
         }
 
-        return response()->json($newCashFlow->firstWithDetails());
+        return response()->json(CashFlowResource::make($newCashFlow));
     }
 
     /**
@@ -61,23 +58,23 @@ class CashFlowController extends Controller
      */
     public function show($id)
     {
-        $cashFlow = $this->cashFlow->findByConditionsOrAbort($this->cashFlow, ['id'=>$id, 'user_id' => $this->authUserId()]);
+        $cashFlow = $this->cashFlow->findOrFail($id);
 
-        return response()->json($cashFlow->firstWithDetails());
+        return response()->json(CashFlowResource::make($cashFlow));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param CashFlowRequest $request
+     * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(CashFlowRequest $request, $id)
     {
-        $attr = $request->validate($this->cashFlow->rules());
+        $attr = $request->validated();
 
-        $cashFlow = $this->cashFlow->findByConditionsOrAbort($this->cashFlow, ['id'=>$id, 'user_id' => $this->authUserId()]);
+        $cashFlow = $this->cashFlow->findOrFail($id);
 
         $details = isset($attr['details']) ? $attr['details'] : null;
         $attr['sum'] = $this->cashFlow::getSumByDetails($details);
@@ -98,14 +95,9 @@ class CashFlowController extends Controller
      */
     public function destroy($id)
     {
-        $cashFlow = $this->cashFlow->findByConditionsOrAbort($this->cashFlow, ['id'=>$id, 'user_id' => $this->authUserId()]);
+        $cashFlow = $this->cashFlow->findOrFail($id);
         $cashFlow->delete();
 
         return response()->json([]);
-    }
-
-    private function authUserId()
-    {
-        return auth()->id();
     }
 }

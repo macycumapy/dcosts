@@ -4,7 +4,7 @@ namespace App\Models\Dictionaries;
 
 use App\Models\Traits\UserRelatedModelTrait;
 
-class Partner extends AbstractDictionary implements PartnerInterface
+class Partner extends AbstractDictionary
 {
     use UserRelatedModelTrait;
 
@@ -13,10 +13,4 @@ class Partner extends AbstractDictionary implements PartnerInterface
         'user_id',
     ];
 
-    public static function rules():array
-    {
-        return [
-            'name' => 'required|string',
-        ];
-    }
 }

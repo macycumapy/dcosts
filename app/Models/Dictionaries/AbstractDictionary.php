@@ -2,13 +2,9 @@
 
 namespace App\Models\Dictionaries;
 
-use App\Models\Traits\CRUDTrait;
-use App\Models\ModelInterface;
 use Illuminate\Database\Eloquent\Model;
 
-abstract class AbstractDictionary extends Model implements ModelInterface
+abstract class AbstractDictionary extends Model
 {
-    use CRUDTrait;
-
     public $timestamps = false;
 }

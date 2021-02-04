@@ -3,17 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Dictionaries\CostItemInterface;
-use App\Models\Documents\CashFlowInterface;
-use Illuminate\Http\Request;
+use App\Http\Requests\CostItemRequest;
+use App\Models\Dictionaries\CostItem;
 
 class CostItemController extends Controller
 {
-    private $costItem;
+    private CostItem $costItem;
 
-    public function __construct(CostItemInterface $costItem)
+    public function __construct(CostItem $costItem)
     {
         $this->costItem = $costItem;
+        $this->costItem->whereAuthUserOwner();
     }
 
     /**
@@ -23,23 +23,20 @@ class CostItemController extends Controller
      */
     public function index()
     {
-        $response = $this->costItem->allByUserId($this->authUserId());
+        $result = $this->costItem->allByAuthUser();
 
-        return response()->json($response);
+        return response()->json($result);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param CostItemRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(CostItemRequest $request)
     {
-        $data = $request->validate($this->costItem::rules());
-        $data['user_id'] = $this->authUserId();
-
-        $costItem = $this->costItem->create($data);
+        $costItem = $this->costItem->create($request->validated());
 
         return response()->json($costItem);
     }
@@ -52,7 +49,10 @@ class CostItemController extends Controller
      */
     public function show($id)
     {
-        $costItem = $this->costItem->findByConditionsOrAbort($this->costItem, ['id'=>$id, 'user_id' => $this->authUserId()]);
+        $costItem = $this->costItem->whereAuthUserOwner()->find($id);
+        if (!$costItem) {
+            return response()->json([],404);
+        }
 
         return response()->json($costItem);
     }
@@ -60,16 +60,18 @@ class CostItemController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param CostItemRequest $request
+     * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(CostItemRequest $request, $id)
     {
-        $data = $request->validate($this->costItem::rules());
+        $costItem = $this->costItem->whereAuthUserOwner()->find($id);
+        if (!$costItem) {
+            return response()->json([],404);
+        }
 
-        $costItem = $this->costItem->findByConditionsOrAbort($this->costItem, ['id'=>$id, 'user_id' => $this->authUserId()]);
-        $costItem->update($data);
+        $costItem->update($request->validated());
 
         return response()->json($costItem);
     }
@@ -82,14 +84,12 @@ class CostItemController extends Controller
      */
     public function destroy($id)
     {
-        $costItem = $this->costItem->findByConditionsOrAbort($this->costItem, ['id'=>$id, 'user_id' => $this->authUserId()]);
-        $costItem->delete();
+        $costItem = $this->costItem->whereAuthUserOwner()->find($id);
+        if (!$costItem) {
+            return response()->json([],404);
+        }
+        $deleted = $costItem->delete();
 
-        return response()->json($costItem);
-    }
-
-    private function authUserId()
-    {
-        return auth()->id();
+        return response()->json([],$deleted ? 200 : 400);
     }
 }

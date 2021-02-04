@@ -2,17 +2,15 @@
 
 namespace Tests\Feature\Controllers\Api;
 
-use App\Models\Nomenclature;
-use App\Models\NomenclatureType;
+use App\Models\Dictionaries\Nomenclature;
+use App\Models\Dictionaries\NomenclatureType;
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class NomenclatureTypeControllerTest extends TestCase
 {
-    use DatabaseMigrations;
     use WithFaker;
 
     private $url = '/api/nomenclature_types';

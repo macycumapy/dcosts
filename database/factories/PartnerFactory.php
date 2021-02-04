@@ -7,6 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Partner::class, function (Faker $faker) {
     return [
-        'name' => $faker->name
+        'name' => $faker->name,
+        'user_id' => auth()->id(),
     ];
 });

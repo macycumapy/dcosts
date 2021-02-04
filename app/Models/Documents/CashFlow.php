@@ -2,14 +2,25 @@
 
 namespace App\Models\Documents;
 
-use App\Models\Traits\CRUDTrait;
 use App\Models\Traits\UserRelatedModelTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class CashFlow extends Model implements CashFlowInterface
+/**
+ * @property int id
+ * @property int cost_item_id   id статьи затрат
+ * @property string date        дата расходов
+ * @property int user_id        id пользователя
+ * @property float sum          сумма
+ *
+ * @property CashFlowDetails [] details детали
+ *
+ * Class CashFlow
+ * @package App\Models\Documents
+ */
+class CashFlow extends Model
 {
-    use CRUDTrait, UserRelatedModelTrait;
+    use UserRelatedModelTrait;
 
     protected $fillable = [
         'cost_item_id',
@@ -18,16 +29,7 @@ class CashFlow extends Model implements CashFlowInterface
         'sum',
     ];
 
-    public static function rules(): array
-    {
-        return [
-            'date' => 'date|required',
-            'cost_item_id' => 'integer|nullable',
-            'details' => 'array'
-        ];
-    }
-
-    public function details():HasMany
+    public function details(): HasMany
     {
         return $this->hasMany(CashFlowDetails::class);
     }
@@ -46,18 +48,18 @@ class CashFlow extends Model implements CashFlowInterface
     {
         $detailsToRemove = $this->details();
         foreach ($detailsArray as $details) {
-            if(isset($details['id'])) {
+            if (isset($details['id'])) {
                 $foundedDetails = $this->details()->find($details['id']);
                 if ($foundedDetails) {
                     $foundedDetails->update($details);
-                    $detailsToRemove->where('id','<>',$details['id']);
+                    $detailsToRemove->where('id', '<>', $details['id']);
                 } else {
                     $newDetails = $this->addDetails($details);
-                    $detailsToRemove->where('id','<>',$newDetails->id);
+                    $detailsToRemove->where('id', '<>', $newDetails->id);
                 }
             } else {
                 $newDetails = $this->addDetails($details);
-                $detailsToRemove->where('id','<>',$newDetails->id);
+                $detailsToRemove->where('id', '<>', $newDetails->id);
             }
         }
 
@@ -73,10 +75,15 @@ class CashFlow extends Model implements CashFlowInterface
         );
     }
 
-    public static function getSumByDetails($details)
+    public static function getSumByDetails(?array $details)
     {
-        return array_sum(array_map(function ($item) {
-            return $item['cost'] * $item['quantity'];
-        }, $details));
+        $sum = 0;
+        if (isset($details)) {
+            $sum = array_sum(array_map(function ($item) {
+                return $item['cost'] * $item['quantity'];
+            }, $details));
+        }
+
+        return $sum;
     }
 }

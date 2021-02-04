@@ -4,226 +4,141 @@ namespace Tests\Feature\Controllers\Api;
 
 use App\Models\Documents\CashFlow;
 use App\Models\Documents\CashFlowDetails;
-use App\Models\Nomenclature;
-use App\Models\NomenclatureType;
+use App\Models\Dictionaries\Nomenclature;
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
-use Illuminate\Support\Arr;
 
 class CashFlowControllerTest extends TestCase
 {
-    use DatabaseMigrations;
-
     private $url = '/api/cash_flow';
-    private $user;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->user = factory(User::class)->create();
-        Passport::actingAs($this->user);
-
-        factory(NomenclatureType::class, 5)->create(['user_id' => $this->user->id]);
-        factory(Nomenclature::class, 5)->create(['user_id' => $this->user->id]);
+        Passport::actingAs(factory(User::class)->create());
     }
 
-    public function testIndex($n=3)
+    public function testIndex($n = 3)
     {
-        $this->get($this->url)
+        $this->getJson($this->url)
             ->assertOk()
             ->assertJson([])
             ->assertJsonCount(0);
 
-        factory(CashFlow::class, $n)->create(['user_id' => $this->user->id]);
+        factory(CashFlow::class, $n)->create();
 
-        $this->get($this->url)
+        $this->getJson($this->url)
             ->assertOk()
             ->assertJson([])
             ->assertJsonCount($n);
     }
 
-    /**
-     * @dataProvider dataProvider
-     * @param $data
-     */
-    public function testStore($data)
+    public function testStore()
     {
-        $details = $data['details'];
+        $data = [
+            'date' => Carbon::now()->toDateTimeString(),
+            'details' => [
+                [
+                    'nomenclature_id' => factory(Nomenclature::class)->create()->id,
+                    'quantity' => 12,
+                    'cost' => 111,
+                ],
+                [
+                    'nomenclature_id' => factory(Nomenclature::class)->create()->id,
+                    'quantity' => 12,
+                    'cost' => 111,
+                ]
+            ]
+        ];
 
-        $nomenclatureIds = array_unique(Arr::pluck($details,'nomenclature_id'));
-        $nomenclatures = Nomenclature::findById($nomenclatureIds);
-        if (count($nomenclatures) != count($nomenclatureIds)) {
-            $this->post($this->url,$data)
-                ->assertNotFound();
-
-            return;
-        }
-
-        $sum = CashFlow::getSumByDetails($details);
+        $sum = CashFlow::getSumByDetails($data['details']);
 
         $cashFlowCountBefore = CashFlow::all()->count();
-        $this->assertEquals(0,$cashFlowCountBefore);
+        $this->assertEquals(0, $cashFlowCountBefore);
 
         $cashFlowDetailsBefore = CashFlowDetails::all()->count();
-        $this->assertEquals(0,$cashFlowDetailsBefore);
+        $this->assertEquals(0, $cashFlowDetailsBefore);
 
-        $response = $this->post($this->url,$data)
+        $response = $this->postJson($this->url, $data)
+            ->assertJsonMissingValidationErrors()
             ->assertOk()
             ->assertJson($data)
-            ->assertJson(['sum'=>$sum])
-            ->assertJsonStructure(['id','date','details','sum']);
+            ->assertJson(['sum' => $sum])
+            ->assertJsonStructure(['id', 'date', 'details', 'sum']);
 
         $cashFlowCountAfter = CashFlow::all()->count();
-        $this->assertEquals($cashFlowCountBefore+1,$cashFlowCountAfter);
+        $this->assertEquals($cashFlowCountBefore + 1, $cashFlowCountAfter);
 
         $cashFlowDetailsAfter = CashFlowDetails::all()->count();
-        $this->assertEquals($cashFlowDetailsBefore+count($details),$cashFlowDetailsAfter);
+        $this->assertEquals($cashFlowDetailsBefore + count($data['details']), $cashFlowDetailsAfter);
     }
 
-    /**
-     * @dataProvider idProvider
-     * @param $id
-     */
-    public function testShow($id)
+    public function testShow()
     {
-        $this->get($this->url.'/'.$id)
-            ->assertNotFound()
-            ->assertJson([]);
+        $id = 1;
+        $this->getJson($this->url . '/' . $id)
+            ->assertNotFound();
 
-        factory(CashFlow::class)->create(['id'=>$id, 'user_id' => $this->user->id]);
-        factory(CashFlowDetails::class)->create(['cash_flow_id'=>$id]);
+        $cashFlow = factory(CashFlow::class)->create();
+        factory(CashFlowDetails::class)->create(['cash_flow_id' => $cashFlow->id]);
 
-        $this->get($this->url.'/'.$id)
+        $this->getJson($this->url . '/' . $cashFlow->id)
             ->assertOk()
-            ->assertJson(['id'=>$id])
-            ->assertJsonStructure(['id','date','details','sum']);
+            ->assertJson(['id' => $cashFlow->id])
+            ->assertJsonStructure(['id', 'date', 'details', 'sum']);
     }
 
-    /**
-     * @dataProvider idWithDataProvider
-     * @param $id
-     * @param $data
-     */
-    public function testUpdate($id, $data)
+    public function testUpdate($id = 1)
     {
-        $this->put($this->url.'/'.$id,$data)
-            ->assertNotFound()
-            ->assertJson([]);
 
-        $details = $data['details'];
+        $data = [
+            'date' => Carbon::now()->toDateTimeString(),
+            'details' => [
+                [
+                    'nomenclature_id' => factory(Nomenclature::class)->create()->id,
+                    'quantity' => 12,
+                    'cost' => 111,
+                ],
+                [
+                    'nomenclature_id' => factory(Nomenclature::class)->create()->id,
+                    'quantity' => 12,
+                    'cost' => 111,
+                ]
+            ]
+        ];
 
-        $nomenclatureIds = array_unique(Arr::pluck($details,'nomenclature_id'));
-        $nomenclatures = Nomenclature::findById($nomenclatureIds);
-        if (count($nomenclatures) != count($nomenclatureIds)) {
-            $this->put($this->url.'/'.$id,$data)
-                ->assertNotFound();
+        $this->putJson($this->url . '/' . $id, $data)
+            ->assertNotFound();
 
-            return;
-        }
+        $sum = CashFlow::getSumByDetails($data['details']);
 
-        $sum = CashFlow::getSumByDetails($details);
+        $cashFlow = factory(CashFlow::class)->create();
+        factory(CashFlowDetails::class)->create(['cash_flow_id' => $cashFlow->id]);
 
-        factory(CashFlow::class)->create(['id'=>$id, 'user_id' => $this->user->id]);
-        factory(CashFlowDetails::class)->create(['cash_flow_id'=>$id]);
-
-        $this->put($this->url.'/'.$id,$data)
-            ->assertOk()
+        $response = $this->putJson($this->url . '/' . $cashFlow->id, $data);
+        $response->assertOk()
             ->assertJson($data)
-            ->assertJson(['sum'=>$sum])
-            ->assertJsonStructure(['id','date','details','sum']);
-
+            ->assertJson(['sum' => $sum])
+            ->assertJsonStructure(['id', 'date', 'details', 'sum']);
     }
 
-    /**
-     * @dataProvider idProvider
-     * @param $id
-     */
-    public function testDestroy($id)
+    public function testDestroy()
     {
-        $this->delete($this->url.'/'.$id)
-            ->assertNotFound()
-            ->assertJson([]);
+        $id = 1;
+        $this->delete($this->url . '/' . $id)
+            ->assertNotFound();
 
-        $cashFlow = CashFlow::findById($id);
-        $this->assertNull($cashFlow);
+        $cashFlow = factory(CashFlow::class)->create(['id' => $id]);
+        factory(CashFlowDetails::class)->create(['cash_flow_id' => $id]);
 
-
-        factory(CashFlow::class)->create(['id'=>$id, 'user_id' => $this->user->id]);
-        factory(CashFlowDetails::class)->create(['cash_flow_id'=>$id]);
-
-        $cashFlow = CashFlow::findById($id);
-        $this->assertNotNull($cashFlow);
-
-        $this->delete($this->url.'/'.$id)
+        $this->delete($this->url . '/' . $id)
             ->assertOk();
 
-        $cashFlow = CashFlow::findById($id);
+        $this->assertNotNull($cashFlow);
+        $cashFlow = $cashFlow->fresh();
         $this->assertNull($cashFlow);
-
-    }
-
-    function dataProvider()
-    {
-
-        return [
-            [
-                [
-                    'date' => Carbon::now()->toDateTimeString(),
-                    'details' => [
-                        [
-                            'id' => 1,
-                            'nomenclature_id' => 1,
-                            'quantity' => 12,
-                            'cost' => 111,
-                            'comment' => 'test1',
-                        ],
-                        [
-                            'nomenclature_id' => 2,
-                            'quantity' => 12,
-                            'cost' => 111,
-                            'comment' => 'test2',
-                        ]
-                    ]
-                ]
-            ],
-            [
-                [
-                    'date' => Carbon::yesterday()->toDateTimeString(),
-                    'details' => [
-                        [
-                            'nomenclature_id' => 1,
-                            'quantity' => 12,
-                            'cost' => 111,
-                            'comment' => 'test1',
-                        ],
-                        [
-                            'nomenclature_id' => 111,
-                            'quantity' => 12,
-                            'cost' => 111,
-                            'comment' => 'test2',
-                        ]
-                    ]
-                ]
-            ],
-        ];
-    }
-
-    public function idProvider()
-    {
-        return [
-            [1],
-            [15],
-        ];
-    }
-
-    public function idWithDataProvider()
-    {
-        return array_map(function ($id, $data) {
-            return array_merge($id, $data);
-        }, $this->idProvider(), $this->dataProvider());
     }
 }

@@ -2,21 +2,19 @@
 
 namespace Tests\Feature\Controllers\Api;
 
-use App\Models\Nomenclature;
-use App\Models\NomenclatureType;
+use App\Models\Dictionaries\Nomenclature;
+use App\Models\Dictionaries\NomenclatureType;
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class NomenclatureControllerTest extends TestCase
 {
-    use DatabaseMigrations;
     use WithFaker;
 
-    private $url = '/api/nomenclature';
-    private $user;
+    private string $url = '/api/nomenclature';
+    private User $user;
 
     /**
      * A basic unit test example.
@@ -30,7 +28,6 @@ class NomenclatureControllerTest extends TestCase
         $this->user = factory(User::class)->create();
         Passport::actingAs($this->user);
 
-        factory(NomenclatureType::class, 5)->create(['user_id' => $this->user->id]);
         factory(Nomenclature::class, 5)->create(['user_id' => $this->user->id]);
     }
 
@@ -38,27 +35,21 @@ class NomenclatureControllerTest extends TestCase
     {
         $nomenclatures = Nomenclature::all()->toArray();
 
-        $this->get($this->url)
+        $this->getJson($this->url)
             ->assertOk()
             ->assertJson($nomenclatures);
     }
 
-    /**
-     * @dataProvider idProvider
-     * @param $id
-     */
-    public function testShow($id)
+    public function testShow()
     {
-        $response = $this->get($this->url . '/' . $id);
+        $id = 0;
+        $response = $this->getJson($this->url . '/' . $id);
+        $response->assertNotFound();
 
-        $nomenclature = Nomenclature::find($id);
-        if ($nomenclature) {
-            $response
-                ->assertOk()
-                ->assertJson($nomenclature->toArray());
-        } else {
-            $response->assertStatus(404);
-        }
+        $nomenclature = Nomenclature::all()->first();
+        $response = $this->getJson($this->url . '/' . $nomenclature->id);
+        $response->assertJsonMissingValidationErrors();
+        $response->assertOk();
     }
 
     /**
@@ -67,7 +58,7 @@ class NomenclatureControllerTest extends TestCase
      */
     public function testStore($data)
     {
-        $response = $this->post($this->url, $data);
+        $response = $this->postJson($this->url, $data);
 
         if (NomenclatureType::find($data['nomenclature_type_id']))
             $response->assertOk();
@@ -83,7 +74,7 @@ class NomenclatureControllerTest extends TestCase
     public function testUpdate($id, $data)
     {
 
-        $response = $this->call('put', $this->url . '/' . $id, $data);
+        $response = $this->putJson($this->url . '/' . $id, $data);
 
         $nomenclature = Nomenclature::find($id);
         $nomenclatureType = NomenclatureType::find($data['nomenclature_type_id']);
@@ -102,7 +93,7 @@ class NomenclatureControllerTest extends TestCase
     {
         $nomenclature = Nomenclature::find($id);
 
-        $response = $this->call('delete', $this->url . '/' . $id);
+        $response = $this->delete($this->url . '/' . $id);
 
         if ($nomenclature) {
             $response->assertOk();

@@ -18,4 +18,14 @@ Trait UserRelatedModelTrait
             is_array($columns) ? $columns : func_get_args()
         );
     }
+
+    public static function allByAuthUser($columns = ['*'])
+    {
+        return self::allByUserId(auth()->id(),$columns);
+    }
+
+    public static function whereAuthUserOwner()
+    {
+        return self::where('user_id',auth()->id());
+    }
 }

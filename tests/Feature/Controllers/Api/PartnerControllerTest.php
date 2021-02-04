@@ -4,14 +4,11 @@ namespace Tests\Feature\Controllers\Api;
 
 use App\Models\Dictionaries\Partner;
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class PartnerControllerTest extends TestCase
 {
-    use DatabaseMigrations;
-
     private $url = '/api/partner';
     private $user;
 
@@ -25,14 +22,14 @@ class PartnerControllerTest extends TestCase
 
     public function testIndex($n = 5)
     {
-        $this->get($this->url)
+        $this->getJson($this->url)
             ->assertOk()
             ->assertJson([])
             ->assertJsonCount(0);
 
         factory(Partner::class, $n)->create(['user_id' => $this->user->id]);
 
-        $this->get($this->url)
+        $this->getJson($this->url)
             ->assertOk()
             ->assertJson([])
             ->assertJsonCount($n);
@@ -58,13 +55,13 @@ class PartnerControllerTest extends TestCase
 
     public function testShow($id = 1)
     {
-        $this->get($this->url.'/'.$id)
+        $this->getJson($this->url.'/'.$id)
             ->assertNotFound()
             ->assertJson([]);
 
         factory(Partner::class)->create(['user_id' => $this->user->id]);
 
-        $this->get($this->url.'/'.$id)
+        $this->getJson($this->url.'/'.$id)
             ->assertOk()
             ->assertJson(['id'=>$id])
             ->assertJsonStructure(['id','name']);
@@ -76,13 +73,13 @@ class PartnerControllerTest extends TestCase
             'name' => 'test',
         ];
 
-        $this->put($this->url.'/'.$id,$data)
+        $this->putJson($this->url.'/'.$id,$data)
             ->assertNotFound()
             ->assertJson([]);
 
         factory(Partner::class)->create(['user_id' => $this->user->id]);
 
-        $this->put($this->url.'/'.$id,$data)
+        $this->putJson($this->url.'/'.$id,$data)
             ->assertOk()
             ->assertJson($data)
             ->assertJsonStructure(['id','name']);
@@ -94,18 +91,18 @@ class PartnerControllerTest extends TestCase
             ->assertNotFound()
             ->assertJson([]);
 
-        $costItem = Partner::findById($id);
+        $costItem = Partner::find($id);
         $this->assertNull($costItem);
 
         factory(Partner::class)->create(['user_id' => $this->user->id]);
 
-        $costItem = Partner::findById($id);
+        $costItem = Partner::find($id);
         $this->assertNotNull($costItem);
 
         $this->delete($this->url.'/'.$id)
             ->assertOk();
 
-        $costItem = Partner::findById($id);
+        $costItem = Partner::find($id);
         $this->assertNull($costItem);
     }
 }

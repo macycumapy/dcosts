@@ -5,14 +5,11 @@ namespace Tests\Feature\Controllers\Api;
 use App\Models\Documents\CashFlow;
 use App\Models\Documents\CashInflow;
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class HomeControllerTest extends TestCase
 {
-    use DatabaseMigrations;
-
     private $url = '/api/';
     private $user;
 

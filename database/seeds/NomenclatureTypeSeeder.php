@@ -11,7 +11,7 @@ class NomenclatureTypeSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\NomenclatureType::firstOrCreate([
+        \App\Models\Dictionaries\NomenclatureType::firstOrCreate([
                 'id' => 1,
                 'name' => 'Прочее'
             ]);

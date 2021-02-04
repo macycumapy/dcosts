@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Dictionaries\PartnerInterface;
-use Illuminate\Http\Request;
+use App\Http\Requests\PartnerRequest;
+use App\Models\Dictionaries\Partner;
 
 class PartnerController extends Controller
 {
-    protected $partner;
+    protected Partner $partner;
 
-    public function __construct(PartnerInterface $partner)
+    public function __construct(Partner $partner)
     {
         $this->partner = $partner;
     }
@@ -22,7 +22,7 @@ class PartnerController extends Controller
      */
     public function index()
     {
-        $result = $this->partner->allByUserId($this->authUserId());
+        $result = $this->partner->all()();
 
         return response()->json($result);
     }
@@ -33,12 +33,9 @@ class PartnerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(PartnerRequest $request)
     {
-        $fields = $request->validate($this->partner->rules());
-        $fields['user_id'] = $this->authUserId();
-
-        $partner = $this->partner->create($fields);
+        $partner = $this->partner->create($request->validated());
 
         return response()->json($partner);
     }
@@ -51,7 +48,10 @@ class PartnerController extends Controller
      */
     public function show($id)
     {
-        $partner = $this->partner->findByConditionsOrAbort($this->partner, ['id'=>$id, 'user_id' => $this->authUserId()]);
+        $partner = $this->partner->findOrFail($id);
+        if (!$partner) {
+            return response()->json([],404);
+        }
 
         return response()->json($partner);
     }
@@ -63,12 +63,10 @@ class PartnerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(PartnerRequest $request, $id)
     {
-        $fields = $request->validate($this->partner->rules());
-
-        $partner = $this->partner->findByConditionsOrAbort($this->partner, ['id'=>$id, 'user_id' => $this->authUserId()]);
-        $partner->update($fields);
+        $partner = $this->partner->findOrFail($id);
+        $partner->update($request->validated());
 
         return response()->json($partner);
     }
@@ -81,15 +79,9 @@ class PartnerController extends Controller
      */
     public function destroy($id)
     {
-        $partner = $this->partner->findByConditionsOrAbort($this->partner, ['id'=>$id, 'user_id' => $this->authUserId()]);
+        $partner = $this->partner->findOrFail($id);
+        $partner->delete();
 
-        $deleted = $partner->delete();
-
-        return response()->json([],$deleted ? 200 : 400);
-    }
-
-    private function authUserId()
-    {
-        return auth()->id();
+        return response()->json([]);
     }
 }

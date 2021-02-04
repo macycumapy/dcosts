@@ -3,18 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Documents\CashFlowInterface;
-use App\Models\Documents\CashInflowInterface;
-use Illuminate\Http\Request;
+use App\Models\Documents\CashFlow;
+use App\Models\Documents\CashInflow;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
-    protected $cashFlow;
-    protected $cashInflow;
+    protected CashFlow $cashFlow;
+    protected CashInflow $cashInflow;
     protected $db;
 
-    public function __construct(CashFlowInterface $cashFlow, CashInflowInterface $cashInflow, DB $db)
+    public function __construct(CashFlow $cashFlow, CashInflow $cashInflow, DB $db)
     {
         $this->cashFlow = $cashFlow;
         $this->cashInflow = $cashInflow;

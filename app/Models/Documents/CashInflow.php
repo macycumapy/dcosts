@@ -2,13 +2,23 @@
 
 namespace App\Models\Documents;
 
-use App\Models\Traits\CRUDTrait;
 use App\Models\Traits\UserRelatedModelTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class CashInflow extends Model implements CashInflowInterface
+/**
+ * @property int id
+ * @property int|null cost_item_id      id статьи затрат
+ * @property string date                Дата
+ * @property int user_id                id пользователя
+ * @property int|null partner_id        id контрагента
+ * @property float sum                  сумма
+ *
+ * Class CashInflow
+ * @package App\Models\Documents
+ */
+class CashInflow extends Model
 {
-    use CRUDTrait, UserRelatedModelTrait;
+    use UserRelatedModelTrait;
 
     protected $fillable = [
         'cost_item_id',
@@ -17,14 +27,4 @@ class CashInflow extends Model implements CashInflowInterface
         'partner_id',
         'sum',
     ];
-
-    public static function rules(): array
-    {
-        return [
-            'date' => 'date|required',
-            'cost_item_id' => 'integer|nullable',
-            'partner_id' => 'integer|nullable',
-            'sum' => 'numeric|required',
-        ];
-    }
 }
