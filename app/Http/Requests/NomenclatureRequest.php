@@ -25,7 +25,7 @@ class NomenclatureRequest extends FormRequest
     {
         return [
             'name' => 'string|required',
-            'nomenclature_type_id' => 'integer|nullable',
+            'nomenclature_type_id' => 'integer|nullable|exists:nomenclature_types,id',
         ];
     }
 

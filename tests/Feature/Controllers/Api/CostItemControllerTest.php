@@ -59,7 +59,7 @@ class CostItemControllerTest extends TestCase
             ->assertNotFound()
             ->assertJson([]);
 
-        factory(CostItem::class)->create(['user_id' => $this->user->id]);
+        factory(CostItem::class)->create(['id' => $id, 'user_id' => $this->user->id]);
 
         $this->get($this->url.'/'.$id)
             ->assertOk()
@@ -77,7 +77,7 @@ class CostItemControllerTest extends TestCase
             ->assertNotFound()
             ->assertJson([]);
 
-        factory(CostItem::class)->create(['user_id' => $this->user->id]);
+        factory(CostItem::class)->create(['id' => $id, 'user_id' => $this->user->id]);
 
         $this->put($this->url.'/'.$id,$data)
             ->assertOk()
@@ -94,7 +94,7 @@ class CostItemControllerTest extends TestCase
         $costItem = CostItem::find($id);
         $this->assertNull($costItem);
 
-        factory(CostItem::class)->create(['user_id' => $this->user->id]);
+        factory(CostItem::class)->create(['id' => $id, 'user_id' => $this->user->id]);
 
         $costItem = CostItem::find($id);
         $this->assertNotNull($costItem);

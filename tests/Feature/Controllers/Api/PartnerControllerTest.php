@@ -59,7 +59,7 @@ class PartnerControllerTest extends TestCase
             ->assertNotFound()
             ->assertJson([]);
 
-        factory(Partner::class)->create(['user_id' => $this->user->id]);
+        factory(Partner::class)->create(['id' => $id, 'user_id' => $this->user->id]);
 
         $this->getJson($this->url.'/'.$id)
             ->assertOk()
@@ -77,7 +77,7 @@ class PartnerControllerTest extends TestCase
             ->assertNotFound()
             ->assertJson([]);
 
-        factory(Partner::class)->create(['user_id' => $this->user->id]);
+        factory(Partner::class)->create(['id' => $id, 'user_id' => $this->user->id]);
 
         $this->putJson($this->url.'/'.$id,$data)
             ->assertOk()
@@ -88,13 +88,12 @@ class PartnerControllerTest extends TestCase
     public function testDestroy($id = 1)
     {
         $this->delete($this->url.'/'.$id)
-            ->assertNotFound()
-            ->assertJson([]);
+            ->assertNotFound();
 
         $costItem = Partner::find($id);
         $this->assertNull($costItem);
 
-        factory(Partner::class)->create(['user_id' => $this->user->id]);
+        factory(Partner::class)->create(['id' => $id, 'user_id' => $this->user->id]);
 
         $costItem = Partner::find($id);
         $this->assertNotNull($costItem);

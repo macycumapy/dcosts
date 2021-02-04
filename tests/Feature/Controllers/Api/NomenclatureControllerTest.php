@@ -63,7 +63,7 @@ class NomenclatureControllerTest extends TestCase
         if (NomenclatureType::find($data['nomenclature_type_id']))
             $response->assertOk();
         else
-            $response->assertStatus(404);
+            $response->assertStatus(422);
     }
 
     /**
@@ -81,7 +81,7 @@ class NomenclatureControllerTest extends TestCase
         if ($nomenclature && $nomenclatureType) {
             $response->assertOk();
         } else {
-            $response->assertStatus(404);
+            $response->assertStatus(422);
         }
     }
 

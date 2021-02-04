@@ -22,7 +22,7 @@ class PartnerController extends Controller
      */
     public function index()
     {
-        $result = $this->partner->all()();
+        $result = $this->partner->allByAuthUser();
 
         return response()->json($result);
     }
@@ -49,9 +49,6 @@ class PartnerController extends Controller
     public function show($id)
     {
         $partner = $this->partner->findOrFail($id);
-        if (!$partner) {
-            return response()->json([],404);
-        }
 
         return response()->json($partner);
     }
