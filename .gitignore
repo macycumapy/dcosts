@@ -14,5 +14,5 @@ yarn-error.log
 /.idea
 /.vscode
 
-/docker/databases/dcosts
+/docker/databases/*
 /docker/php/php.ini
