@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<ruleset name="DCosts">
+    <!-- Description -->
+    <description>Custom ruleset Based on PSR12</description>
+    <!-- Rule to be referenced (`PSR12`) -->
+    <rule ref="PSR12"/>
+
+    <!-- Specify extensions (.php) -->
+    <arg name="extensions" value="php"/>
+    <arg name="report-width" value="300"/>
+    <arg name="tab-width" value="0"/>
+    <arg name="no-colors"/>
+
+    <arg name="report" value="full"/>
+    <arg name="report-junit" value="./public/phpcs-junit.xml"/>
+
+    <!-- Длина строки -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="200"/>
+            <property name="absoluteLineLimit" value="0"/>
+        </properties>
+    </rule>
+
+    <rule ref="Generic.ControlStructures.InlineControlStructure.NotAllowed">
+        <severity>0</severity>
+    </rule>
+    <rule ref="Squiz.WhiteSpace.ControlStructureSpacing.SpacingBeforeClose">
+        <severity>0</severity>
+    </rule>
+    <rule ref="PSR2.Classes.ClassDeclaration.CloseBraceAfterBody">
+        <severity>0</severity>
+    </rule>
+    <rule ref="PSR2.Methods.FunctionClosingBrace.SpacingBeforeClose">
+        <severity>0</severity>
+    </rule>
+    <rule ref="PSR12.Traits.UseDeclaration.MultipleImport">
+        <severity>0</severity>
+    </rule>
+    <rule ref="PSR1.Classes.ClassDeclaration.MissingNamespace">
+        <severity>0</severity>
+    </rule>
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace">
+        <properties>
+            <property name="ignoreBlankLines" value="true"/>
+        </properties>
+    </rule>
+
+    <rule ref="PEAR.Commenting.FunctionComment.Missing">
+        <exclude-pattern>tests/*</exclude-pattern>
+    </rule>
+    <file>app/</file>
+    <!--<file>database/</file>-->
+    <file>routes/</file>
+    <file>tests/</file>
+</ruleset>
