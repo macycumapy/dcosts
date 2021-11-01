@@ -28,7 +28,7 @@ class Controller extends BaseController
             return parent::callAction($method, $parameters);
         } catch (\Throwable $exception) {
             Log::error($exception);
-            return make_response(500, 'Возникла внутренняя ошибка!');
+            return make_response('Возникла внутренняя ошибка!', 500);
         }
     }
 
