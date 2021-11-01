@@ -19,6 +19,10 @@ install:
 	docker-compose exec app php artisan db:seed
 	make chown
 
+# Запуск миграций
+migrate:
+	docker-compose exec app php artisan migrate
+
 # Cброс владельца файлов
 chown:
 	chown -R $USER:$USER ./
