@@ -24,7 +24,6 @@ services:
     environment:
       PHP_INI_SCAN_DIR: "/usr/local/etc/php/conf.d/:/usr/local/etc/php/local.conf.d/"
       PHP_IDE_CONFIG: "serverName=Docker"
-    command: "php artisan serve --host=0.0.0.0 --port=8080"
   postgres:
     image: postgres:14.0
     container_name: ${APP_NAME}_postgres
