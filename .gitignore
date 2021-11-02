@@ -1,4 +1,8 @@
 /node_modules
+/public/css/app.css
+/public/js/app.js
+/public/fonts/*
+/public/images/*
 /public/hot
 /public/storage
 /public/phpcs-junit.xml
