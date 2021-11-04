@@ -13,6 +13,7 @@ install:
 	npm install
 	npm run dev
 	cp .env.example .env
+	cp .env.testing.example .env.testing
 	make build
 	docker-compose exec app php artisan key:generate
 	docker-compose exec app php artisan migrate

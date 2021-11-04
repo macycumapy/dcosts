@@ -10,6 +10,7 @@ services:
     depends_on:
       - app
       - postgres
+      - postgres_test
   app:
     build:
       context: docker/php
@@ -35,5 +36,16 @@ services:
       POSTGRES_DB: ${DB_DATABASE}
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
-      - ./docker/databases/${DB_DATABASE}:/var/lib/postgresql
+      - ./docker/databases/${DB_DATABASE}:/var/lib/postgresql/data
+  postgres_test:
+    image: postgres:14.0
+    container_name: ${APP_NAME}_postgres_test
+    restart: unless-stopped
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_DB: ${DB_TESTING_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
