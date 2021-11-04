@@ -43,16 +43,7 @@
             type="submit"
             value="Войти"
             class="btn btn-reg"
-            :disabled="loading"
           >
-        </div>
-      </div>
-      <div class="row">
-        <div class="w-100 m-auto">
-          <div
-            v-text="error"
-            class="error"
-          />
         </div>
       </div>
     </form>
@@ -64,31 +55,17 @@ export default {
   name: 'LoginComponent',
   data() {
     return {
-      loading: false,
       username: '',
       password: '',
-      error: '',
     };
   },
   methods: {
     login() {
-      this.loading = true;
-      this.error = '';
-
-      const data = {
+      this.$store.dispatch('login', {
         email: this.username,
         password: this.password,
-      };
-      this.$store.dispatch('login', data)
-        .then(() => {
-          this.loading = false;
-        })
-        .catch((err) => {
-          this.loading = false;
-          this.error = err;
-        });
+      });
     },
-
   },
 };
 </script>

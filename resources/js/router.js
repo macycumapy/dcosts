@@ -42,7 +42,7 @@ export const router = new Router({
             path: '/register',
             name: 'register',
             component: Register,
-            beforeEnter: onlyAuthenticated,
-    },
+            beforeEnter: onlyNotAuthenticated,
+        },
     ],
 });

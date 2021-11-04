@@ -57,16 +57,7 @@
             type="submit"
             value="Зарегистрироваться"
             class="btn btn-reg"
-            :disabled="loading"
           >
-        </div>
-      </div>
-      <div class="row">
-        <div class="w-100 m-auto">
-          <div
-            v-text="error"
-            class="error"
-          />
         </div>
       </div>
     </form>
@@ -78,31 +69,19 @@ export default {
   name: 'RegisterComponent',
   data() {
     return {
-      loading: false,
       name: '',
       email: '',
       password: '',
-      error: '',
     };
   },
 
   methods: {
     register() {
-      this.loading = true;
-      this.error = '';
-      const data = {
+      this.$store.dispatch('register', {
         name: this.name,
         email: this.email,
         password: this.password,
-      };
-      this.$store.dispatch('register', data)
-        .then(() => {
-          this.loading = false;
-        })
-        .catch((err) => {
-          this.error = err;
-          this.loading = false;
-        });
+      });
     },
   },
 };

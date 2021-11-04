@@ -14,31 +14,17 @@ const getters = {
 
 const actions = {
     register: ({ dispatch }, payload) => {
-        const actionUrl = '/api/register';
-        const data = {
-            name: payload.name,
-            email: payload.email,
-            password: payload.password,
-        };
-        return new Promise((resolve, reject) => {
-            axios.post(actionUrl, data)
-                .then((resp) => {
-                    dispatch('login', data);
-                    resolve(resp);
-                })
-                .catch((err) => {
-                    reject(err.response.data.message);
-                });
-        });
+        dispatch('preloader/show');
+        return axios.post('/api/register', payload)
+          .then(() => {
+                dispatch('login', payload);
+            }).finally(() => {
+                dispatch('preloader/hide');
+            });
     },
-    login: ({ commit }, payload) => {
-        const actionUrl = '/api/login';
-        const data = {
-            email: payload.email,
-            password: payload.password,
-        };
-
-        return axios.post(actionUrl, data)
+    login: ({ commit, dispatch }, payload) => {
+        dispatch('preloader/show');
+        return axios.post('/api/login', payload)
           .then(({ data }) => {
                 const token = `Bearer ${data.data.token}`;
                 localStorage.setItem('access_token', token);
@@ -48,6 +34,8 @@ const actions = {
             })
           .catch((err) => {
                 console.log(err);
+            }).finally(() => {
+                dispatch('preloader/hide');
             });
     },
     logout: ({ commit }) => {
