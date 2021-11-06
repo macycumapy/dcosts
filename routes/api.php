@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NomenclatureTypeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,4 +25,13 @@ Route::post('/login', [AuthController::class, 'signin']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'signout']);
+
+    /** Типы номенклатуры */
+    Route::group(['prefix' => '/nomenclature-types'], function () {
+        Route::get('/', [NomenclatureTypeController::class, 'index']);
+        Route::post('/', [NomenclatureTypeController::class, 'store']);
+        Route::get('/{nomenclatureType}', [NomenclatureTypeController::class, 'show']);
+        Route::put('/{nomenclatureType}', [NomenclatureTypeController::class, 'update']);
+        Route::delete('/{nomenclatureType}', [NomenclatureTypeController::class, 'destroy']);
+    });
 });
