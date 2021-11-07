@@ -1,4 +1,4 @@
-FROM php:8-fpm
+FROM php:8.1.0RC5-fpm
 RUN apt-get update && apt-get install -y wget git unzip libpq-dev \
         && pecl install xdebug redis \
         && docker-php-ext-install pdo pdo_pgsql pgsql\
