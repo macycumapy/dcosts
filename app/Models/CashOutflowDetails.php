@@ -7,17 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Расход денежных средств
+ * Детали расхода денежных средств
  *
  * @property int $id
  * @property float $count Количество номенклатуры
  * @property float $cost Стоимость номенклатуры
- * @property float $sum Сумма
  * @property int $cash_outflow_id ID расхода
  * @property int $nomenclature_id ID номенклатуры
  *
  * @property-read CashOutflow $cashOutflow Расход денежных средств
  * @property-read Nomenclature $nomenclature Номенклатура
+ * @property-read float $sum Сумма
  */
 class CashOutflowDetails extends Model
 {
@@ -28,7 +28,6 @@ class CashOutflowDetails extends Model
     protected $fillable = [
         'count',
         'cost',
-        'sum',
         'cash_outflow_id',
         'nomenclature_id',
     ];
@@ -49,5 +48,14 @@ class CashOutflowDetails extends Model
     public function nomenclature(): BelongsTo
     {
         return $this->belongsTo(Nomenclature::class);
+    }
+
+    /**
+     * Сумма
+     * @return float
+     */
+    public function getSumAttribute(): float
+    {
+        return round($this->count * $this->cost, 2);
     }
 }

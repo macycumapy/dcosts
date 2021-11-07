@@ -6,6 +6,7 @@ use App\Models\Traits\Userable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Расход денежных средств
@@ -37,5 +38,14 @@ class CashOutflow extends Model
     public function costItem(): BelongsTo
     {
         return $this->belongsTo(CostItem::class);
+    }
+
+    /**
+     * Детализация затрат
+     * @return HasMany
+     */
+    public function details(): HasMany
+    {
+        return $this->hasMany(CashOutflowDetails::class);
     }
 }

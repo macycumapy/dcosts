@@ -17,7 +17,6 @@ class CreateCashOutflowDetailsTable extends Migration
             $table->id();
             $table->float('count')->default(1)->comment('Количество');
             $table->float('cost')->default(0.0)->comment('Стоимость');
-            $table->float('sum')->default(0.0)->comment('Сумма');
             $table->unsignedBigInteger('cash_outflow_id');
             $table->unsignedBigInteger('nomenclature_id');
 
