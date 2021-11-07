@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
+ * Номенклатура
+ *
  * @property int $id
  * @property string $name Наименование
  * @property int|null $nomenclature_type_id Идентификатор типа номенклатуры

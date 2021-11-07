@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Тип номенклатуры
+ * Статья затрат
  *
  * @property int $id
  * @property string $name Наименование
  */
-class NomenclatureType extends Model
+class CostItem extends Model
 {
     use HasFactory, Userable;
 
