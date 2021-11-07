@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NomenclatureController;
 use App\Http\Controllers\NomenclatureTypeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -33,5 +34,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{nomenclatureType}', [NomenclatureTypeController::class, 'show']);
         Route::put('/{nomenclatureType}', [NomenclatureTypeController::class, 'update']);
         Route::delete('/{nomenclatureType}', [NomenclatureTypeController::class, 'destroy']);
+    });
+
+    /** Номенклатура */
+    Route::group(['prefix' => '/nomenclatures'], function () {
+        Route::get('/', [NomenclatureController::class, 'index']);
+        Route::post('/', [NomenclatureController::class, 'store']);
+        Route::get('/{nomenclature}', [NomenclatureController::class, 'show']);
+        Route::put('/{nomenclature}', [NomenclatureController::class, 'update']);
+        Route::delete('/{nomenclature}', [NomenclatureController::class, 'destroy']);
     });
 });
