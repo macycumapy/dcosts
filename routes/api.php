@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CostItemController;
 use App\Http\Controllers\NomenclatureController;
 use App\Http\Controllers\NomenclatureTypeController;
 use Illuminate\Http\Request;
@@ -43,5 +44,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{nomenclature}', [NomenclatureController::class, 'show']);
         Route::put('/{nomenclature}', [NomenclatureController::class, 'update']);
         Route::delete('/{nomenclature}', [NomenclatureController::class, 'destroy']);
+    });
+
+    /** Статьи затрат */
+    Route::group(['prefix' => '/cost-items'], function () {
+        Route::get('/', [CostItemController::class, 'index']);
+        Route::post('/', [CostItemController::class, 'store']);
+        Route::get('/{costItem}', [CostItemController::class, 'show']);
+        Route::put('/{costItem}', [CostItemController::class, 'update']);
+        Route::delete('/{costItem}', [CostItemController::class, 'destroy']);
     });
 });
