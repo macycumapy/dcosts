@@ -5,6 +5,7 @@ use App\Http\Controllers\CashOutflowController;
 use App\Http\Controllers\CostItemController;
 use App\Http\Controllers\NomenclatureController;
 use App\Http\Controllers\NomenclatureTypeController;
+use App\Http\Controllers\PartnerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -63,5 +64,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{cashOutflow}', [CashOutflowController::class, 'show']);
         Route::put('/{cashOutflow}', [CashOutflowController::class, 'update']);
         Route::delete('/{cashOutflow}', [CashOutflowController::class, 'destroy']);
+    });
+
+    /** Контрагенты */
+    Route::group(['prefix' => '/partners'], function () {
+        Route::get('/', [PartnerController::class, 'index']);
+        Route::post('/', [PartnerController::class, 'store']);
+        Route::get('/{partner}', [PartnerController::class, 'show']);
+        Route::put('/{partner}', [PartnerController::class, 'update']);
+        Route::delete('/{partner}', [PartnerController::class, 'destroy']);
     });
 });
