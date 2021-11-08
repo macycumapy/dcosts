@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CashInflowController;
 use App\Http\Controllers\CashOutflowController;
 use App\Http\Controllers\CostItemController;
 use App\Http\Controllers\NomenclatureController;
@@ -73,5 +74,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{partner}', [PartnerController::class, 'show']);
         Route::put('/{partner}', [PartnerController::class, 'update']);
         Route::delete('/{partner}', [PartnerController::class, 'destroy']);
+    });
+
+    /** Расход денежных средств */
+    Route::group(['prefix' => '/cash-inflow'], function () {
+        Route::get('/', [CashInflowController::class, 'index']);
+        Route::post('/', [CashInflowController::class, 'store']);
+        Route::get('/{cashInflow}', [CashInflowController::class, 'show']);
+        Route::put('/{cashInflow}', [CashInflowController::class, 'update']);
+        Route::delete('/{cashInflow}', [CashInflowController::class, 'destroy']);
     });
 });
