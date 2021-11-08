@@ -46,7 +46,7 @@ abstract class AbstractRepository implements IRepository
      */
     public function get(int $id): Model
     {
-        return $this->model->findOrFail($id);
+        return $this->model = $this->model->findOrFail($id);
     }
 
     /**
@@ -54,7 +54,7 @@ abstract class AbstractRepository implements IRepository
      */
     public function create(array $data): Model
     {
-        return $this->model->create($data);
+        return $this->model = $this->model->create($data);
     }
 
     /**
@@ -62,11 +62,9 @@ abstract class AbstractRepository implements IRepository
      */
     public function update(int $id, array $data): Model
     {
-        $model = $this->get($id);
+        $this->get($id)->update($data);
 
-        $model->update($data);
-
-        return $model;
+        return $this->model;
     }
 
     /**
