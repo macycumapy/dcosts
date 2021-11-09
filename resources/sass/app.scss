@@ -8,9 +8,12 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+// Mixins
+@import "mixins";
+
 // Components
 @import "components/select-list";
 @import "components/preloader";
+@import "components/v-modal";
 
-@import "mixins";
 @import "layouts";

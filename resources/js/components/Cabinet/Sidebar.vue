@@ -8,10 +8,9 @@
       </div>
     </div>
     <ul class="py-4 pl-1">
-      <li>1</li>
-      <li>2</li>
-      <li>3</li>
-
+      <router-link :to="{ name: 'nomenclatureType' }">
+        Типы номенклатуры
+      </router-link>
     </ul>
     <ul class="py-1 pl-1">
       <li>

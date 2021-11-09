@@ -4,6 +4,7 @@ import { store } from './vuex/store';
 import Login from './components/Auth/Login.vue';
 import Register from './components/Auth/Register.vue';
 import Home from './components/Cabinet/Home.vue';
+import NomenclatureTypeList from './components/Cabinet/NomenclatureTypeList.vue';
 
 Vue.use(Router);
 
@@ -43,6 +44,12 @@ export const router = new Router({
             name: 'register',
             component: Register,
             beforeEnter: onlyNotAuthenticated,
+        },
+        {
+            path: '/nomenclature-type',
+            name: 'nomenclatureType',
+            component: NomenclatureTypeList,
+            beforeEnter: onlyAuthenticated,
         },
     ],
 });

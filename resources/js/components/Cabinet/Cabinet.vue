@@ -4,6 +4,7 @@
     <div class="container-fluid py-3">
       <router-view />
     </div>
+    <v-dialog />
   </div>
 </template>
 
