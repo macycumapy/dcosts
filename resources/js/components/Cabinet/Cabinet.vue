@@ -16,5 +16,9 @@ export default {
   components: {
     Sidebar,
   },
+  created() {
+    this.$store.dispatch('getNomenclature');
+    this.$store.dispatch('getNomenclatureType');
+  },
 };
 </script>

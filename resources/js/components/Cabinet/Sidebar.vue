@@ -11,6 +11,9 @@
       <router-link :to="{ name: 'nomenclatureType' }">
         Типы номенклатуры
       </router-link>
+      <router-link :to="{ name: 'nomenclature' }">
+        Номенклатура
+      </router-link>
     </ul>
     <ul class="py-1 pl-1">
       <li>

@@ -4,6 +4,7 @@ import auth from './modules/auth';
 import preloader from './modules/preloader';
 import request from './modules/request';
 import nomenclatureType from './modules/nomenclature_type';
+import nomenclature from './modules/nomenclature';
 
 Vue.use(Vuex);
 
@@ -13,5 +14,6 @@ export const store = new Vuex.Store({
         preloader,
         request,
         nomenclatureType,
+        nomenclature,
     },
 });

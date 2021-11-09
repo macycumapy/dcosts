@@ -1,5 +1,5 @@
 <template>
-  <div class="nomenclature-type">
+  <div class="nomenclature">
     <div class="row justify-content-center">
       <div class="col-xl-7 col-lg-12 col-md-12 col-12">
         <div class="w-100 text-center">
@@ -14,7 +14,7 @@
         </div>
         <div class="list">
           <div
-            v-for="item in nomenclatureTypes"
+            v-for="item in nomenclature"
             :key="item.id"
             class="row pl-4 position-relative"
           >
@@ -52,19 +52,20 @@
     </div>
   </div>
 </template>
+
 <script>
 import { mapGetters } from 'vuex';
-import Modal from './Modals/NomenclatureTypeModal.vue';
+import Modal from './Modals/NomenclatureModal.vue';
 
 export default {
-  name: 'NomenclatureTypeList',
+  name: 'NomenclatureList',
   data() {
     return {
-      title: 'Типы номенклатуры',
+      title: 'Номенклатура',
     };
   },
   computed: {
-    ...mapGetters(['nomenclatureTypes']),
+    ...mapGetters(['nomenclature']),
   },
   methods: {
     add() {
@@ -78,6 +79,7 @@ export default {
     copy(item) {
       this.$modal.show(Modal, {
         name: item.name,
+        nomenclature_type_id: item.nomenclature_type_id,
       });
     },
 
@@ -88,8 +90,8 @@ export default {
           {
             title: 'Да',
             handler: () => {
-              this.$store.dispatch('deleteNomenclatureType', item.id)
-              .then(() => this.$modal.hide('dialog'));
+              this.$store.dispatch('deleteNomenclature', item.id)
+                .then(() => this.$modal.hide('dialog'));
             },
             class: 'btn',
           },
