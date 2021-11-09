@@ -8,12 +8,21 @@
       </div>
     </div>
     <ul class="py-4 pl-1">
-      <router-link :to="{ name: 'nomenclatureType' }">
-        Типы номенклатуры
-      </router-link>
-      <router-link :to="{ name: 'nomenclature' }">
-        Номенклатура
-      </router-link>
+      <li>
+        <router-link :to="{ name: 'nomenclatureType' }">
+          Типы номенклатуры
+        </router-link>
+      </li>
+      <li>
+        <router-link :to="{ name: 'nomenclature' }">
+          Номенклатура
+        </router-link>
+      </li>
+      <li>
+        <router-link :to="{ name: 'partners' }">
+          Контрагенты
+        </router-link>
+      </li>
     </ul>
     <ul class="py-1 pl-1">
       <li>
