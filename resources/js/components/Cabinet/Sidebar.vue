@@ -23,6 +23,11 @@
           Контрагенты
         </router-link>
       </li>
+      <li>
+        <router-link :to="{ name: 'costItems' }">
+          Статьи затрат
+        </router-link>
+      </li>
     </ul>
     <ul class="py-1 pl-1">
       <li>
