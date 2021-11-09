@@ -21,23 +21,12 @@
             <div class="col-xl-3 col-lg-3 col-md-6 col-6">
               {{ item.name }}
             </div>
-            <div class="list-btn-group">
-              <img
-                @click="edit(item)"
-                src="/images/edit.png"
-                alt="edit"
-              >
-              <img
-                @click="copy(item)"
-                src="/images/copy.png"
-                alt="copy"
-              >
-              <img
-                @click="remove(item)"
-                src="/images/delete.png"
-                alt="delete"
-              >
-            </div>
+            <crud-panel
+              @delete="onDelete"
+              :item="item"
+              :modal="modal"
+              :name="item.name"
+            />
           </div>
         </div>
         <div class="btn-group py-2">
@@ -55,9 +44,13 @@
 <script>
 import { mapGetters } from 'vuex';
 import Modal from './Modals/NomenclatureTypeModal.vue';
+import CrudPanel from '../General/CRUDPanel.vue';
 
 export default {
   name: 'NomenclatureTypeList',
+  components: {
+    CrudPanel,
+  },
   data() {
     return {
       title: 'Типы номенклатуры',
@@ -65,43 +58,17 @@ export default {
   },
   computed: {
     ...mapGetters(['nomenclatureTypes']),
+
+    modal() {
+      return Modal;
+    },
   },
   methods: {
     add() {
       this.$modal.show(Modal);
     },
-
-    edit(item) {
-      this.$modal.show(Modal, item);
-    },
-
-    copy(item) {
-      this.$modal.show(Modal, {
-        name: item.name,
-      });
-    },
-
-    remove(item) {
-      this.$modal.show('dialog', {
-        title: `Удалить ${item.name}?`,
-        buttons: [
-          {
-            title: 'Да',
-            handler: () => {
-              this.$store.dispatch('deleteNomenclatureType', item.id)
-              .then(() => this.$modal.hide('dialog'));
-            },
-            class: 'btn',
-          },
-          {
-            title: 'Нет',
-            class: 'btn red',
-            handler: () => {
-              this.$modal.hide('dialog');
-            },
-          },
-        ],
-      });
+    onDelete(id) {
+      this.$store.dispatch('deleteNomenclatureType', id);
     },
   },
 };
