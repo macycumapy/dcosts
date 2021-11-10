@@ -22,6 +22,7 @@ export default {
     this.$store.dispatch('getPartners');
     this.$store.dispatch('getCostItems');
     this.$store.dispatch('getCashInflows');
+    this.$store.dispatch('getCashOutflows');
   },
 };
 </script>

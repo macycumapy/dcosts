@@ -36,16 +36,22 @@ export default {
         return '';
       },
     },
+    modalProps: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
   },
   methods: {
     edit() {
-      this.$modal.show(this.modal, this.item);
+      this.$modal.show(this.modal, this.item, this.modalProps);
     },
 
     copy() {
       const newObject = { ...this.item };
       delete newObject.id;
-      this.$modal.show(this.modal, newObject);
+      this.$modal.show(this.modal, newObject, this.modalProps);
     },
 
     remove() {

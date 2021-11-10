@@ -425,43 +425,6 @@ ul {
             }
         }
     }
-
-    #home,
-    #cash-flow {
-        .vm--modal {
-            width: 800px !important;
-
-            &.vue-dialog {
-                width: 400px !important;
-            }
-
-            .details {
-                background: $grey;
-                margin-top: 10px;
-                padding: 5px 10px;
-
-                //input {
-                //    padding: 5px;
-                //    height: 100%;
-                //}
-
-                .greed-details {
-                    display: grid;
-                    grid-template-columns: 8fr 2fr 3fr 3fr 1fr;
-                    grid-gap: 1vw;
-                    padding-bottom: 10px;
-
-                    &:first-of-type {
-                        padding-top: 10px;
-                    }
-                }
-
-                img {
-                    cursor: pointer;
-                }
-            }
-        }
-    }
 }
 
 .red {

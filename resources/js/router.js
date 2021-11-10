@@ -9,6 +9,7 @@ import NomenclatureList from './components/Cabinet/NomenclatureList.vue';
 import PartnerList from './components/Cabinet/PartnerList.vue';
 import CostItemList from './components/Cabinet/CostItemList.vue';
 import CashInflowList from './components/Cabinet/CashInflowList.vue';
+import CashOutflowList from './components/Cabinet/CashOutflowList.vue';
 
 Vue.use(Router);
 
@@ -77,6 +78,12 @@ export const router = new Router({
             path: '/cash-inflows',
             name: 'cashInflows',
             component: CashInflowList,
+            beforeEnter: onlyAuthenticated,
+        },
+        {
+            path: '/cash-outflows',
+            name: 'cashOutflows',
+            component: CashOutflowList,
             beforeEnter: onlyAuthenticated,
         },
     ],

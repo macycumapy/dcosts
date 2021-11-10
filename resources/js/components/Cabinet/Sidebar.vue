@@ -33,6 +33,11 @@
           Поступления
         </router-link>
       </li>
+      <li>
+        <router-link :to="{ name: 'cashOutflows' }">
+          Расход
+        </router-link>
+      </li>
     </ul>
     <ul class="py-1 pl-1">
       <li>
