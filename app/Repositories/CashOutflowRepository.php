@@ -6,6 +6,7 @@ use App\Models\CashOutflow;
 use App\Models\CashOutflowDetails;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 class CashOutflowRepository extends AbstractRepository
@@ -16,6 +17,21 @@ class CashOutflowRepository extends AbstractRepository
     public function __construct(CashOutflow $model)
     {
         parent::__construct($model);
+    }
+
+    /**
+     * @param array|null $filters
+     * @return LengthAwarePaginator
+     */
+    public function paginate(?array $filters = null): LengthAwarePaginator
+    {
+        if ($filters) {
+            $this->query->where($filters);
+        }
+
+        $this->query->orderByDesc('date');
+
+        return $this->query->paginate(20);
     }
 
     /**

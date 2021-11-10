@@ -29,9 +29,12 @@ class CashOutflowController extends Controller
      */
     public function index(): JsonResponse
     {
-        $result = $this->repository->all(['user_id' => auth()->id()]);
-
-        return $this->successResponse('Список получен', CashOutflowResource::collection($result));
+        $result = $this->repository->paginate(['user_id' => auth()->id()]);
+        return $this->successResponse('Список получен', [
+            'data' => CashOutflowResource::collection($result),
+            'pages' => $result->lastPage(),
+            'page' => (int)request()->get('page'),
+        ]);
     }
 
     /**

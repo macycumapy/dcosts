@@ -35,10 +35,15 @@
             />
           </div>
         </div>
-        <div class="btn-group py-2">
+        <div class="btn-group py-2 justify-content-between w-100">
+          <paginator
+            :currentPage="cashOutflowsCurrentPage"
+            :pages="cashOutflowsPages"
+            :getList="getCashOutflows"
+          />
           <button
             @click="add"
-            class="btn"
+            class="btn w-auto"
           >
             Добавить
           </button>
@@ -48,13 +53,15 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import Modal from './Modals/CashOutflowModal.vue';
 import CrudPanel from '../General/CRUDPanel.vue';
+import Paginator from '../General/Paginator.vue';
 
 export default {
   components: {
     CrudPanel,
+    Paginator,
   },
   data() {
     return {
@@ -62,13 +69,19 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['cashOutflows']),
+    ...mapGetters([
+      'cashOutflows',
+      'cashOutflowsCurrentPage',
+      'cashOutflowsPages',
+    ]),
 
     modal() {
       return Modal;
     },
   },
   methods: {
+    ...mapActions(['getCashOutflows']),
+
     add() {
       this.$modal.show(Modal, null, { class: 'vm--large' });
     },
