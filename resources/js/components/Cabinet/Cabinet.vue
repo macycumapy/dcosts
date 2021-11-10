@@ -19,6 +19,9 @@ export default {
   created() {
     this.$store.dispatch('getNomenclature');
     this.$store.dispatch('getNomenclatureType');
+    this.$store.dispatch('getPartners');
+    this.$store.dispatch('getCostItems');
+    this.$store.dispatch('getCashInflows');
   },
 };
 </script>

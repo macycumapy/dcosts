@@ -28,6 +28,11 @@
           Статьи затрат
         </router-link>
       </li>
+      <li>
+        <router-link :to="{ name: 'cashInflows' }">
+          Поступления
+        </router-link>
+      </li>
     </ul>
     <ul class="py-1 pl-1">
       <li>
