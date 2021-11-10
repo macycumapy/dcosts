@@ -22,7 +22,7 @@
             class="row pl-4 position-relative"
           >
             <div class="col-xl-3 col-lg-3 col-md-6 col-6">
-              {{ new Date(item.date).toLocaleString().substr(0,17) }}
+              {{ new Date(item.date).toLocaleString().substr(0, 17) }}
             </div>
             <div class="col-xl-9 col-lg-9 col-md-6 col-6 text-end pr-4">
               {{ item.sum.toFixed(2) }}
@@ -52,30 +52,30 @@ import { mapGetters } from 'vuex';
 import Modal from './Modals/CashInflowModal.vue';
 import CrudPanel from '../General/CRUDPanel.vue';
 
-    export default {
-      name: 'CashInflowList',
-      components: {
-        CrudPanel,
-      },
-      data() {
-        return {
-          title: 'Поступления',
-        };
-      },
-      computed: {
-        ...mapGetters(['cashInflows']),
-
-        modal() {
-          return Modal;
-        },
-      },
-      methods: {
-        add() {
-          this.$modal.show(Modal);
-        },
-        onDelete(id) {
-          this.$store.dispatch('deleteCashInflow', id);
-        },
-      },
+export default {
+  name: 'CashInflowList',
+  components: {
+    CrudPanel,
+  },
+  data() {
+    return {
+      title: 'Поступления',
     };
+  },
+  computed: {
+    ...mapGetters(['cashInflows']),
+
+    modal() {
+      return Modal;
+    },
+  },
+  methods: {
+    add() {
+      this.$modal.show(Modal);
+    },
+    onDelete(id) {
+      this.$store.dispatch('deleteCashInflow', id);
+    },
+  },
+};
 </script>
