@@ -93,7 +93,7 @@ class CashOutflowRepository extends AbstractRepository
      */
     protected function updateDetails(array $details): self
     {
-        $detailsToRemove = $this->model->details;
+        $detailsToRemove = $this->model->details();
         foreach ($details as $detail) {
             if (isset($detail['id'])) {
                 /** @var CashOutflowDetails $foundedDetails */
@@ -111,7 +111,7 @@ class CashOutflowRepository extends AbstractRepository
             }
         }
 
-        if ($detailsToRemove->isNotEmpty()) {
+        if ($detailsToRemove->exists()) {
             $detailsToRemove->delete();
         }
         $this->model->load('details');

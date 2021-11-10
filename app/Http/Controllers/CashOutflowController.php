@@ -31,7 +31,7 @@ class CashOutflowController extends Controller
     {
         $result = $this->repository->all(['user_id' => auth()->id()]);
 
-        return $this->successResponse('Список получен', $result);
+        return $this->successResponse('Список получен', CashOutflowResource::collection($result));
     }
 
     /**
@@ -65,6 +65,7 @@ class CashOutflowController extends Controller
      * @param CashOutflowUpdateRequest $request
      * @param CashOutflow $cashOutflow
      * @return JsonResponse
+     * @throws \Exception
      */
     public function update(CashOutflowUpdateRequest $request, CashOutflow $cashOutflow): JsonResponse
     {

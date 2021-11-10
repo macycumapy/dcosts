@@ -38,6 +38,9 @@ abstract class AbstractRepository implements IRepository
         if ($filters) {
             $this->query->where($filters);
         }
+
+        $this->query->orderByDesc('id');
+
         return $this->query->get();
     }
 
