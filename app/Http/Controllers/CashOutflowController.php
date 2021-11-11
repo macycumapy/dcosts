@@ -33,7 +33,7 @@ class CashOutflowController extends Controller
         return $this->successResponse('Список получен', [
             'data' => CashOutflowResource::collection($result),
             'pages' => $result->lastPage(),
-            'page' => (int)request()->get('page'),
+            'page' => $result->currentPage(),
         ]);
     }
 

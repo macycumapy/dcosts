@@ -28,19 +28,19 @@ class CashInflowTest extends TestCase
     {
         $response = $this->getJson($this->uri);
         $response->assertOk();
-        $responseData = json_decode($response->getContent())->data;
+        $responseData = json_decode($response->getContent())->data->data;
         $this->assertEmpty($responseData);
 
         CashInflow::factory()->create();
         $response = $this->getJson($this->uri);
         $response->assertOk();
-        $responseData = json_decode($response->getContent())->data;
+        $responseData = json_decode($response->getContent())->data->data;
         $this->assertEmpty($responseData);
 
         CashInflow::factory(['user_id' => $this->user->id])->create();
         $response = $this->getJson($this->uri);
         $response->assertOk();
-        $responseData = json_decode($response->getContent())->data;
+        $responseData = json_decode($response->getContent())->data->data;
         $this->assertNotEmpty($responseData);
     }
 

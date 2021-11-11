@@ -5,6 +5,7 @@ namespace App\Repositories;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 abstract class AbstractRepository implements IRepository
 {
@@ -76,5 +77,20 @@ abstract class AbstractRepository implements IRepository
     public function delete(int $id): bool
     {
         return $this->get($id)->delete();
+    }
+
+    /**
+     * @param array|null $filters
+     * @return LengthAwarePaginator
+     */
+    public function paginate(?array $filters = null): LengthAwarePaginator
+    {
+        if ($filters) {
+            $this->query->where($filters);
+        }
+
+        $this->query->orderByDesc('id');
+
+        return $this->query->paginate(20);
     }
 }

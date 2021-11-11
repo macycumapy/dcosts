@@ -20,18 +20,13 @@ class CashOutflowRepository extends AbstractRepository
     }
 
     /**
-     * @param array|null $filters
-     * @return LengthAwarePaginator
+     * @inheritDoc
      */
     public function paginate(?array $filters = null): LengthAwarePaginator
     {
-        if ($filters) {
-            $this->query->where($filters);
-        }
-
         $this->query->orderByDesc('date');
 
-        return $this->query->paginate(20);
+        return parent::paginate($filters);
     }
 
     /**
