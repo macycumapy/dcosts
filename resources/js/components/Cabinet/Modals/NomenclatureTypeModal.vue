@@ -3,7 +3,7 @@
     <div class="row hd py-3">
       <div class="col text-center">
         <div class="header-text">
-          {{ oldName ? oldName : 'Новый тип' }}
+          {{ title }}
         </div>
       </div>
     </div>
@@ -14,7 +14,7 @@
       <div class="row mb-3">
         <label for="name">
           <input
-            v-model="name"
+            v-model="editedModel.name"
             id="name"
             class="w-100"
             type="text"
@@ -46,37 +46,44 @@
   </div>
 </template>
 <script>
-    export default {
-        name: 'NomenclatureTypeModal',
-        data() {
-            return {
-                oldName: '',
-                name: '',
-                id: null,
-            };
-        },
-        beforeMount() {
-            this.oldName = this.$attrs.id ? this.$attrs.name : '';
-            this.name = this.$attrs.name;
-            this.id = this.$attrs.id;
-        },
-        methods: {
-            save() {
-                const params = {
-                    id: this.id,
-                    name: this.name,
-                };
-
-                if (this.id) {
-                    this.$store.dispatch('updateNomenclatureType', params);
-                } else {
-                    this.$store.dispatch('addNomenclatureType', params);
-                }
-                this.close();
-            },
-            close() {
-                this.$emit('close');
-            },
-        },
+export default {
+  name: 'NomenclatureTypeModal',
+  props: {
+    model: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
+  },
+  data() {
+    return {
+      editedModel: {
+        id: null,
+        name: '',
+      },
     };
+  },
+  computed: {
+    title() {
+      return this.editedModel.id ? this.editedModel.name : 'Новый тип';
+    },
+  },
+  beforeMount() {
+    Object.assign(this.editedModel, JSON.parse(JSON.stringify(this.model)));
+  },
+  methods: {
+    save() {
+      if (this.editedModel.id) {
+        this.$store.dispatch('updateNomenclatureType', this.editedModel);
+      } else {
+        this.$store.dispatch('addNomenclatureType', this.editedModel);
+      }
+      this.close();
+    },
+    close() {
+      this.$emit('close');
+    },
+  },
+};
 </script>

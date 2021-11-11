@@ -3,7 +3,7 @@
     <div class="row hd py-3">
       <div class="col text-center">
         <div class="header-text">
-          {{ oldName ? oldName : 'Новая номенклатура' }}
+          {{ title }}
         </div>
       </div>
     </div>
@@ -14,7 +14,7 @@
       <div class="row mb-3">
         <label for="name">
           <input
-            v-model="name"
+            v-model="editedModel.name"
             id="name"
             class="w-100"
             type="text"
@@ -27,7 +27,7 @@
       </div>
       <div class="row">
         <select-list
-          v-model="nomenclature_type_id"
+          v-model="editedModel.nomenclature_type_id"
           :list="nomenclatureTypes"
           :modal="nomenclatureTypeModal"
           title="Тип"
@@ -64,38 +64,42 @@ export default {
   components: {
     SelectList,
   },
+  props: {
+    model: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
+  },
   data() {
     return {
-      oldName: '',
-      name: '',
-      nomenclature_type_id: null,
-      id: null,
+      editedModel: {
+        id: null,
+        name: '',
+        nomenclature_type_id: null,
+      },
     };
   },
   computed: {
     ...mapGetters(['nomenclatureTypes']),
+
+    title() {
+      return this.editedModel.id ? this.editedModel.name : 'Новая номенклатура';
+    },
     nomenclatureTypeModal() {
       return NomenclatureTypeModal;
     },
   },
   beforeMount() {
-    this.oldName = this.$attrs.id ? this.$attrs.name : '';
-    this.name = this.$attrs.name;
-    this.id = this.$attrs.id;
-    this.nomenclature_type_id = this.$attrs.nomenclature_type_id;
+    Object.assign(this.editedModel, JSON.parse(JSON.stringify(this.model)));
   },
   methods: {
     save() {
-      const params = {
-        id: this.id,
-        name: this.name,
-        nomenclature_type_id: this.nomenclature_type_id ? this.nomenclature_type_id : null,
-      };
-
-      if (this.id) {
-        this.$store.dispatch('updateNomenclature', params);
+      if (this.editedModel.id) {
+        this.$store.dispatch('updateNomenclature', this.editedModel);
       } else {
-        this.$store.dispatch('addNomenclature', params);
+        this.$store.dispatch('addNomenclature', this.editedModel);
       }
       this.close();
     },

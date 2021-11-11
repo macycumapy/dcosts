@@ -45,13 +45,13 @@ export default {
   },
   methods: {
     edit() {
-      this.$modal.show(this.modal, this.item, this.modalProps);
+      this.$modal.show(this.modal, { model: this.item }, this.modalProps);
     },
 
     copy() {
       const newObject = { ...this.item };
       delete newObject.id;
-      this.$modal.show(this.modal, newObject, this.modalProps);
+      this.$modal.show(this.modal, { model: newObject }, this.modalProps);
     },
 
     remove() {

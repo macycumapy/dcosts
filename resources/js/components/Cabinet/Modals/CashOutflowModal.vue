@@ -16,7 +16,7 @@
           <div class="row mr-1">
             <label for="date">
               <input
-                v-model="date"
+                v-model="editedModel.date"
                 id="date"
                 class="w-100 mr-2"
                 type="datetime-local"
@@ -31,7 +31,7 @@
         <div class="col-8">
           <div class="row">
             <select-list
-              v-model="cost_item_id"
+              v-model="editedModel.cost_item_id"
               :list="costItems"
               :modal="costItemModal"
               title="Статья расхода"
@@ -49,7 +49,7 @@
             <div />
           </div>
           <div
-            v-for="item in details"
+            v-for="item in editedModel.details"
             class="greed-details"
           >
             <select-list
@@ -135,17 +135,30 @@ export default {
   components: {
     SelectList,
   },
+  props: {
+    model: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
+  },
   data() {
     return {
-      title: 'Расход',
-      date: null,
-      id: null,
-      cost_item_id: null,
-      details: [],
+      editedModel: {
+        date: null,
+        id: null,
+        cost_item_id: null,
+        details: [],
+      },
     };
   },
   computed: {
     ...mapGetters(['nomenclature', 'costItems']),
+
+    title() {
+      return this.model.id ? 'Расход' : 'Новый расход';
+    },
     nomenclatureModal() {
       return NomenclatureModal;
     },
@@ -153,25 +166,22 @@ export default {
       return CostItemModal;
     },
     sum() {
-      return this.details.length > 0
-        ? this.details.map((item) => (item.cost * item.count)).reduce((prev, cur) => prev + cur) : 0;
+      return this.editedModel.details.length > 0
+        ? this.editedModel.details.map((item) => (item.cost * item.count)).reduce((prev, cur) => prev + cur) : 0;
     },
   },
   beforeMount() {
-    this.title = this.$attrs.id ? 'Расход' : 'Новый расход';
-    this.id = this.$attrs.id;
-    this.cost_item_id = this.$attrs.cost_item_id;
-    if (this.$attrs.date) {
-      this.date = `${this.$attrs.date.slice(0, 10)}T${this.$attrs.date.slice(11, 16)}`;
+    Object.assign(this.editedModel, JSON.parse(JSON.stringify(this.model)));
+    if (this.model.date) {
+      this.editedModel.date = `${this.model.date.slice(0, 10)}T${this.model.date.slice(11, 16)}`;
     } else {
       const date = new Date();
-      this.date = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().substr(0, 16);
+      this.editedModel.date = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().substr(0, 16);
     }
-    if (this.$attrs.details) this.details = this.$attrs.details.slice();
   },
   methods: {
     addNewRow() {
-      this.details.push({
+      this.editedModel.details.push({
         id: null,
         nomenclature_id: null,
         count: 1,
@@ -179,20 +189,13 @@ export default {
       });
     },
     removeRow(item) {
-      this.details.splice(this.details.indexOf(item), 1);
+      this.editedModel.details.splice(this.details.indexOf(item), 1);
     },
     save() {
-      const params = {
-        id: this.id,
-        cost_item_id: this.cost_item_id,
-        date: this.date,
-        details: this.details,
-      };
-
-      if (this.id) {
-        this.$store.dispatch('updateCashOutflow', params);
+      if (this.model.id) {
+        this.$store.dispatch('cashOutflows/update', this.editedModel);
       } else {
-        this.$store.dispatch('addCashOutflow', params);
+        this.$store.dispatch('cashOutflows/create', this.editedModel);
       }
       this.close();
     },

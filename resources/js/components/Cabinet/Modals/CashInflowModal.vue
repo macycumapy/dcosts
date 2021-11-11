@@ -16,7 +16,7 @@
           <div class="row mr-1">
             <label>
               <input
-                v-model="date"
+                v-model="editedModel.date"
                 id="date"
                 class="w-100"
                 type="datetime-local"
@@ -32,7 +32,7 @@
           <div class="row">
             <label for="sum">
               <input
-                v-model="sum"
+                v-model="editedModel.sum"
                 id="sum"
                 class="w-100"
                 type="number"
@@ -50,7 +50,7 @@
         <div class="col-6 pt-3">
           <div class="row mr-1">
             <select-list
-              v-model="cost_item_id"
+              v-model="editedModel.cost_item_id"
               :list="costItems"
               :modal="costItemModal"
               title="Статья поступления"
@@ -60,7 +60,7 @@
         <div class="col-6 pt-3">
           <div class="row">
             <select-list
-              v-model="partner_id"
+              v-model="editedModel.partner_id"
               :list="partners"
               :modal="partnerModal"
               title="Контрагент"
@@ -99,18 +99,31 @@ export default {
   components: {
     SelectList,
   },
+  props: {
+    model: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
+  },
   data() {
     return {
-      title: 'Поступление',
-      date: null,
-      id: null,
-      cost_item_id: null,
-      partner_id: null,
-      sum: 0,
+      editedModel: {
+        id: null,
+        date: null,
+        cost_item_id: null,
+        partner_id: null,
+        sum: 0,
+      },
     };
   },
   computed: {
     ...mapGetters(['costItems', 'partners']),
+
+    title() {
+      return this.model.id ? 'Поступление' : 'Новое поступление';
+    },
     partnerModal() {
       return PartnerModal;
     },
@@ -119,32 +132,20 @@ export default {
     },
   },
   beforeMount() {
-    this.title = this.$attrs.id ? 'Поступление' : 'Новое поступление';
-    this.id = this.$attrs.id;
-    this.cost_item_id = this.$attrs.cost_item_id;
-    this.partner_id = this.$attrs.partner_id;
-    this.sum = this.$attrs.sum;
-    if (this.$attrs.date) {
-      this.date = `${this.$attrs.date.slice(0, 10)}T${this.$attrs.date.slice(11, 16)}`;
+    Object.assign(this.editedModel, JSON.parse(JSON.stringify(this.model)));
+    if (this.model.date) {
+      this.editedModel.date = `${this.model.date.slice(0, 10)}T${this.model.date.slice(11, 16)}`;
     } else {
       const date = new Date();
-      this.date = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().substr(0, 16);
+      this.editedModel.date = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().substr(0, 16);
     }
   },
   methods: {
     save() {
-      const params = {
-        id: this.id,
-        cost_item_id: this.cost_item_id,
-        date: this.date,
-        partner_id: this.partner_id,
-        sum: this.sum,
-      };
-
-      if (this.id) {
-        this.$store.dispatch('updateCashInflow', params);
+      if (this.model.id) {
+        this.$store.dispatch('cashInflows/update', this.editedModel);
       } else {
-        this.$store.dispatch('addCashInflow', params);
+        this.$store.dispatch('cashInflows/create', this.editedModel);
       }
       this.close();
     },

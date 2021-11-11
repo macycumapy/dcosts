@@ -1,51 +1,51 @@
 const state = {
-  cashOutflows: [],
+  list: [],
   pages: 1,
   page: 1,
 };
 
 const getters = {
-  cashOutflows: state => state.cashOutflows,
-  cashOutflowsPages: state => state.pages,
-  cashOutflowsCurrentPage: state => state.page,
+  list: state => state.list,
+  pages: state => state.pages,
+  page: state => state.page,
 };
 
 const actions = {
-  getCashOutflows: ({ commit, dispatch }, page = 1) => {
+  getList: ({ commit, dispatch, state }, page = state.page) => {
     dispatch('request/get', {
       url: `cash-outflow?page=${page}`,
-    }).then((data) => {
+    }, { root: true }).then((data) => {
       commit('setCashOutflows', data.data);
     });
   },
-  addCashOutflow: ({ dispatch }, payload) => {
+  create: ({ dispatch }, payload) => {
     dispatch('request/post', {
       url: 'cash-outflow',
       params: payload,
-    }).then(() => {
-      dispatch('getCashOutflows');
+    }, { root: true }).then(() => {
+      dispatch('getList');
     });
   },
-  updateCashOutflow: ({ dispatch }, payload) => {
+  update: ({ dispatch }, payload) => {
     dispatch('request/put', {
       url: `cash-outflow/${payload.id}`,
       params: payload,
-    }).then(() => {
-      dispatch('getCashOutflows');
+    }, { root: true }).then(() => {
+      dispatch('getList');
     });
   },
-  deleteCashOutflow: ({ dispatch }, id) => {
+  delete: ({ dispatch }, id) => {
     dispatch('request/del', {
       url: `cash-outflow/${id}`,
-    }).then(() => {
-      dispatch('getCashOutflows');
+    }, { root: true }).then(() => {
+      dispatch('getList');
     });
   },
 };
 
 const mutations = {
   setCashOutflows: (state, payload) => {
-    state.cashOutflows = payload.data;
+    state.list = payload.data;
     state.pages = payload.pages;
     state.page = payload.page;
   },
@@ -56,4 +56,5 @@ export default {
   getters,
   actions,
   mutations,
+  namespaced: true,
 };

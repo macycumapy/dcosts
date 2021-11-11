@@ -17,7 +17,7 @@
         </div>
         <div class="list">
           <div
-            v-for="item in cashOutflows"
+            v-for="item in list"
             class="row pl-4 position-relative"
           >
             <div class="col-xl-3 col-lg-3 col-md-6 col-6">
@@ -37,9 +37,9 @@
         </div>
         <div class="btn-group py-2 justify-content-between w-100">
           <paginator
-            :currentPage="cashOutflowsCurrentPage"
-            :pages="cashOutflowsPages"
-            :getList="getCashOutflows"
+            :currentPage="page"
+            :pages="pages"
+            :getList="getList"
           />
           <button
             @click="add"
@@ -69,24 +69,27 @@ export default {
     };
   },
   computed: {
-    ...mapGetters([
-      'cashOutflows',
-      'cashOutflowsCurrentPage',
-      'cashOutflowsPages',
+    ...mapGetters('cashOutflows', [
+      'list',
+      'pages',
+      'page',
     ]),
 
     modal() {
       return Modal;
     },
   },
+  created() {
+    this.getList();
+  },
   methods: {
-    ...mapActions(['getCashOutflows']),
+    ...mapActions('cashOutflows', ['getList']),
 
     add() {
       this.$modal.show(Modal, null, { class: 'vm--large' });
     },
     onDelete(id) {
-      this.$store.dispatch('deleteCashOutflow', id);
+      this.$store.dispatch('cashOutflows/delete', id);
     },
   },
 };
