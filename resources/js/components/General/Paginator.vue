@@ -1,7 +1,7 @@
 <template>
   <div
     id="paginator"
-    class="d-flex w-100"
+    class="w-100"
   >
     <a
       v-if="!pagesContainer.includes(1)"
@@ -68,15 +68,6 @@ export default {
         pages.push(this.currentPage + 1);
       }
 
-      // let page = 1;
-      // while (page <= 3) {
-      //   pages.push(page);
-      //   page += 1;
-      //   if (this.currentPage !== this.pages) {
-      //     pages.push('...');
-      //   }
-      // }
-      // console.log(pages)
       return pages;
     },
   },

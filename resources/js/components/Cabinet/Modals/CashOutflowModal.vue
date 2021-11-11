@@ -167,8 +167,6 @@ export default {
       const date = new Date();
       this.date = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().substr(0, 16);
     }
-    console.log(123213);
-    console.log(this.$attrs.details);
     if (this.$attrs.details) this.details = this.$attrs.details.slice();
   },
   methods: {
