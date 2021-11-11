@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import Router from 'vue-router';
 import { store } from './vuex/store';
 import Login from './components/Auth/Login.vue';
@@ -10,8 +9,6 @@ import PartnerList from './components/Cabinet/PartnerList.vue';
 import CostItemList from './components/Cabinet/CostItemList.vue';
 import CashInflowList from './components/Cabinet/CashInflowList.vue';
 import CashOutflowList from './components/Cabinet/CashOutflowList.vue';
-
-Vue.use(Router);
 
 const onlyAuthenticated = (to, from, next) => {
     if (store.getters.isAuthenticated) {
