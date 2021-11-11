@@ -189,7 +189,7 @@ export default {
       });
     },
     removeRow(item) {
-      this.editedModel.details.splice(this.details.indexOf(item), 1);
+      this.editedModel.details.splice(this.editedModel.details.indexOf(item), 1);
     },
     save() {
       if (this.model.id) {
