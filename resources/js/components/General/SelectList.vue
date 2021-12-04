@@ -134,7 +134,11 @@ export default {
      */
     createNew() {
       if (this.modal) {
-        this.$modal.show(this.modal, { [this.optionText]: this.search });
+        this.$modal.show(this.modal, {
+          model: {
+            [this.optionText]: this.search,
+          },
+        });
       }
     },
   },
