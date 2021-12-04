@@ -80,10 +80,10 @@
 }
 
 .select-list-background {
-    position: absolute;
-    height: 200vh;
-    width: 200vh;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
     z-index: 1;
-    left: -100vh;
-    bottom: -100vh;
 }
