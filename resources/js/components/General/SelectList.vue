@@ -1,5 +1,8 @@
 <template>
-  <div class="w-100">
+  <div
+    class="w-100"
+    :class="{shown: showList}"
+  >
     <div
       @keydown.enter.prevent="chose"
       class="select-list w-100"
@@ -31,6 +34,7 @@
         <div
           v-for="item in filteredList"
           @click="chose(item)"
+          :key="item.id"
           class="dropdown-list-item"
         >
           {{ item[optionText] }}
@@ -110,14 +114,11 @@ export default {
         this.showList = true;
         this.search = this.chosen;
       }
-      this.$el.style.zIndex = 15;
     },
 
     hide() {
       this.showList = false;
       this.search = '';
-
-      this.$el.style.zIndex = '';
     },
 
     chose(item) {
@@ -144,3 +145,9 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+.shown {
+  z-index: 15;
+}
+</style>
