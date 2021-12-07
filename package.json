@@ -43,6 +43,8 @@
         "vuex": "^3.1.2"
     },
     "dependencies": {
-        "vue-js-modal": "^2.0.1"
+        "toastr": "^2.1.4",
+        "vue-js-modal": "^2.0.1",
+        "vue-toastr-2": "^0.0.10"
     }
 }

@@ -6,6 +6,7 @@ const actions = {
           resolve(response.data);
         })
         .catch((err) => {
+          toastr.error(err.response.data.message);
           reject(err);
         })
         .finally(() => {
@@ -19,6 +20,7 @@ const actions = {
           resolve(response.data);
         })
         .catch((err) => {
+          toastr.error(err.response.data.message);
           reject(err);
         })
         .finally(() => {
@@ -32,6 +34,7 @@ const actions = {
           resolve(response.data);
         })
         .catch((err) => {
+          toastr.error(err.response.data.message);
           reject(err);
         })
         .finally(() => {
@@ -45,6 +48,7 @@ const actions = {
           resolve(response.data);
         })
         .catch((err) => {
+          toastr.error(err.response.data.message);
           reject(err);
         })
         .finally(() => {
