@@ -9,6 +9,7 @@ import PartnerList from './components/Cabinet/PartnerList.vue';
 import CostItemList from './components/Cabinet/CostItemList.vue';
 import CashInflowList from './components/Cabinet/CashInflowList.vue';
 import CashOutflowList from './components/Cabinet/CashOutflowList.vue';
+import CashOutflow from './components/Cabinet/CashOutflow.vue';
 
 const onlyAuthenticated = (to, from, next) => {
     if (store.getters.isAuthenticated) {
@@ -75,6 +76,12 @@ export const router = new Router({
             path: '/cash-inflows',
             name: 'cashInflows',
             component: CashInflowList,
+            beforeEnter: onlyAuthenticated,
+        },
+        {
+            path: '/cash-outflows/:id',
+            name: 'cashOutflow',
+            component: CashOutflow,
             beforeEnter: onlyAuthenticated,
         },
         {

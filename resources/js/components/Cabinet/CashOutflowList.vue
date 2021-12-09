@@ -15,9 +15,10 @@
             Сумма
           </div>
         </div>
-        <div class="list">
+        <div class="list paginated-list">
           <div
             v-for="item in list"
+            :key="item.id"
             class="row pl-4 position-relative"
           >
             <div class="col-xl-3 col-lg-3 col-md-6 col-6">
@@ -28,10 +29,8 @@
             </div>
             <crud-panel
               @delete="onDelete"
-              :item="item"
-              :modal="modal"
-              :modalProps="{ class: 'vm--large' }"
-              name="Поступление"
+              :modelId="item.id"
+              routeName="cashOutflow"
             />
           </div>
         </div>
@@ -55,7 +54,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import Modal from './Modals/CashOutflowModal.vue';
-import CrudPanel from '../General/CRUDPanel.vue';
+import CrudPanel from '../General/CRUDPanelRoute.vue';
 import Paginator from '../General/Paginator.vue';
 
 export default {
@@ -86,7 +85,7 @@ export default {
     ...mapActions('cashOutflows', ['getList']),
 
     add() {
-      this.$modal.show(Modal, null, { class: 'vm--large' });
+      this.$router.push({ name: 'cashOutflow', params: { id: 'new' } });
     },
     onDelete(id) {
       this.$store.dispatch('cashOutflows/delete', id);

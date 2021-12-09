@@ -1,0 +1,32 @@
+@import '../variables';
+
+.details {
+  .greed-details {
+    display: grid;
+    grid-template-columns: 8fr 2fr 3fr 3fr 1fr;
+    grid-gap: 1vw;
+    padding-bottom: 15px;
+
+    &:first-of-type {
+      padding-top: 10px;
+    }
+
+    input[type=text] {
+      padding: 5px!important;
+    }
+  }
+
+  img {
+    cursor: pointer;
+  }
+}
+
+.btn {
+  &.red {
+    background: $red-gradient!important;
+
+    &:hover {
+      background: $red-gradient-reverse!important;
+    }
+  }
+}

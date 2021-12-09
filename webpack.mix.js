@@ -1,4 +1,7 @@
 const mix = require('laravel-mix');
+const config = require('./weback.config');
+
+mix.webpackConfig(config);
 
 /*
  |--------------------------------------------------------------------------

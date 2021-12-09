@@ -1,5 +1,5 @@
 <template>
-  <div class="qwe">
+  <div>
     <div class="row hd py-3">
       <div class="col text-center">
         <div class="header-text">
@@ -13,30 +13,27 @@
     >
       <div class="row">
         <div class="col-4">
-          <div class="row mr-1">
-            <label for="date">
-              <input
-                v-model="editedModel.date"
-                id="date"
-                class="w-100 mr-2"
-                type="datetime-local"
-                name="date"
-                required
-                placeholder="Дата"
-              >
-              <span>Дата</span>
-            </label>
-          </div>
+          <label for="date">
+            <input
+              v-model="model.date"
+              id="date"
+              class="w-100 mr-2"
+              type="datetime-local"
+              name="date"
+              required
+              placeholder="Дата"
+            >
+            <span>Дата</span>
+          </label>
         </div>
-        <div class="col-8">
-          <div class="row">
-            <select-list
-              v-model="editedModel.cost_item_id"
-              :list="costItems"
-              :modal="costItemModal"
-              title="Статья расхода"
-            />
-          </div>
+        <div class="col-8 pl-0">
+          <select-list
+            v-model="model.cost_item_id"
+            :key="model.cost_item_id"
+            :list="costItems"
+            :modal="costItemModal"
+            title="Статья расхода"
+          />
         </div>
       </div>
       <div class="row">
@@ -49,7 +46,8 @@
             <div />
           </div>
           <div
-            v-for="item in editedModel.details"
+            v-for="item in model.details"
+            :key="item.id"
             class="greed-details"
           >
             <select-list
@@ -105,17 +103,17 @@
         </div>
       </div>
       <div class="row">
-        <div class="w-100 m-auto pt-3 d-flex justify-content-end">
+        <div class="col pt-3 justify-content-end">
           <div class="btn-group">
             <input
               @click="close"
               type="button"
-              value="Отменить"
+              value="Назад"
               class="btn red mr-3"
             >
             <input
               type="submit"
-              value="Записать"
+              value="Записать и закрыть"
               class="btn"
             >
           </div>
@@ -126,28 +124,20 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import SelectList from '../../General/SelectList.vue';
-import NomenclatureModal from './NomenclatureModal.vue';
-import CostItemModal from './CostItemModal.vue';
+import SelectList from '../General/SelectList.vue';
+import NomenclatureModal from './Modals/NomenclatureModal.vue';
+import CostItemModal from './Modals/CostItemModal.vue';
 
 export default {
-  name: 'CashOutflowModal',
+  name: 'CashOutflow',
   components: {
     SelectList,
   },
-  props: {
-    model: {
-      type: Object,
-      default() {
-        return {};
-      },
-    },
-  },
   data() {
     return {
-      editedModel: {
-        date: null,
+      model: {
         id: null,
+        date: null,
         cost_item_id: null,
         details: [],
       },
@@ -166,42 +156,78 @@ export default {
       return CostItemModal;
     },
     sum() {
-      return this.editedModel.details.length > 0
-        ? this.editedModel.details.map((item) => (item.cost * item.count)).reduce((prev, cur) => prev + cur) : 0;
+      return this.model.details.length > 0
+        ? this.model.details.map((item) => (item.cost * item.count)).reduce((prev, cur) => prev + cur) : 0;
+    },
+    prevRoute() {
+      return this.$route.params.prevRoute ?? 'cashOutflows';
+    },
+    parentId() {
+      return Number(this.$route.params.parent_id);
+    },
+    id() {
+      return Number(this.$route.params.id);
     },
   },
   beforeMount() {
-    Object.assign(this.editedModel, JSON.parse(JSON.stringify(this.model)));
-    if (this.model.date) {
-      this.editedModel.date = `${this.model.date.slice(0, 10)}T${this.model.date.slice(11, 16)}`;
+    if (this.id) {
+      this.fillModel();
+    } else if (this.parentId) {
+      this.fillModelFromParent();
     } else {
-      const date = new Date();
-      this.editedModel.date = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().substr(0, 16);
+      this.setDefaults();
     }
   },
   methods: {
+    fillModel() {
+      this.getCashOutflow(this.id).then(({ data }) => {
+        this.model = data;
+        this.model.date = `${this.model.date.slice(0, 10)}T${this.model.date.slice(11, 16)}`;
+      });
+    },
+    fillModelFromParent() {
+      this.getCashOutflow(this.parentId).then(({ data }) => {
+        this.model = data;
+        this.model.id = null;
+        this.setDefaults();
+      });
+    },
+    getCashOutflow(id) {
+      return this.$store.dispatch('cashOutflows/get', id);
+    },
+    setDefaults() {
+      const date = new Date();
+      this.model.date = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().substr(0, 16);
+    },
     addNewRow() {
-      this.editedModel.details.push({
+      this.model.details.push({
         id: null,
         nomenclature_id: null,
         count: 1,
         cost: 0,
       });
     },
-    removeRow(item) {
-      this.editedModel.details.splice(this.editedModel.details.indexOf(item), 1);
+    removeRow(row) {
+      this.model.details.splice(this.model.details.indexOf(row), 1);
     },
     save() {
       if (this.model.id) {
-        this.$store.dispatch('cashOutflows/update', this.editedModel);
+        this.$store.dispatch('cashOutflows/update', this.model).then(() => {
+          this.close();
+        });
       } else {
-        this.$store.dispatch('cashOutflows/create', this.editedModel);
+        this.$store.dispatch('cashOutflows/create', this.model).then(() => {
+          this.close();
+        });
       }
-      this.close();
     },
     close() {
-      this.$emit('close');
+      this.$router.push({ name: this.prevRoute });
     },
   },
 };
 </script>
+
+<style scoped lang="scss">
+@import '@styles/components/cash-outflow.scss';
+</style>

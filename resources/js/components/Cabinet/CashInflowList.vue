@@ -15,7 +15,7 @@
             Сумма
           </div>
         </div>
-        <div class="list">
+        <div class="list paginated-list">
           <div
             v-for="item in list"
             :key="item.id"
