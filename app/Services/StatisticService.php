@@ -45,7 +45,7 @@ class StatisticService
     {
         return (float) CashOutflow::query()
             ->select('user_id', DB::raw('SUM(sum) as sum'))
-            ->where('user_id', $this->user->id)
+            ->ofUser($this->user)
             ->groupBy('user_id')
             ->sum('sum');
     }
@@ -57,7 +57,7 @@ class StatisticService
     {
         return (float) CashInflow::query()
             ->select('user_id', DB::raw('SUM(sum) as sum'))
-            ->where('user_id', $this->user->id)
+            ->ofUser($this->user)
             ->groupBy('user_id')
             ->sum('sum');
     }
