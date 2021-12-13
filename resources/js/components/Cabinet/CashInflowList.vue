@@ -29,9 +29,8 @@
             </div>
             <crud-panel
               @delete="onDelete"
-              :item="item"
-              :modal="modal"
-              name="Поступление"
+              :modelId="item.id"
+              routeName="cashInflow"
             />
           </div>
         </div>
@@ -54,8 +53,7 @@
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import Modal from './Modals/CashInflowModal.vue';
-import CrudPanel from '../General/CRUDPanel.vue';
+import CrudPanel from '../General/CRUDPanelRoute.vue';
 import Paginator from '../General/Paginator.vue';
 
 export default {
@@ -75,10 +73,6 @@ export default {
       'page',
       'pages',
     ]),
-
-    modal() {
-      return Modal;
-    },
   },
   created() {
     this.getList();
@@ -87,10 +81,11 @@ export default {
     ...mapActions('cashInflows', ['getList']),
 
     add() {
-      this.$modal.show(Modal);
+      this.$router.push({ name: 'cashInflow', params: { id: 'new' } });
     },
     onDelete(id) {
-      this.$store.dispatch('cashInflows/delete', id);
+      this.$store.dispatch('cashInflows/delete', id)
+        .then(() => this.getList());
     },
   },
 };

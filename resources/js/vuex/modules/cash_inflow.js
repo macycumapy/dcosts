@@ -18,29 +18,20 @@ const actions = {
       commit('setCashInflows', data.data);
     });
   },
-  create: ({ dispatch }, payload) => {
-    dispatch('request/post', {
-      url: 'cash-inflow',
-      params: payload,
-    }, { root: true }).then(() => {
-      dispatch('getList');
-    });
-  },
-  update: ({ dispatch }, payload) => {
-    dispatch('request/put', {
-      url: `cash-inflow/${payload.id}`,
-      params: payload,
-    }, { root: true }).then(() => {
-      dispatch('getList');
-    });
-  },
-  delete: ({ dispatch }, id) => {
-    dispatch('request/del', {
-      url: `cash-inflow/${id}`,
-    }, { root: true }).then(() => {
-      dispatch('getList');
-    });
-  },
+  get: ({ dispatch }, id) => dispatch('request/get', {
+    url: `cash-inflow/${id}`,
+  }, { root: true }),
+  create: ({ dispatch }, payload) => dispatch('request/post', {
+    url: 'cash-inflow',
+    params: payload,
+  }, { root: true }),
+  update: ({ dispatch }, payload) => dispatch('request/put', {
+    url: `cash-inflow/${payload.id}`,
+    params: payload,
+  }, { root: true }),
+  delete: ({ dispatch }, id) => dispatch('request/del', {
+    url: `cash-inflow/${id}`,
+  }, { root: true }),
 };
 
 const mutations = {

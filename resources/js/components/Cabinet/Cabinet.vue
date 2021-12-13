@@ -1,7 +1,7 @@
 <template>
   <div id="lk">
     <sidebar />
-    <div class="container-fluid py-3">
+    <div class="container">
       <router-view />
     </div>
     <v-dialog />
