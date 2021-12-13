@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-class StatisticTest extends TestCase
+class CashFlowTest extends TestCase
 {
     use RefreshDatabase;
 

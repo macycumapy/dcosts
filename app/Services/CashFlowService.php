@@ -7,11 +7,9 @@ namespace App\Services;
 use App\Models\CashInflow;
 use App\Models\CashOutflow;
 use App\Models\User;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
-class StatisticService
+class CashFlowService
 {
     /**
      * @param User $user

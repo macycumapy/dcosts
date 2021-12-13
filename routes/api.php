@@ -7,7 +7,7 @@ use App\Http\Controllers\CostItemController;
 use App\Http\Controllers\NomenclatureController;
 use App\Http\Controllers\NomenclatureTypeController;
 use App\Http\Controllers\PartnerController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CashFlowController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -86,5 +86,5 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/{cashInflow}', [CashInflowController::class, 'destroy']);
     });
 
-    Route::get('/balance', [HomeController::class, 'getBalance']);
+    Route::get('/balance', [CashFlowController::class, 'getBalance']);
 });

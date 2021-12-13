@@ -6,23 +6,23 @@ use App\Models\CashInflow;
 use App\Models\CashOutflow;
 use App\Models\CashOutflowDetails;
 use App\Models\User;
-use App\Services\StatisticService;
+use App\Services\CashFlowService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class StatisticServiceTest extends TestCase
+class CashFlowServiceTest extends TestCase
 {
     use RefreshDatabase;
 
     private User $user;
-    private StatisticService $service;
+    private CashFlowService $service;
 
     public function setUp(): void
     {
         parent::setUp();
 
         $this->user = User::factory()->create();
-        $this->service = StatisticService::make($this->user);
+        $this->service = CashFlowService::make($this->user);
     }
 
     /**
