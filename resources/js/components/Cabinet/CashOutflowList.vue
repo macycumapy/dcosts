@@ -53,7 +53,6 @@
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import Modal from './Modals/CashOutflowModal.vue';
 import CrudPanel from '../General/CRUDPanelRoute.vue';
 import Paginator from '../General/Paginator.vue';
 
@@ -73,10 +72,6 @@ export default {
       'pages',
       'page',
     ]),
-
-    modal() {
-      return Modal;
-    },
   },
   created() {
     this.getList();
