@@ -20,7 +20,7 @@ class CreateCashOutflowDetailsTable extends Migration
             $table->unsignedBigInteger('cash_outflow_id');
             $table->unsignedBigInteger('nomenclature_id');
 
-            $table->foreign('cash_outflow_id')->references('id')->on('cash_outflows')->onDelete('cascade');
+            $table->foreign('cash_outflow_id')->references('id')->on('cash_flows')->onDelete('cascade');
             $table->foreign('nomenclature_id')->references('id')->on('nomenclatures');
         });
     }

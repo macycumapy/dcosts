@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\CashInflow;
+use App\Models\CashFlow;
 use App\Models\CostItem;
 use App\Models\Partner;
 use App\Models\User;
@@ -31,13 +31,13 @@ class CashInflowTest extends TestCase
         $responseData = json_decode($response->getContent())->data->data;
         $this->assertEmpty($responseData);
 
-        CashInflow::factory()->create();
+        CashFlow::factory()->create();
         $response = $this->getJson($this->uri);
         $response->assertOk();
         $responseData = json_decode($response->getContent())->data->data;
         $this->assertEmpty($responseData);
 
-        CashInflow::factory(['user_id' => $this->user->id])->create();
+        CashFlow::factory()->user($this->user)->create();
         $response = $this->getJson($this->uri);
         $response->assertOk();
         $responseData = json_decode($response->getContent())->data->data;
@@ -52,9 +52,9 @@ class CashInflowTest extends TestCase
         $response->assertJsonStructure(['data' => ['id', 'date', 'sum']]);
         $responseData = json_decode($response->getContent())->data;
 
-        /** @var CashInflow $cashInflow */
-        $this->assertNotNull($cashInflow = CashInflow::find($responseData->id));
-        $this->assertEmpty(array_diff($data, $cashInflow->toArray()));
+        /** @var CashFlow $cashInflow */
+        $this->assertNotNull($cashInflow = CashFlow::find($responseData->id));
+        $this->assertEmpty(array_diff_assoc($data, $cashInflow->toArray()));
     }
 
     public function testShow(): void
@@ -62,13 +62,13 @@ class CashInflowTest extends TestCase
         $response = $this->getJson($this->uri . "/9999");
         $response->assertNotFound();
 
-        /** @var CashInflow $cashInflow */
-        $cashInflow = CashInflow::factory()->create();
+        /** @var CashFlow $cashInflow */
+        $cashInflow = CashFlow::factory()->create();
         $response = $this->getJson($this->uri . "/$cashInflow->id");
         $response->assertForbidden();
 
-        /** @var CashInflow $cashInflow */
-        $cashInflow = CashInflow::factory()->create(['user_id' => $this->user->id]);
+        /** @var CashFlow $cashInflow */
+        $cashInflow = CashFlow::factory()->user($this->user)->create();
         $response = $this->getJson($this->uri . "/$cashInflow->id");
         $response->assertOk();
     }
@@ -79,16 +79,16 @@ class CashInflowTest extends TestCase
         $response = $this->putJson($this->uri . "/9999");
         $response->assertNotFound();
 
-        /** @var CashInflow $cashInflow */
-        $cashInflow = CashInflow::factory()->create();
+        /** @var CashFlow $cashInflow */
+        $cashInflow = CashFlow::factory()->create();
         $response = $this->putJson($this->uri . "/$cashInflow->id");
         $response->assertForbidden();
 
-        /** @var CashInflow $cashInflow */
-        $cashInflow = CashInflow::factory()->create(['user_id' => $this->user->id]);
+        /** @var CashFlow $cashInflow */
+        $cashInflow = CashFlow::factory()->user($this->user)->create();
         $response = $this->putJson($this->uri . "/$cashInflow->id", $data);
         $response->assertOk();
-        $this->assertEmpty(array_diff($data, $cashInflow->fresh()->toArray()));
+        $this->assertEmpty(array_diff_assoc($data, $cashInflow->fresh()->toArray()));
     }
 
     public function testDestroy(): void
@@ -96,16 +96,16 @@ class CashInflowTest extends TestCase
         $response = $this->deleteJson($this->uri . "/9999");
         $response->assertNotFound();
 
-        /** @var CashInflow $cashInflow */
-        $cashInflow = CashInflow::factory()->create();
+        /** @var CashFlow $cashInflow */
+        $cashInflow = CashFlow::factory()->create();
         $response = $this->deleteJson($this->uri . "/$cashInflow->id");
         $response->assertForbidden();
 
-        /** @var CashInflow $cashInflow */
-        $cashInflow = CashInflow::factory()->create(['user_id' => $this->user->id]);
+        /** @var CashFlow $cashInflow */
+        $cashInflow = CashFlow::factory()->user($this->user)->create();
         $response = $this->deleteJson($this->uri . "/$cashInflow->id");
         $response->assertOk();
-        $this->assertNull(CashInflow::find($cashInflow->id));
+        $this->assertNull(CashFlow::find($cashInflow->id));
     }
 
     public function initData(): array

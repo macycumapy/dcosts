@@ -63,9 +63,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::group(['prefix' => '/cash-outflow'], function () {
         Route::get('/', [CashOutflowController::class, 'index']);
         Route::post('/', [CashOutflowController::class, 'store']);
-        Route::get('/{cashOutflow}', [CashOutflowController::class, 'show']);
-        Route::put('/{cashOutflow}', [CashOutflowController::class, 'update']);
-        Route::delete('/{cashOutflow}', [CashOutflowController::class, 'destroy']);
+        Route::get('/{cashFlow}', [CashOutflowController::class, 'show']);
+        Route::put('/{cashFlow}', [CashOutflowController::class, 'update']);
+        Route::delete('/{cashFlow}', [CashOutflowController::class, 'destroy']);
     });
 
     /** Контрагенты */
@@ -81,10 +81,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::group(['prefix' => '/cash-inflow'], function () {
         Route::get('/', [CashInflowController::class, 'index']);
         Route::post('/', [CashInflowController::class, 'store']);
-        Route::get('/{cashInflow}', [CashInflowController::class, 'show']);
-        Route::put('/{cashInflow}', [CashInflowController::class, 'update']);
-        Route::delete('/{cashInflow}', [CashInflowController::class, 'destroy']);
+        Route::get('/{cashFlow}', [CashInflowController::class, 'show']);
+        Route::put('/{cashFlow}', [CashInflowController::class, 'update']);
+        Route::delete('/{cashFlow}', [CashInflowController::class, 'destroy']);
     });
 
-    Route::get('/balance', [CashFlowController::class, 'getBalance']);
+    Route::get('/cash-flow', [CashFlowController::class, 'index']);
 });

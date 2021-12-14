@@ -2,41 +2,34 @@
 
 namespace App\Repositories;
 
-use App\Models\CashOutflow;
+use App\Enums\CashFlowType;
+use App\Models\CashFlow;
 use App\Models\CashOutflowDetails;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
-class CashOutflowRepository extends AbstractRepository
+class CashOutflowRepository extends CashFlowRepository
 {
     /**
-     * @param CashOutflow $model
+     * @param CashFlow $model
      */
-    public function __construct(CashOutflow $model)
+    public function __construct(CashFlow $model)
     {
         parent::__construct($model);
-    }
 
-    /**
-     * @inheritDoc
-     */
-    public function paginate(?array $filters = null): LengthAwarePaginator
-    {
-        $this->query->orderByDesc('date');
-
-        return parent::paginate($filters);
+        $this->query->ofOutflows();
     }
 
     /**
      * @inheritDoc
      * @throws Exception
      */
-    public function create(array $data): CashOutflow
+    public function create(array $data): CashFlow
     {
         try {
             DB::beginTransaction();
+            $data = array_merge($data, ['type' => CashFlowType::Outflow]);
             $this->model = $this->model->create($data);
             foreach ($data['details'] as $detail) {
                 $this->addDetails($detail);

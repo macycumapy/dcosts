@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\CashInflow;
+namespace App\Http\Requests\CashFlow;
 
-use App\Models\CashInflow;
+use App\Models\CashFlow;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 /**
- * @property-read CashInflow $cashInflow
+ * @property-read CashFlow $cashFlow
  * @property-read string $date
  * @property-read float $sum
  * @property-read int|null $cost_item_id
@@ -22,7 +22,7 @@ class CashInflowUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->cashInflow->user_id === auth()->id();
+        return $this->cashFlow->user_id === auth()->id();
     }
 
     /**

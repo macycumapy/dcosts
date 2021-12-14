@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Requests\CashInflow;
+namespace App\Http\Requests\CashFlow;
 
-use App\Models\CashInflow;
+use App\Models\CashFlow;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * @property-read CashInflow $cashInflow
+ * @property-read CashFlow $cashFlow
  */
-class CashInflowOwnerRequest extends FormRequest
+class CashFlowOwnerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -17,7 +17,7 @@ class CashInflowOwnerRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->cashInflow->user_id === auth()->id();
+        return $this->cashFlow->user_id === auth()->id();
     }
 
     /**

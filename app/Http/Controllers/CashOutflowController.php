@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CashOutflow\CashOutflowOwnerRequest;
-use App\Http\Requests\CashOutflow\CashOutflowStoreRequest;
-use App\Http\Requests\CashOutflow\CashOutflowUpdateRequest;
+use App\Http\Requests\CashFlow\CashFlowOwnerRequest;
+use App\Http\Requests\CashFlow\CashOutflowStoreRequest;
+use App\Http\Requests\CashFlow\CashOutflowUpdateRequest;
+use App\Http\Resources\CashFlowPaginatorResource;
 use App\Http\Resources\CashOutflowResource;
-use App\Models\CashOutflow;
+use App\Models\CashFlow;
 use App\Repositories\CashOutflowRepository;
 use Illuminate\Http\JsonResponse;
 
@@ -29,12 +30,8 @@ class CashOutflowController extends Controller
      */
     public function index(): JsonResponse
     {
-        $result = $this->repository->paginate(['user_id' => auth()->id()]);
-        return $this->successResponse('Список получен', [
-            'data' => CashOutflowResource::collection($result),
-            'pages' => $result->lastPage(),
-            'page' => $result->currentPage(),
-        ]);
+        $paginatedList = $this->repository->paginate(['user_id' => auth()->id()]);
+        return $this->successResponse('Список получен', CashFlowPaginatorResource::make($paginatedList));
     }
 
     /**
@@ -53,40 +50,40 @@ class CashOutflowController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param CashOutflowOwnerRequest $request
-     * @param CashOutflow $cashOutflow
+     * @param CashFlowOwnerRequest $request
+     * @param CashFlow $cashFlow
      * @return JsonResponse
      */
-    public function show(CashOutflowOwnerRequest $request, CashOutflow $cashOutflow): JsonResponse
+    public function show(CashFlowOwnerRequest $request, CashFlow $cashFlow): JsonResponse
     {
-        return $this->successResponse('Расход получен', CashOutflowResource::make($cashOutflow));
+        return $this->successResponse('Расход получен', CashOutflowResource::make($cashFlow));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param CashOutflowUpdateRequest $request
-     * @param CashOutflow $cashOutflow
+     * @param CashFlow $cashFlow
      * @return JsonResponse
      * @throws \Exception
      */
-    public function update(CashOutflowUpdateRequest $request, CashOutflow $cashOutflow): JsonResponse
+    public function update(CashOutflowUpdateRequest $request, CashFlow $cashFlow): JsonResponse
     {
-        $this->repository->update($cashOutflow->id, $request->validated());
+        $this->repository->update($cashFlow->id, $request->validated());
 
-        return $this->successResponse('Расход обновлен', CashOutflowResource::make($cashOutflow));
+        return $this->successResponse('Расход обновлен', CashOutflowResource::make($cashFlow));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param CashOutflowOwnerRequest $request
-     * @param CashOutflow $cashOutflow
+     * @param CashFlowOwnerRequest $request
+     * @param CashFlow $cashFlow
      * @return JsonResponse
      */
-    public function destroy(CashOutflowOwnerRequest $request, CashOutflow $cashOutflow): JsonResponse
+    public function destroy(CashFlowOwnerRequest $request, CashFlow $cashFlow): JsonResponse
     {
-        $cashOutflow->delete();
+        $cashFlow->delete();
 
         return $this->successResponse('Расход удален');
     }

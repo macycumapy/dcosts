@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CashInflow\CashInflowOwnerRequest;
-use App\Http\Requests\CashInflow\CashInflowStoreRequest;
-use App\Http\Requests\CashInflow\CashInflowUpdateRequest;
-use App\Models\CashInflow;
+use App\Http\Requests\CashFlow\CashFlowOwnerRequest;
+use App\Http\Requests\CashFlow\CashInflowStoreRequest;
+use App\Http\Requests\CashFlow\CashInflowUpdateRequest;
+use App\Http\Resources\CashFlowPaginatorResource;
+use App\Models\CashFlow;
 use App\Repositories\CashInflowRepository;
 use Illuminate\Http\JsonResponse;
 
@@ -28,12 +29,8 @@ class CashInflowController extends Controller
      */
     public function index(): JsonResponse
     {
-        $result = $this->repository->paginate(['user_id' => auth()->id()]);
-        return $this->successResponse('Список получен', [
-            'data' => $result->all(),
-            'pages' => $result->lastPage(),
-            'page' => $result->currentPage(),
-        ]);
+        $paginatedList = $this->repository->paginate(['user_id' => auth()->id()]);
+        return $this->successResponse('Список получен', CashFlowPaginatorResource::make($paginatedList));
     }
 
     /**
@@ -46,46 +43,46 @@ class CashInflowController extends Controller
     {
         $cashInflow = $this->repository->create($request->validated());
 
-        return $this->successResponse('Номенклатура добавлена', $cashInflow);
+        return $this->successResponse('Поступление добавлено', $cashInflow);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param CashInflowOwnerRequest $request
-     * @param CashInflow $cashInflow
+     * @param CashFlowOwnerRequest $request
+     * @param CashFlow $cashFlow
      * @return JsonResponse
      */
-    public function show(CashInflowOwnerRequest $request, CashInflow $cashInflow): JsonResponse
+    public function show(CashFlowOwnerRequest $request, CashFlow $cashFlow): JsonResponse
     {
-        return $this->successResponse('Номенклатура получена', $cashInflow);
+        return $this->successResponse('Поступление получено', $cashFlow);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param CashInflowUpdateRequest $request
-     * @param CashInflow $cashInflow
+     * @param CashFlow $cashFlow
      * @return JsonResponse
      */
-    public function update(CashInflowUpdateRequest $request, CashInflow $cashInflow): JsonResponse
+    public function update(CashInflowUpdateRequest $request, CashFlow $cashFlow): JsonResponse
     {
-        $cashInflow->update($request->validated());
+        $cashFlow->update($request->validated());
 
-        return $this->successResponse('Номенклатура обновлена', $cashInflow);
+        return $this->successResponse('Поступление обновлено', $cashFlow);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param CashInflowOwnerRequest $request
-     * @param CashInflow $cashInflow
+     * @param CashFlowOwnerRequest $request
+     * @param CashFlow $cashFlow
      * @return JsonResponse
      */
-    public function destroy(CashInflowOwnerRequest $request, CashInflow $cashInflow): JsonResponse
+    public function destroy(CashFlowOwnerRequest $request, CashFlow $cashFlow): JsonResponse
     {
-        $cashInflow->delete();
+        $cashFlow->delete();
 
-        return $this->successResponse('Номенклатура удалена');
+        return $this->successResponse('Поступление удалено');
     }
 }

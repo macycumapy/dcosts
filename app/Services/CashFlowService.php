@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Models\CashInflow;
-use App\Models\CashOutflow;
+use App\Enums\CashFlowType;
+use App\Models\CashFlow;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -33,30 +33,13 @@ class CashFlowService
      */
     public function getBalance(): float
     {
-        return $this->getCashInflowSum() - $this->getCashOutflowSum();
-    }
-
-    /**
-     * @return float
-     */
-    private function getCashOutflowSum(): float
-    {
-        return (float) CashOutflow::query()
-            ->select('user_id', DB::raw('SUM(sum) as sum'))
+        $outflowType = CashFlowType::Outflow->value;
+        
+        return (float) CashFlow::query()
+            ->select('user_id', DB::raw("SUM(case when type = '{$outflowType}' then -sum else sum end) as sum"))
             ->ofUser($this->user)
             ->groupBy('user_id')
-            ->sum('sum');
-    }
-
-    /**
-     * @return float
-     */
-    private function getCashInflowSum(): float
-    {
-        return (float) CashInflow::query()
-            ->select('user_id', DB::raw('SUM(sum) as sum'))
-            ->ofUser($this->user)
-            ->groupBy('user_id')
+            ->get()
             ->sum('sum');
     }
 }

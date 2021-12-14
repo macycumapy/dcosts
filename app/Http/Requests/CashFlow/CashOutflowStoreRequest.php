@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\CashOutflow;
+namespace App\Http\Requests\CashFlow;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;

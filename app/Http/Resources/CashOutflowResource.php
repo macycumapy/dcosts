@@ -2,12 +2,12 @@
 
 namespace App\Http\Resources;
 
-use App\Models\CashOutflow;
+use App\Models\CashFlow;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin CashOutflow
+ * @mixin CashFlow
  */
 class CashOutflowResource extends JsonResource
 {

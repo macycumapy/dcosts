@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\CashOutflow;
+namespace App\Http\Requests\CashFlow;
 
-use App\Models\CashOutflow;
+use App\Models\CashFlow;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 /**
- * @property-read CashOutflow $cashOutflow
+ * @property-read CashFlow $cashFlow
  * @property-read string $date
  * @property-read array $details
  */
@@ -20,7 +20,7 @@ class CashOutflowUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->cashOutflow->user_id === auth()->id();
+        return $this->cashFlow->user_id === auth()->id();
     }
 
     /**

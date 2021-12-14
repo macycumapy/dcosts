@@ -1,14 +1,17 @@
 <template>
   <div id="home">
-    qweqwe
+    <cash-flow-list />
   </div>
 </template>
 
 <script>
+
+import CashFlowList from './CashFlowList.vue';
+
 export default {
   name: 'HomeComponent',
-  created() {
-
+  components: {
+    CashFlowList,
   },
 };
 </script>

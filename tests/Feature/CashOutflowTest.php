@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\CashOutflow;
+use App\Models\CashFlow;
 use App\Models\CashOutflowDetails;
 use App\Models\CostItem;
 use App\Models\Nomenclature;
@@ -32,13 +32,13 @@ class CashOutflowTest extends TestCase
         $responseData = json_decode($response->getContent())->data->data;
         $this->assertEmpty($responseData);
 
-        CashOutflow::factory()->create();
+        CashFlow::factory()->outflow()->create();
         $response = $this->getJson($this->uri);
         $response->assertOk();
         $responseData = json_decode($response->getContent())->data->data;
         $this->assertEmpty($responseData);
 
-        CashOutflow::factory(['user_id' => $this->user->id])->create();
+        CashFlow::factory()->outflow()->user($this->user)->create();
         $response = $this->getJson($this->uri);
         $response->assertOk();
         $responseData = json_decode($response->getContent())->data->data;
@@ -53,8 +53,8 @@ class CashOutflowTest extends TestCase
         $response->assertJsonStructure(['data' => ['id', 'date', 'sum', 'details']]);
         $responseData = json_decode($response->getContent())->data;
 
-        /** @var CashOutflow $cashOutflow */
-        $this->assertNotNull($cashOutflow = CashOutflow::find($responseData->id));
+        /** @var CashFlow $cashOutflow */
+        $this->assertNotNull($cashOutflow = CashFlow::find($responseData->id));
         $this->assertSame((float)collect($data['details'])->sum(fn($item) => $item['count'] * $item['cost']), $cashOutflow->sum);
     }
 
@@ -63,13 +63,13 @@ class CashOutflowTest extends TestCase
         $response = $this->getJson($this->uri . "/9999");
         $response->assertNotFound();
 
-        /** @var CashOutflow $cashOutflow */
-        $cashOutflow = CashOutflow::factory()->create();
+        /** @var CashFlow $cashOutflow */
+        $cashOutflow = CashFlow::factory()->outflow()->create();
         $response = $this->getJson($this->uri . "/$cashOutflow->id");
         $response->assertForbidden();
 
-        /** @var CashOutflow $cashOutflow */
-        $cashOutflow = CashOutflow::factory()->create(['user_id' => $this->user->id]);
+        /** @var CashFlow $cashOutflow */
+        $cashOutflow = CashFlow::factory()->outflow()->user($this->user)->create();
         $response = $this->getJson($this->uri . "/$cashOutflow->id");
         $response->assertOk();
     }
@@ -79,14 +79,14 @@ class CashOutflowTest extends TestCase
         $response = $this->putJson($this->uri . "/9999");
         $response->assertNotFound();
 
-        /** @var CashOutflow $cashOutflow */
-        $cashOutflow = CashOutflow::factory()->create();
+        /** @var CashFlow $cashOutflow */
+        $cashOutflow = CashFlow::factory()->outflow()->create();
         $response = $this->putJson($this->uri . "/$cashOutflow->id");
         $response->assertForbidden();
 
         $data = $this->initData();
-        /** @var CashOutflow $cashOutflow */
-        $cashOutflow = CashOutflow::factory()->create(['user_id' => $this->user->id]);
+        /** @var CashFlow $cashOutflow */
+        $cashOutflow = CashFlow::factory()->outflow()->user($this->user)->create();
         $response = $this->putJson($this->uri . "/$cashOutflow->id", $data);
         $response->assertOk();
         $this->assertSame((float)collect($data['details'])->sum(fn($item) => $item['count'] * $item['cost']), $cashOutflow->fresh()->sum);
@@ -97,19 +97,19 @@ class CashOutflowTest extends TestCase
         $response = $this->deleteJson($this->uri . "/9999");
         $response->assertNotFound();
 
-        /** @var CashOutflow $cashOutflow */
-        $cashOutflow = CashOutflow::factory()->create();
+        /** @var CashFlow $cashOutflow */
+        $cashOutflow = CashFlow::factory()->outflow()->create();
         $response = $this->deleteJson($this->uri . "/$cashOutflow->id");
         $response->assertForbidden();
 
-        /** @var CashOutflow $cashOutflow */
-        $cashOutflow = CashOutflow::factory()->create(['user_id' => $this->user->id]);
+        /** @var CashFlow $cashOutflow */
+        $cashOutflow = CashFlow::factory()->user($this->user)->outflow()->create();
         /** @var CashOutflowDetails $cashOutflowDetails */
         $cashOutflowDetails = CashOutflowDetails::factory()->create(['cash_outflow_id' => $cashOutflow->id]);
 
         $response = $this->deleteJson($this->uri . "/$cashOutflow->id");
         $response->assertOk();
-        $this->assertNull(CashOutflow::find($cashOutflow->id));
+        $this->assertNull(CashFlow::find($cashOutflow->id));
         $this->assertNull(CashOutflowDetails::find($cashOutflowDetails->id));
     }
 

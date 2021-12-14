@@ -2,9 +2,7 @@
 
 namespace Tests\Unit\Services;
 
-use App\Models\CashInflow;
-use App\Models\CashOutflow;
-use App\Models\CashOutflowDetails;
+use App\Models\CashFlow;
 use App\Models\User;
 use App\Services\CashFlowService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -30,11 +28,13 @@ class CashFlowServiceTest extends TestCase
      */
     public function testBalance($inflowSum, $outflowSum, $expected): void
     {
-        CashInflow::factory()->create([
-            'user_id' => $this->user->id,
-            'sum' => $inflowSum
-        ]);
-        CashOutflow::factory()->create(['user_id' => $this->user->id, 'sum' => $outflowSum]);
+        CashFlow::factory()
+            ->user($this->user)
+            ->create(['sum' => $inflowSum]);
+        CashFlow::factory()
+            ->outflow()
+            ->user($this->user)
+            ->create(['sum' => $outflowSum]);
         $this->assertSame($expected, $this->service->getBalance());
     }
 

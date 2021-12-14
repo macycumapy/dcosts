@@ -2,23 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\CashFlowService;
+use App\Http\Resources\CashFlowPaginatorResource;
+use App\Repositories\CashFlowRepository;
 use Illuminate\Http\JsonResponse;
 
 class CashFlowController extends Controller
 {
     /**
-     * @param CashFlowService $cashFlow
+     * @param CashFlowRepository $repository
      */
-    public function __construct(private CashFlowService $cashFlow)
+    public function __construct(private CashFlowRepository $repository)
     {
     }
 
     /**
      * @return JsonResponse
      */
-    public function getBalance(): JsonResponse
+    public function index(): JsonResponse
     {
-        return $this->successResponse('Текущий баланс', $this->cashFlow->getBalance());
+        $paginatedList = $this->repository->paginate(['user_id' => auth()->id()]);
+
+        return $this->successResponse('Список получен', CashFlowPaginatorResource::make($paginatedList));
     }
 }

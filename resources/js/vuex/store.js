@@ -9,6 +9,7 @@ import partner from './modules/partner';
 import costItem from './modules/cost_item';
 import cashInflows from './modules/cash_inflow';
 import cashOutflows from './modules/cash_outflow';
+import cashFlows from './modules/cash_flow';
 
 Vue.use(Vuex);
 
@@ -23,5 +24,6 @@ export const store = new Vuex.Store({
         costItem,
         cashInflows,
         cashOutflows,
+        cashFlows,
     },
 });

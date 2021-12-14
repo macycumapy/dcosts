@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\CashFlow;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
@@ -20,9 +21,9 @@ class CashFlowTest extends TestCase
         Sanctum::actingAs($this->user);
     }
 
-    public function testGetBalance(): void
+    public function testGetCashFlowList(): void
     {
-        $response = $this->get('/api/balance');
+        $response = $this->get('/api/cash-flow');
         $response->assertOk();
     }
 }

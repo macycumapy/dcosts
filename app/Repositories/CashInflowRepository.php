@@ -2,26 +2,27 @@
 
 namespace App\Repositories;
 
-use App\Models\CashInflow;
-use Illuminate\Pagination\LengthAwarePaginator;
+use App\Enums\CashFlowType;
+use App\Models\CashFlow;
+use Illuminate\Database\Eloquent\Model;
 
-class CashInflowRepository extends AbstractRepository
+class CashInflowRepository extends CashFlowRepository
 {
     /**
-     * @param CashInflow $model
+     * @param CashFlow $model
      */
-    public function __construct(CashInflow $model)
+    public function __construct(CashFlow $model)
     {
         parent::__construct($model);
+        $this->query->ofInflows();
     }
 
     /**
      * @inheritDoc
      */
-    public function paginate(?array $filters = null): LengthAwarePaginator
+    public function create(array $data): Model
     {
-        $this->query->orderByDesc('date');
-
-        return parent::paginate($filters);
+        $data = array_merge($data, ['type' => CashFlowType::Inflow]);
+        return parent::create($data);
     }
 }
