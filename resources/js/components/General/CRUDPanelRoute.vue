@@ -4,16 +4,19 @@
       @click="edit()"
       src="/images/edit.png"
       alt="edit"
+      title="Изменить"
     >
     <img
       @click="copy()"
       src="/images/copy.png"
       alt="copy"
+      title="Копировать"
     >
     <img
       @click="remove()"
       src="/images/delete.png"
       alt="delete"
+      title="Удалить"
     >
   </div>
 </template>
