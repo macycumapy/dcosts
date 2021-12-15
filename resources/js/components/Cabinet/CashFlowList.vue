@@ -39,7 +39,7 @@
             <crud-panel
               @delete="onDelete"
               :modelId="item.id"
-              :routeName="isOutflow ? 'cashOutflow' : 'cashInflow'"
+              :routeName="isOutflow(item) ? 'cashOutflow' : 'cashInflow'"
             />
           </div>
         </div>
