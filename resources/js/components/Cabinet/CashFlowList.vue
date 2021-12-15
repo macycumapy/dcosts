@@ -8,13 +8,13 @@
           </div>
         </div>
         <div class="list-header">
-          <div class="col-xl-3 col-lg-3 col-md-4 col-4 text-start">
+          <div class="col-md-4 col-4 text-start">
             Дата
           </div>
-          <div class="col-xl-4 col-lg-4 col-md-4 col-4 text-end">
+          <div class="col-md-4 col-4 text-center">
             Тип
           </div>
-          <div class="col-xl-5 col-lg-5 col-md-4 col-4 text-end">
+          <div class="col-md-4 col-4 text-end">
             Сумма
           </div>
         </div>
@@ -24,14 +24,14 @@
             :key="item.id"
             class="row pl-4 position-relative"
           >
-            <div class="col-xl-3 col-lg-3 col-md-4 col-4">
+            <div class="col-md-4 col-4">
               {{ new Date(item.date).toLocaleString().substr(0, 17) }}
             </div>
-            <div class="col-xl-4 col-lg-4 col-md-4 col-4 text-end">
+            <div class="col-md-4 col-4 text-center">
               {{ item.cost_item }}
             </div>
             <div
-              class="col-xl-5 col-lg-5 col-md-4 col-4 text-end"
+              class="col-md-4 col-4 text-end"
               :class="{ red: isOutflow(item) }"
             >
               {{ getSum(item) }}
