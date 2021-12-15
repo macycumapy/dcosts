@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $cash_outflow_id ID расхода
  * @property int $nomenclature_id ID номенклатуры
  *
- * @property-read CashFlow $cashOutflow Расход денежных средств
+ * @property-read CashFlow $cashFlow Расход денежных средств
  * @property-read Nomenclature $nomenclature Номенклатура
  * @property-read float $sum Сумма
  */
@@ -36,7 +36,7 @@ class CashOutflowDetails extends Model
      * Расход денежных средств
      * @return BelongsTo
      */
-    public function cashOutflow(): BelongsTo
+    public function cashFlow(): BelongsTo
     {
         return $this->belongsTo(CashFlow::class, 'cash_outflow_id');
     }

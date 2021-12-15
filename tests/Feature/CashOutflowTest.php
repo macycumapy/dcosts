@@ -38,7 +38,7 @@ class CashOutflowTest extends TestCase
         $responseData = json_decode($response->getContent())->data->data;
         $this->assertEmpty($responseData);
 
-        CashFlow::factory()->outflow()->user($this->user)->create();
+        CashFlow::factory()->outflow()->for($this->user)->create();
         $response = $this->getJson($this->uri);
         $response->assertOk();
         $responseData = json_decode($response->getContent())->data->data;
@@ -69,7 +69,7 @@ class CashOutflowTest extends TestCase
         $response->assertForbidden();
 
         /** @var CashFlow $cashOutflow */
-        $cashOutflow = CashFlow::factory()->outflow()->user($this->user)->create();
+        $cashOutflow = CashFlow::factory()->outflow()->for($this->user)->create();
         $response = $this->getJson($this->uri . "/$cashOutflow->id");
         $response->assertOk();
     }
@@ -86,7 +86,7 @@ class CashOutflowTest extends TestCase
 
         $data = $this->initData();
         /** @var CashFlow $cashOutflow */
-        $cashOutflow = CashFlow::factory()->outflow()->user($this->user)->create();
+        $cashOutflow = CashFlow::factory()->outflow()->for($this->user)->create();
         $response = $this->putJson($this->uri . "/$cashOutflow->id", $data);
         $response->assertOk();
         $this->assertSame((float)collect($data['details'])->sum(fn($item) => $item['count'] * $item['cost']), $cashOutflow->fresh()->sum);
@@ -103,7 +103,7 @@ class CashOutflowTest extends TestCase
         $response->assertForbidden();
 
         /** @var CashFlow $cashOutflow */
-        $cashOutflow = CashFlow::factory()->user($this->user)->outflow()->create();
+        $cashOutflow = CashFlow::factory()->for($this->user)->outflow()->create();
         /** @var CashOutflowDetails $cashOutflowDetails */
         $cashOutflowDetails = CashOutflowDetails::factory()->create(['cash_outflow_id' => $cashOutflow->id]);
 

@@ -35,13 +35,4 @@ class CashFlowFactory extends Factory
             ];
         });
     }
-    
-    public function user(User $user)
-    {
-        return $this->state(function (array $attributes) use ($user) {
-            return [
-                'user_id' => $user->id,
-            ];
-        });
-    }
 }

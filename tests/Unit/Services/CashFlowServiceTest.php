@@ -29,11 +29,11 @@ class CashFlowServiceTest extends TestCase
     public function testBalance($inflowSum, $outflowSum, $expected): void
     {
         CashFlow::factory()
-            ->user($this->user)
+            ->for($this->user)
             ->create(['sum' => $inflowSum]);
         CashFlow::factory()
             ->outflow()
-            ->user($this->user)
+            ->for($this->user)
             ->create(['sum' => $outflowSum]);
         $this->assertSame($expected, $this->service->getBalance());
     }

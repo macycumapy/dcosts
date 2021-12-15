@@ -37,7 +37,7 @@ class CashInflowTest extends TestCase
         $responseData = json_decode($response->getContent())->data->data;
         $this->assertEmpty($responseData);
 
-        CashFlow::factory()->user($this->user)->create();
+        CashFlow::factory()->for($this->user)->create();
         $response = $this->getJson($this->uri);
         $response->assertOk();
         $responseData = json_decode($response->getContent())->data->data;
@@ -68,7 +68,7 @@ class CashInflowTest extends TestCase
         $response->assertForbidden();
 
         /** @var CashFlow $cashInflow */
-        $cashInflow = CashFlow::factory()->user($this->user)->create();
+        $cashInflow = CashFlow::factory()->for($this->user)->create();
         $response = $this->getJson($this->uri . "/$cashInflow->id");
         $response->assertOk();
     }
@@ -85,7 +85,7 @@ class CashInflowTest extends TestCase
         $response->assertForbidden();
 
         /** @var CashFlow $cashInflow */
-        $cashInflow = CashFlow::factory()->user($this->user)->create();
+        $cashInflow = CashFlow::factory()->for($this->user)->create();
         $response = $this->putJson($this->uri . "/$cashInflow->id", $data);
         $response->assertOk();
         $this->assertEmpty(array_diff_assoc($data, $cashInflow->fresh()->toArray()));
@@ -102,7 +102,7 @@ class CashInflowTest extends TestCase
         $response->assertForbidden();
 
         /** @var CashFlow $cashInflow */
-        $cashInflow = CashFlow::factory()->user($this->user)->create();
+        $cashInflow = CashFlow::factory()->for($this->user)->create();
         $response = $this->deleteJson($this->uri . "/$cashInflow->id");
         $response->assertOk();
         $this->assertNull(CashFlow::find($cashInflow->id));
