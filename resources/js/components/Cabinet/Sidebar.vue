@@ -25,7 +25,7 @@
       </li>
       <li>
         <router-link :to="{ name: 'costItems' }">
-          Статьи затрат
+          Категории доходов и расходов
         </router-link>
       </li>
       <li>

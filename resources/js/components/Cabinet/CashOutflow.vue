@@ -30,8 +30,9 @@
           <select-list
             v-model="model.cost_item_id"
             :key="model.cost_item_id"
-            :list="costItems"
+            :list="filteredCostItems"
             :modal="costItemModal"
+            :modalProps="{type: cashFlowType}"
             title="Статья расхода"
           />
         </div>
@@ -146,6 +147,12 @@ export default {
   computed: {
     ...mapGetters(['nomenclature', 'costItems']),
 
+    filteredCostItems() {
+      return this.costItems.filter(item => item.type === this.cashFlowType);
+    },
+    cashFlowType() {
+      return this.$constants.CASH_FLOW_TYPES.Inflow.value;
+    },
     title() {
       return this.model.id ? 'Расход' : 'Новый расход';
     },

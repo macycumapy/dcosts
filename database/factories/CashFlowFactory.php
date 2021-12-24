@@ -32,6 +32,7 @@ class CashFlowFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'type' => CashFlowType::Outflow,
+                'cost_item_id' => CostItem::factory()->outflow()->create(),
             ];
         });
     }

@@ -8,7 +8,7 @@
       </div>
     </div>
     <form
-      @submit.prevent="save"
+      @submit.prevent="saveAndClose"
       class="form-horizontal"
     >
       <div class="row mb-3">
@@ -24,6 +24,16 @@
           >
           <span>Наименование</span>
         </label>
+      </div>
+      <div class="row">
+        <select-list
+          v-model="editedModel.type"
+          :list="cashFlowTypes"
+          :disabled="!isNew"
+          optionValue="value"
+          optionText="title"
+          title="Тип"
+        />
       </div>
       <div class="row">
         <div class="w-100 m-auto pt-3">
@@ -46,8 +56,13 @@
   </div>
 </template>
 <script>
+import SelectList from '../../General/SelectList.vue';
+
 export default {
   name: 'CostItemModal',
+  components: {
+    SelectList,
+  },
   props: {
     model: {
       type: Object,
@@ -61,12 +76,19 @@ export default {
       editedModel: {
         id: null,
         name: '',
+        type: null,
       },
     };
   },
   computed: {
     title() {
-      return this.editedModel.id ? this.name : 'Новая статья';
+      return this.editedModel.id ? this.editedModel.name : 'Новая категория';
+    },
+    isNew() {
+      return !this.editedModel.id;
+    },
+    cashFlowTypes() {
+      return Object.values(this.$constants.CASH_FLOW_TYPES);
     },
   },
   beforeMount() {
@@ -74,12 +96,14 @@ export default {
   },
   methods: {
     save() {
-      if (this.editedModel.id) {
-        this.$store.dispatch('updateCostItem', this.editedModel);
-      } else {
-        this.$store.dispatch('addCostItem', this.editedModel);
+      if (this.isNew) {
+        return this.$store.dispatch('addCostItem', this.editedModel);
       }
-      this.close();
+
+      return this.$store.dispatch('updateCostItem', this.editedModel);
+    },
+    saveAndClose() {
+      this.save().then(() => this.close());
     },
     close() {
       this.$emit('close');

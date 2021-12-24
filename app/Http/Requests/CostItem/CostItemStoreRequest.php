@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\CostItem;
 
+use App\Enums\CashFlowType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 /**
  * @property-read string $name
@@ -18,6 +20,7 @@ class CostItemStoreRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
+            'type' => ['required', Rule::in(CashFlowType::values())]
         ];
     }
 

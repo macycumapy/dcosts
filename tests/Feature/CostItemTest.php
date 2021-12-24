@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enums\CashFlowType;
 use App\Models\CostItem;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -43,18 +44,32 @@ class CostItemTest extends TestCase
     }
 
     /**
-     * @dataProvider dataProvider
+     * @dataProvider storeDataProvider
      */
     public function testStore($data): void
     {
         $response = $this->postJson($this->uri, $data);
         $response->assertOk();
-        $response->assertJsonStructure(['data' => ['id', 'name']]);
+        $response->assertJsonStructure(['data' => ['id', 'name', 'type']]);
         $responseData = json_decode($response->getContent())->data;
 
         /** @var CostItem $costItem */
         $this->assertNotNull($costItem = CostItem::find($responseData->id));
-        $this->assertEmpty(array_diff($data, $costItem->toArray()));
+        $this->assertEmpty(array_udiff_assoc($data, $costItem->toArray(), static fn($a, $b) => $a !== $b));
+    }
+
+    public function storeDataProvider(): array
+    {
+        return [
+            CashFlowType::Outflow->value => [[
+                'name' => 'just a name',
+                'type' => CashFlowType::Outflow,
+            ]],
+            CashFlowType::Inflow->value => [[
+                'name' => 'just a name',
+                'type' => CashFlowType::Inflow,
+            ]],
+        ];
     }
 
     public function testShow(): void
@@ -74,7 +89,7 @@ class CostItemTest extends TestCase
     }
 
     /**
-     * @dataProvider dataProvider
+     * @dataProvider updateDataProvider
      */
     public function testUpdate($data): void
     {
@@ -90,9 +105,18 @@ class CostItemTest extends TestCase
         $costItem = CostItem::factory()->create(['user_id' => $this->user->id]);
         $response = $this->putJson($this->uri . "/$costItem->id", $data);
         $response->assertOk();
-        $this->assertEmpty(array_diff($data, $costItem->fresh()->toArray()));
+        $this->assertEmpty(array_diff_assoc($data, $costItem->fresh()->toArray()));
     }
 
+    public function updateDataProvider(): array
+    {
+        return [
+            [[
+                'name' => 'just a name',
+            ]]
+        ];
+    }
+    
     public function testDestroy(): void
     {
         $response = $this->deleteJson($this->uri . "/9999");
@@ -108,14 +132,5 @@ class CostItemTest extends TestCase
         $response = $this->deleteJson($this->uri . "/$costItem->id");
         $response->assertOk();
         $this->assertNull(CostItem::find($costItem->id));
-    }
-
-    public function dataProvider(): array
-    {
-        return [
-            [[
-                'name' => 'just a name'
-            ]],
-        ];
     }
 }

@@ -27,3 +27,6 @@ migrate:
 # Cброс владельца файлов
 chown:
 	chown -R $USER:$USER ./
+
+bash:
+	docker-compose exec app bash

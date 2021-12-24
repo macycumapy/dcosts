@@ -14,29 +14,23 @@ const actions = {
             commit('setCostItems', data.data);
         });
     },
-    addCostItem: ({ dispatch }, payload) => {
-        dispatch('request/post', {
+    addCostItem: ({ dispatch }, payload) => dispatch('request/post', {
             url: 'cost-items',
             params: payload,
         }).then(() => {
             dispatch('getCostItems');
-        });
-    },
-    updateCostItem: ({ dispatch }, payload) => {
-        dispatch('request/put', {
+        }),
+    updateCostItem: ({ dispatch }, payload) => dispatch('request/put', {
             url: `cost-items/${payload.id}`,
             params: payload,
         }).then(() => {
             dispatch('getCostItems');
-        });
-    },
-    deleteCostItem: ({ dispatch }, id) => {
-        dispatch('request/del', {
+        }),
+    deleteCostItem: ({ dispatch }, id) => dispatch('request/del', {
             url: `cost-items/${id}`,
         }).then(() => {
             dispatch('getCostItems');
-        });
-    },
+        }),
 };
 
 const mutations = {

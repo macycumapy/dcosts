@@ -8,17 +8,24 @@
           </div>
         </div>
         <div class="list-header">
-          <div class="col-xl-3 col-lg-3 col-md-6 col-6 text-start">
+          <div class="col-8 text-start">
             Наименование
+          </div>
+          <div class="col-4 text-center">
+            Тип
           </div>
         </div>
         <div class="list">
           <div
             v-for="item in costItems"
+            :key="item.name"
             class="row pl-4 position-relative"
           >
-            <div class="col-xl-3 col-lg-3 col-md-6 col-6">
+            <div class="col-8">
               {{ item.name }}
+            </div>
+            <div class="col-4 text-center">
+              {{ getTypeTitle(item.type) }}
             </div>
             <crud-panel
               @delete="onDelete"
@@ -52,7 +59,7 @@
       },
       data() {
         return {
-          title: 'Статьи затрат',
+          title: 'Категории доходов и расходов',
         };
       },
       computed: {
@@ -68,6 +75,10 @@
         },
         onDelete(id) {
           this.$store.dispatch('deleteCostItem', id);
+        },
+        getTypeTitle(type) {
+          const cashFlowType = this.$constants.CASH_FLOW_TYPES[type];
+          return cashFlowType ? cashFlowType.title : '';
         },
       },
     };

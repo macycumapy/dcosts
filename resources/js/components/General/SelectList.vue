@@ -12,6 +12,7 @@
           v-model="search"
           @click="show"
           @focus="show"
+          :disabled="disabled"
           type="text"
           class="w-100"
         >
@@ -77,7 +78,7 @@ export default {
     },
     /** Текущее значение */
     value: {
-      type: Number,
+      type: [Number, String],
       default: () => null,
     },
     /** Заголовок */
@@ -89,6 +90,16 @@ export default {
     modal: {
       type: Object,
       default: () => null,
+    },
+    /** Блокировка */
+    disabled: {
+      type: Boolean,
+      default: () => false,
+    },
+    /** Props модалки для создания нового элемента */
+    modalProps: {
+      type: Object,
+      default: () => {},
     },
   },
   data() {
@@ -135,11 +146,12 @@ export default {
      */
     createNew() {
       if (this.modal) {
-        this.$modal.show(this.modal, {
-          model: {
-            [this.optionText]: this.search,
-          },
-        });
+        const modalProps = {
+          [this.optionText]: this.search,
+        };
+        Object.assign(modalProps, this.modalProps);
+
+        this.$modal.show(this.modal, { model: modalProps });
       }
     },
   },
