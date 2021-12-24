@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Casts\CastCashFlowType;
 use App\Enums\CashFlowType;
-use App\Models\Traits\Userable;
+use App\Models\Traits\HasUserField;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -30,7 +30,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class CashFlow extends Model
 {
-    use HasFactory, Userable;
+    use HasFactory, HasUserField;
 
     protected $casts = [
         'sum' => 'float',

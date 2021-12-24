@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Traits\Userable;
+use App\Models\Traits\HasUserField;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Nomenclature extends Model
 {
-    use HasFactory, Userable;
+    use HasFactory, HasUserField;
 
     public $timestamps = false;
 

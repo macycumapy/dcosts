@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Traits\Userable;
+use App\Casts\CastCashFlowType;
+use App\Enums\CashFlowType;
+use App\Models\Traits\HasUserField;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,15 +13,21 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property int $id
  * @property string $name Наименование
+ * @property CashFlowType $type Тип движения
  */
 class CostItem extends Model
 {
-    use HasFactory, Userable;
+    use HasFactory, HasUserField;
 
     public $timestamps = false;
+
+    protected $casts = [
+        'type' => CastCashFlowType::class,
+    ];
 
     protected $fillable = [
         'name',
         'user_id',
+        'type',
     ];
 }

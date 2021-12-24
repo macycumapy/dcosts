@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $user_id Идентификатор пользователя
  * @property-read User $user Пользователь-владелец
  */
-trait Userable
+trait HasUserField
 {
     /**
      * @return BelongsTo
