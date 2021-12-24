@@ -8,6 +8,7 @@ use App\Http\Controllers\NomenclatureController;
 use App\Http\Controllers\NomenclatureTypeController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\CashFlowController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -87,4 +88,9 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::get('/cash-flow', [CashFlowController::class, 'index']);
+
+    /** Отчеты */
+    Route::group(['prefix' => '/report'], function () {
+        Route::post('/outflows', [ReportController::class, 'getOutflows']);
+    });
 });

@@ -5,6 +5,7 @@ import VueRouter from 'vue-router';
 import VModal from 'vue-js-modal';
 import VueToastr2 from 'vue-toastr-2';
 import 'vue-toastr-2/dist/vue-toastr-2.min.css';
+import moment from 'moment';
 import constants from '@utils/constants';
 
 import App from './components/App.vue';
@@ -18,6 +19,7 @@ Vue.use(VModal, { dynamic: true, injectModalsContainer: true, dialog: true });
 Vue.use(VueToastr2);
 
 Vue.prototype.$constants = constants;
+Vue.prototype.$moment = moment;
 
 const app = new Vue({
     el: '#app',

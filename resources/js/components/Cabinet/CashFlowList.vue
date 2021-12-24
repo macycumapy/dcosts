@@ -12,7 +12,7 @@
             Дата
           </div>
           <div class="col-md-4 col-4 text-center">
-            Тип
+            Категория
           </div>
           <div class="col-md-4 col-4 text-end">
             Сумма

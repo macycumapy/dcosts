@@ -38,6 +38,11 @@
           Расход
         </router-link>
       </li>
+      <li>
+        <router-link :to="{ name: 'outflowsReport'}">
+          Отчет по расходам
+        </router-link>
+      </li>
     </ul>
     <ul class="py-1 pl-1">
       <li>

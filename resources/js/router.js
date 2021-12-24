@@ -11,6 +11,7 @@ import CashInflowList from './components/Cabinet/CashInflowList.vue';
 import CashOutflowList from './components/Cabinet/CashOutflowList.vue';
 import CashOutflow from './components/Cabinet/CashOutflow.vue';
 import CashInflow from './components/Cabinet/CashInflow.vue';
+import OutflowReport from './components/Cabinet/Reports/OutflowReport.vue';
 
 const onlyAuthenticated = (to, from, next) => {
     if (store.getters.isAuthenticated) {
@@ -95,6 +96,12 @@ export const router = new Router({
             path: '/cash-outflows',
             name: 'cashOutflows',
             component: CashOutflowList,
+            beforeEnter: onlyAuthenticated,
+        },
+        {
+            path: '/report/outflows',
+            name: 'outflowsReport',
+            component: OutflowReport,
             beforeEnter: onlyAuthenticated,
         },
     ],
