@@ -9,12 +9,12 @@ up:
 
 # Установка проекта
 install:
+	cp .env.example .env
+	cp .env.testing.example .env.testing
 	make build
 	docker-compose exec app composer install
 	npm install
 	npm run dev
-	cp .env.example .env
-	cp .env.testing.example .env.testing
 	docker-compose exec app php artisan key:generate
 	docker-compose exec app php artisan migrate
 	docker-compose exec app php artisan db:seed
