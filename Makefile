@@ -9,24 +9,19 @@ up:
 
 # Установка проекта
 install:
-	composer install
+	make build
+	docker-compose exec app composer install
 	npm install
 	npm run dev
 	cp .env.example .env
 	cp .env.testing.example .env.testing
-	make build
 	docker-compose exec app php artisan key:generate
 	docker-compose exec app php artisan migrate
 	docker-compose exec app php artisan db:seed
-	make chown
 
 # Запуск миграций
 migrate:
 	docker-compose exec app php artisan migrate
-
-# Cброс владельца файлов
-chown:
-	chown -R $USER:$USER ./
 
 bash:
 	docker-compose exec app bash
