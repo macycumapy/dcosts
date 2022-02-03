@@ -65,7 +65,7 @@ class AuthController extends Controller
      */
     public function signout(): JsonResponse
     {
-        auth()->user()->currentAccessToken()->delete();
+        auth()->user()->tokens()->delete();
         
         return $this->successResponse('Токен отозван');
     }
