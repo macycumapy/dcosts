@@ -1,27 +1,33 @@
 <template>
   <div id="outflow-report">
-    <label for="date-from">
-      <input
-        v-model="dateFrom"
-        id="date-from"
-        class="w-100 mr-2"
-        type="date"
-        name="date-from"
-        required
-      >
-      <span>Дата</span>
-    </label>
-    <label for="date-to">
-      <input
-        v-model="dateTo"
-        id="date-to"
-        class="w-100 mr-2"
-        type="date"
-        name="date-to"
-        required
-      >
-      <span>Дата</span>
-    </label>
+   <div class="row">
+     <div class="col">
+       <label for="date-from">
+         <input
+           v-model="dateFrom"
+           id="date-from"
+           class="w-100 mr-2"
+           type="date"
+           name="date-from"
+           required
+         >
+         <span>C</span>
+       </label>
+     </div>
+     <div class="col">
+       <label for="date-to">
+         <input
+           v-model="dateTo"
+           id="date-to"
+           class="w-100 mr-2"
+           type="date"
+           name="date-to"
+           required
+         >
+         <span>по</span>
+       </label>
+     </div>
+   </div>
 
     <div class="group-wrapper">
       <div class="group-row">
@@ -132,6 +138,7 @@ export default {
   },
   created() {
     this.setDefaults();
+    this.$store.commit('header/setTitle', 'Отчет по расходам');
   },
   methods: {
     setDefaults() {

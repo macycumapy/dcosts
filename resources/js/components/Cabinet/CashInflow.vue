@@ -125,7 +125,7 @@ export default {
   },
   watch: {
     'model.id': function () {
-      this.$store.commit('header/setTitle', this.model.id ? 'Поступление' : 'Новое поступление');
+      this.setTitle();
     },
   },
   beforeMount() {
@@ -136,6 +136,7 @@ export default {
     } else {
       this.setDefaults();
     }
+    this.setTitle();
   },
   methods: {
     fillModel() {
@@ -171,6 +172,9 @@ export default {
     },
     close() {
       this.$router.push({ name: this.prevRoute });
+    },
+    setTitle() {
+      this.$store.commit('header/setTitle', this.model.id ? 'Поступление' : 'Новое поступление');
     },
   },
 };

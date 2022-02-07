@@ -5,7 +5,7 @@
       class="form-horizontal"
     >
       <div class="row">
-        <div class="col-4">
+        <div class="col-sm-4 col-6">
           <label for="date">
             <input
               v-model="model.date"
@@ -19,7 +19,7 @@
             <span>Дата</span>
           </label>
         </div>
-        <div class="col-8 pl-0">
+        <div class="col-sm-8 col-6 pl-0">
           <select-list
             v-model="model.cost_item_id"
             :key="model.cost_item_id"
@@ -56,6 +56,7 @@
               type="number"
               required
               placeholder="Количество"
+              title="Количество"
             >
             <input
               v-model="item.cost"
@@ -146,9 +147,6 @@ export default {
     cashFlowType() {
       return this.$constants.CASH_FLOW_TYPES.Inflow.value;
     },
-    title() {
-      return this.model.id ? 'Расход' : 'Новый расход';
-    },
     nomenclatureModal() {
       return NomenclatureModal;
     },
@@ -171,7 +169,7 @@ export default {
   },
   watch: {
     'model.id': function () {
-      this.$store.commit('header/setTitle', this.model.id ? 'Расход' : 'Новый расход');
+      this.setTitle();
     },
   },
   beforeMount() {
@@ -182,6 +180,7 @@ export default {
     } else {
       this.setDefaults();
     }
+    this.setTitle();
   },
   methods: {
     fillModel() {
@@ -228,6 +227,9 @@ export default {
     },
     close() {
       this.$router.push({ name: this.prevRoute });
+    },
+    setTitle() {
+      this.$store.commit('header/setTitle', this.model.id ? 'Расход' : 'Новый расход');
     },
   },
 };

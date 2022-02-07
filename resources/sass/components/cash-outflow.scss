@@ -1,6 +1,9 @@
 @import '../variables';
 
 .details {
+  height: 75vh;
+  overflow: auto;
+
   .greed-details {
     display: grid;
     grid-template-columns: 8fr 2fr 3fr 3fr 1fr;
@@ -18,6 +21,27 @@
 
   img {
     cursor: pointer;
+  }
+
+  &::-webkit-scrollbar {
+    border-radius: 100px;
+    max-width: 5px;
+  }
+
+  &::-webkit-scrollbar-button {
+    display: none;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $dark-grey;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+  }
+
+  &::-webkit-scrollbar-track-piece {
+    background: $dark-green;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
   }
 }
 

@@ -8,15 +8,16 @@
         class="menu"
         :class="{active: showMenu}"
       >
-        <span>Menu</span>
+        <span>dcosts</span>
         <div class="action">
           <span class="bar" />
           <span class="bar" />
         </div>
       </div>
-      <div id="header-title">
-        {{ title }}
-      </div>
+      <div
+        id="header-title"
+        v-text="title"
+      />
     </div>
 
     <nav
@@ -31,6 +32,7 @@
           <ul>
             <li
               v-for="link in links"
+              :key="link.title"
             >
               <router-link
                 @click.native="toggleMenu"
@@ -47,7 +49,6 @@
           </ul>
         </div>
       </div>
-
     </nav>
   </header>
 </template>
@@ -106,6 +107,10 @@ export default {
     ...mapActions(['logout']),
     toggleMenu() {
       this.showMenu = !this.showMenu;
+    },
+
+    close() {
+      this.showMenu = false;
     },
   },
 };
