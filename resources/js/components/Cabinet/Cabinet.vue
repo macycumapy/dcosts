@@ -1,6 +1,6 @@
 <template>
   <div id="lk">
-    <sidebar />
+    <header-nav />
     <div class="container">
       <router-view />
     </div>
@@ -9,12 +9,12 @@
 </template>
 
 <script>
-import Sidebar from './Sidebar.vue';
+import HeaderNav from './HeaderNav.vue';
 
 export default {
   name: 'CabinetComponent',
   components: {
-    Sidebar,
+    HeaderNav,
   },
   created() {
     this.$store.dispatch('getNomenclature');

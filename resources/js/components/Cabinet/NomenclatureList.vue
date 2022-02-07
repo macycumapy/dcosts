@@ -2,11 +2,6 @@
   <div class="nomenclature">
     <div class="row justify-content-center">
       <div class="col-xl-7 col-lg-12 col-md-12 col-12">
-        <div class="w-100 text-center">
-          <div class="header-text py-3">
-            {{ title }}
-          </div>
-        </div>
         <div class="list-header">
           <div class="col-xl-3 col-lg-3 col-md-6 col-6 text-start">
             Наименование
@@ -52,17 +47,15 @@ export default {
   components: {
     CrudPanel,
   },
-  data() {
-    return {
-      title: 'Номенклатура',
-    };
-  },
   computed: {
     ...mapGetters(['nomenclature']),
 
     modal() {
       return Modal;
     },
+  },
+  created() {
+    this.$store.commit('header/setTitle', 'Номенклатура');
   },
   methods: {
     add() {

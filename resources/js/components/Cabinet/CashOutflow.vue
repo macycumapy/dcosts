@@ -1,12 +1,5 @@
 <template>
   <div>
-    <div class="row hd py-3">
-      <div class="col text-center">
-        <div class="header-text">
-          {{ title }}
-        </div>
-      </div>
-    </div>
     <form
       @submit.prevent="save"
       class="form-horizontal"
@@ -174,6 +167,11 @@ export default {
     },
     id() {
       return Number(this.$route.params.id);
+    },
+  },
+  watch: {
+    'model.id': function () {
+      this.$store.commit('header/setTitle', this.model.id ? 'Расход' : 'Новый расход');
     },
   },
   beforeMount() {

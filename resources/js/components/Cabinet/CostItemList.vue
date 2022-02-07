@@ -2,11 +2,6 @@
   <div class="cost-items">
     <div class="row justify-content-center">
       <div class="col-xl-7 col-lg-12 col-md-12 col-12">
-        <div class="w-100 text-center">
-          <div class="header-text py-3">
-            {{ title }}
-          </div>
-        </div>
         <div class="list-header">
           <div class="col-8 text-start">
             Наименование
@@ -57,17 +52,15 @@
       components: {
         CrudPanel,
       },
-      data() {
-        return {
-          title: 'Категории доходов и расходов',
-        };
-      },
       computed: {
         ...mapGetters(['costItems']),
 
         modal() {
           return Modal;
         },
+      },
+      created() {
+        this.$store.commit('header/setTitle', 'Категории доходов и расходов');
       },
       methods: {
         add() {

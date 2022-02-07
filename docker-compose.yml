@@ -21,7 +21,7 @@ services:
       # i. e. "xdebug.remote_host" to debug the dockerized app
       - ./docker/php:/usr/local/etc/php/local.conf.d/
     ports:
-      - "9000:9000"
+      - "9001:9000"
     environment:
       PHP_INI_SCAN_DIR: "/usr/local/etc/php/conf.d/:/usr/local/etc/php/local.conf.d/"
       PHP_IDE_CONFIG: "serverName=Docker"

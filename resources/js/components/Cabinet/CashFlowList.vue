@@ -2,11 +2,6 @@
   <div id="cash-inflow">
     <div class="row justify-content-center">
       <div class="col-xl-7 col-lg-12 col-md-12 col-12">
-        <div class="w-100 text-center">
-          <div class="header-text py-3">
-            {{ title }}
-          </div>
-        </div>
         <div class="list-header">
           <div class="col-md-4 col-4 text-start">
             Дата
@@ -85,12 +80,9 @@ export default {
       'page',
       'pages',
     ]),
-
-    title() {
-      return 'Доходы и расходы';
-    },
   },
   created() {
+    this.$store.commit('header/setTitle', 'Доходы и расходы');
     this.getList();
   },
   methods: {

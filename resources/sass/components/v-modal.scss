@@ -90,6 +90,10 @@
       }
     }
   }
+
+  @include sm() {
+    width: 100%!important;
+  }
 }
 
 .vm--large > .vm--modal {
