@@ -129,6 +129,10 @@ ul {
   min-height: 650px;
   position: relative;
 
+  @include sm() {
+    min-height: 450px;
+  }
+
   .list-header {
     background: #1d643b;
     font-weight: 700;
@@ -146,6 +150,10 @@ ul {
     overflow-x: hidden;
     overflow-y: auto;
     height: 70vh;
+
+    @include sm() {
+      height: 60vh;
+    }
 
     &::-webkit-scrollbar {
       border-radius: 100px;
@@ -217,7 +225,7 @@ ul {
     };
 
     @include sm() {
-      height: 70vh;
+      height: 60vh;
       white-space: nowrap;
     }
   }
