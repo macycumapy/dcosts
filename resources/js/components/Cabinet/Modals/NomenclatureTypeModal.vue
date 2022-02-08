@@ -12,10 +12,9 @@
       class="form-horizontal"
     >
       <div class="row mb-3">
-        <label for="name">
+        <label>
           <input
             v-model="editedModel.name"
-            id="name"
             class="w-100"
             type="text"
             name="name"

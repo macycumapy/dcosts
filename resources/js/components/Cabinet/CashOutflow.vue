@@ -6,10 +6,9 @@
     >
       <div class="row">
         <div class="col-sm-4 col-6">
-          <label for="date">
+          <label>
             <input
               v-model="model.date"
-              id="date"
               class="w-100 mr-2"
               type="datetime-local"
               name="date"

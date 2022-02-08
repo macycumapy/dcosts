@@ -20,10 +20,9 @@
           </label>
         </div>
         <div class="col-6 pl-0">
-          <label for="sum">
+          <label>
             <input
               v-model="model.sum"
-              id="sum"
               class="w-100"
               type="number"
               name="sum"
