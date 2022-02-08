@@ -210,7 +210,16 @@ ul {
   }
 
   .paginated-list {
-    min-height: 70vh;
+    height: 75vh;
+
+    .col {
+      overflow: hidden;
+    };
+
+    @include sm() {
+      height: 70vh;
+      white-space: nowrap;
+    }
   }
 
   .header-text {

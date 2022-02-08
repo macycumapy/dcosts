@@ -19,14 +19,14 @@
             :key="item.id"
             class="row pl-4 position-relative"
           >
-            <div class="col-md-4 col-4">
+            <div class="col col-md-4 col-4">
               {{ new Date(item.date).toLocaleString().substr(0, 17) }}
             </div>
-            <div class="col-md-4 col-4 text-center">
+            <div class="col col-md-4 col-4 text-center">
               {{ item.cost_item }}
             </div>
             <div
-              class="col-md-4 col-4 text-end"
+              class="col col-md-4 col-4 text-end"
               :class="{ red: isOutflow(item) }"
             >
               {{ getSum(item) }}

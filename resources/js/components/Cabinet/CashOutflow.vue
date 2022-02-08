@@ -65,11 +65,13 @@
               step="0.01"
               required
               placeholder="Цена"
+              title="Цена"
             >
             <input
               v-model="(item.count * item.cost).toFixed(2)"
               class="w-100 text-end"
               type="number"
+              title="Сумма"
               readonly
             >
             <img
@@ -88,7 +90,6 @@
             <div class="text-end m-auto">
               {{ sum.toFixed(2) }}
             </div>
-            <img
               @click="addNewRow"
               class="m-auto"
               src="/images/add.png"
