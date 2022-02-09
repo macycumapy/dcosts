@@ -14,7 +14,7 @@
           <div
             v-for="item in costItems"
             :key="item.name"
-            class="row pl-4 position-relative"
+            class="row position-relative"
           >
             <div class="col-8">
               {{ item.name }}

@@ -14,7 +14,7 @@
           <div
             v-for="item in list"
             :key="item.id"
-            class="row pl-4 position-relative"
+            class="row position-relative"
           >
             <div class="col-xl-3 col-lg-3 col-md-6 col-6">
               {{ new Date(item.date).toLocaleString().substr(0, 17) }}

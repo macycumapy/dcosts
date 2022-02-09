@@ -11,7 +11,7 @@
           <div
             v-for="item in nomenclature"
             :key="item.id"
-            class="row pl-4 position-relative"
+            class="row position-relative"
           >
             <div class="col-xl-3 col-lg-3 col-md-6 col-6">
               {{ item.name }}
