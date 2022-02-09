@@ -1,5 +1,7 @@
-html {
+html,
+body{
   height: 100%;
+  overflow: hidden;
   background: #213c2c;
 }
 
@@ -149,7 +151,7 @@ ul {
   .list {
     overflow-x: hidden;
     overflow-y: auto;
-    height: 75vh;
+    height: 70vh;
 
     &::-webkit-scrollbar {
       border-radius: 100px;
