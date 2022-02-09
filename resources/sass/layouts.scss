@@ -152,15 +152,7 @@ ul {
   .list {
     overflow-x: hidden;
     overflow-y: auto;
-    height: 70%;
-
-    @include maxH760 {
-      max-height: 550px;
-    }
-
-    @include maxH640 {
-      max-height: 450px;
-    }
+    height: 70vh;
 
     &::-webkit-scrollbar {
       border-radius: 100px;
