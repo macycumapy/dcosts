@@ -4,10 +4,14 @@
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100vh;
+  height: 100%;
   min-height: 760px;
   overflow: auto;
   position: relative;
+
+  @include sm() {
+    min-height: unset;
+  }
 
   .header {
     top: 0;
