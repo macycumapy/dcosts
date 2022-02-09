@@ -89,6 +89,7 @@
             <div class="text-end m-auto">
               {{ sum.toFixed(2) }}
             </div>
+            <img
               @click="addNewRow"
               class="m-auto"
               src="/images/add.png"

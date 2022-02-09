@@ -1,8 +1,13 @@
 @import '../variables';
+@import '../mixins';
 
 .details {
   height: 75vh;
   overflow: auto;
+
+  @include sm() {
+    height: 60vh;
+  }
 
   .greed-details {
     display: grid;

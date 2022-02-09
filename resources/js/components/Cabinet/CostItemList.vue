@@ -1,7 +1,7 @@
 <template>
   <div class="cost-items">
     <div class="row justify-content-center">
-      <div class="col-xl-7 col-lg-12 col-md-12 col-12">
+      <div class="col-xl-7 col-lg-12 col-md-12 col-12 p-0 p-md-1">
         <div class="list-header">
           <div class="col-8 text-start">
             Наименование

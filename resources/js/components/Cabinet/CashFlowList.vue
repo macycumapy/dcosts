@@ -1,7 +1,7 @@
 <template>
   <div id="cash-inflow">
     <div class="row justify-content-center">
-      <div class="col-xl-7 col-lg-12 col-md-12 col-12">
+      <div class="col-xl-7 col-lg-12 col-md-12 col-12 p-0 p-md-1">
         <div class="list-header">
           <div class="col-md-4 col-4 text-start">
             Дата
