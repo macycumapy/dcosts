@@ -33,7 +33,7 @@
         <div class="col-12 details mt-2">
           <div class="greed-details">
             <div>Номенклатура</div>
-            <div>Кол-во</div>
+            <div>Количество</div>
             <div>Цена</div>
             <div>Сумма</div>
             <div />

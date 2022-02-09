@@ -5,17 +5,30 @@
   height: 70vh;
   overflow: auto;
 
+  @include md() {
+    max-height: 65vh;
+  }
+
+  @include sm {
+    max-height: 60vh;
+  }
+
   .greed-details {
     display: grid;
     grid-template-columns: 8fr 2fr 3fr 3fr 1fr;
     grid-gap: 1vw;
-    padding-bottom: 1vw;
+    margin-bottom: 1vw;
 
     &:first-of-type {
-      padding-bottom: 0;
+      margin-bottom: 0;
       color: $light-green;
       font-size: 12px;
       font-weight: 500;
+      white-space: nowrap;
+
+      div {
+        overflow: hidden;
+      }
     }
 
     input[type=text] {
