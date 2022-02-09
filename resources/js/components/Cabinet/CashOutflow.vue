@@ -30,8 +30,8 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-12 details">
-          <div class="greed-details text-center">
+        <div class="col-12 details pt-2">
+          <div class="greed-details">
             <div>Номенклатура</div>
             <div>Кол-во</div>
             <div>Цена</div>
@@ -47,7 +47,6 @@
               v-model="item.nomenclature_id"
               :list="nomenclature"
               :modal="nomenclatureModal"
-              title="Номенклатура"
             />
             <input
               v-model="item.count"
@@ -75,7 +74,7 @@
             >
             <img
               @click="removeRow(item)"
-              class="m-auto"
+              class="m-auto mw-100"
               src="/images/remove.png"
               alt=""
               title="Удалить строку"
@@ -92,7 +91,7 @@
             </div>
             <img
               @click="addNewRow"
-              class="m-auto"
+              class="m-auto mw-100"
               src="/images/add.png"
               alt=""
               title="Добавить строку"

@@ -13,10 +13,13 @@
     display: grid;
     grid-template-columns: 8fr 2fr 3fr 3fr 1fr;
     grid-gap: 1vw;
-    padding-bottom: 15px;
+    padding-bottom: 1vw;
 
     &:first-of-type {
-      padding-top: 10px;
+      padding-bottom: 0;
+      color: $light-green;
+      font-size: 12px;
+      font-weight: 500;
     }
 
     input[type=text] {

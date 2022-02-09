@@ -286,6 +286,10 @@ ul {
   color: $red;
 }
 
-.w-10 {
-  width: 10%;
+.mw-10 {
+  max-width: 10%;
+}
+
+.mw-100 {
+  max-width: 100%;
 }

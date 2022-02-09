@@ -46,7 +46,7 @@
           class="dropdown-list-item new"
         >
           <img
-            class="mr-2 w-10"
+            class="mr-2 mw-10"
             src="/images/add.png"
             alt=""
             title="Добавить строку"
