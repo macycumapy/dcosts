@@ -10,7 +10,6 @@ body {
 
 main {
   height: 100%;
-  overflow: hidden;
 }
 
 a {
@@ -130,7 +129,6 @@ ul {
   height: 100%;
   min-height: 650px;
   position: relative;
-  //overflow: hidden;
 
   @include sm() {
     min-height: 450px;
@@ -153,6 +151,14 @@ ul {
     overflow-x: hidden;
     overflow-y: auto;
     height: 70vh;
+
+    @include md() {
+      max-height: 65vh;
+    }
+
+    @include sm {
+      max-height: 60vh;
+    }
 
     &::-webkit-scrollbar {
       border-radius: 100px;
