@@ -78,6 +78,7 @@
               class="m-auto"
               src="/images/remove.png"
               alt=""
+              title="Удалить строку"
             >
           </div>
           <div class="greed-details">
@@ -94,6 +95,7 @@
               class="m-auto"
               src="/images/add.png"
               alt=""
+              title="Добавить строку"
             >
           </div>
         </div>

@@ -45,7 +45,12 @@
           @click="createNew"
           class="dropdown-list-item new"
         >
-          Новый
+          <img
+            class="mr-2 w-10"
+            src="/images/add.png"
+            alt=""
+            title="Добавить строку"
+          >Новый
         </div>
       </div>
     </div>
