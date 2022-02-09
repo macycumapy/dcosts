@@ -1,5 +1,5 @@
 html {
-  min-height: 100%;
+  height: 100%;
   background: #213c2c;
 }
 
@@ -8,7 +8,7 @@ body {
 }
 
 main {
-  min-height: 100vh;
+  height: 100%;
 }
 
 a {
@@ -125,7 +125,7 @@ ul {
 #lk {
   background: #213c2c;
   color: white;
-  height: 100vh;
+  height: 100%;
   min-height: 650px;
   position: relative;
 
@@ -149,11 +149,7 @@ ul {
   .list {
     overflow-x: hidden;
     overflow-y: auto;
-    height: 70vh;
-
-    @include sm() {
-      height: 60vh;
-    }
+    height: 75vh;
 
     &::-webkit-scrollbar {
       border-radius: 100px;
@@ -218,16 +214,10 @@ ul {
   }
 
   .paginated-list {
-    height: 75vh;
-
+    white-space: nowrap;
     .col {
       overflow: hidden;
     };
-
-    @include sm() {
-      height: 60vh;
-      white-space: nowrap;
-    }
   }
 
   .header-text {

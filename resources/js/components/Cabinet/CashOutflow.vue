@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-12 details pt-2">
+        <div class="col-12 details mt-2">
           <div class="greed-details">
             <div>Номенклатура</div>
             <div>Кол-во</div>
