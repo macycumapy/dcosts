@@ -8,7 +8,7 @@
       </div>
     </div>
     <form
-      @submit.prevent="save"
+      @submit.prevent="saveAndClose"
       class="form-horizontal"
     >
       <div class="row mb-3">
@@ -55,6 +55,7 @@
 <script>
 
 import { mapGetters } from 'vuex';
+import modelMixin from '@mixins/modelModal';
 import SelectList from '../../General/SelectList.vue';
 import NomenclatureTypeModal from './NomenclatureTypeModal.vue';
 
@@ -63,19 +64,10 @@ export default {
   components: {
     SelectList,
   },
-  props: {
-    model: {
-      type: Object,
-      default() {
-        return {};
-      },
-    },
-  },
+  mixins: [modelMixin],
   data() {
     return {
       editedModel: {
-        id: null,
-        name: '',
         nomenclature_type_id: null,
       },
     };
@@ -84,26 +76,19 @@ export default {
     ...mapGetters(['nomenclatureTypes']),
 
     title() {
-      return this.editedModel.id ? this.editedModel.name : 'Новая номенклатура';
+      return this.isNew ? 'Новая номенклатура' : this.editedModel.name;
     },
     nomenclatureTypeModal() {
       return NomenclatureTypeModal;
     },
   },
-  beforeMount() {
-    Object.assign(this.editedModel, JSON.parse(JSON.stringify(this.model)));
-  },
   methods: {
     save() {
-      if (this.editedModel.id) {
-        this.$store.dispatch('updateNomenclature', this.editedModel);
-      } else {
-        this.$store.dispatch('addNomenclature', this.editedModel);
+      if (this.isNew) {
+        return this.$store.dispatch('addNomenclature', this.editedModel);
       }
-      this.close();
-    },
-    close() {
-      this.$emit('close');
+
+      return this.$store.dispatch('updateNomenclature', this.editedModel);
     },
   },
 };

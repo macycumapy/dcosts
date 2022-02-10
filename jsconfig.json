@@ -1,0 +1,12 @@
+{
+    "exclude": ["node_modules"],
+    "include": ["./resources"],
+    "compilerOptions": {
+        "baseUrl": "./resources",
+        "paths": {
+            "@mixins/*": ["./js/mixins/*"],
+            "@utils/*": ["./js/utils/*"],
+            "@styles/*": ["./sass/*"]
+        }
+    }
+}

@@ -55,6 +55,7 @@
   </div>
 </template>
 <script>
+import modelMixin from '@mixins/modelModal';
 import SelectList from '../../General/SelectList.vue';
 
 export default {
@@ -62,19 +63,10 @@ export default {
   components: {
     SelectList,
   },
-  props: {
-    model: {
-      type: Object,
-      default() {
-        return {};
-      },
-    },
-  },
+  mixins: [modelMixin],
   data() {
     return {
       editedModel: {
-        id: null,
-        name: '',
         type: null,
       },
     };
@@ -83,15 +75,9 @@ export default {
     title() {
       return this.editedModel.id ? this.editedModel.name : 'Новая категория';
     },
-    isNew() {
-      return !this.editedModel.id;
-    },
     cashFlowTypes() {
       return Object.values(this.$constants.CASH_FLOW_TYPES);
     },
-  },
-  beforeMount() {
-    Object.assign(this.editedModel, JSON.parse(JSON.stringify(this.model)));
   },
   methods: {
     save() {
@@ -100,12 +86,6 @@ export default {
       }
 
       return this.$store.dispatch('updateCostItem', this.editedModel);
-    },
-    saveAndClose() {
-      this.save().then(() => this.close());
-    },
-    close() {
-      this.$emit('close');
     },
   },
 };

@@ -8,7 +8,7 @@
       </div>
     </div>
     <form
-      @submit.prevent="save"
+      @submit.prevent="saveAndClose"
       class="form-horizontal"
     >
       <div class="row mb-3">
@@ -45,43 +45,23 @@
   </div>
 </template>
 <script>
+import modelMixin from '@mixins/modelModal';
+
 export default {
   name: 'NomenclatureTypeModal',
-  props: {
-    model: {
-      type: Object,
-      default() {
-        return {};
-      },
-    },
-  },
-  data() {
-    return {
-      editedModel: {
-        id: null,
-        name: '',
-      },
-    };
-  },
+  mixins: [modelMixin],
   computed: {
     title() {
-      return this.editedModel.id ? this.editedModel.name : 'Новый тип';
+      return this.isNew ? 'Новый тип' : this.editedModel.name;
     },
-  },
-  beforeMount() {
-    Object.assign(this.editedModel, JSON.parse(JSON.stringify(this.model)));
   },
   methods: {
     save() {
-      if (this.editedModel.id) {
-        this.$store.dispatch('updateNomenclatureType', this.editedModel);
-      } else {
-        this.$store.dispatch('addNomenclatureType', this.editedModel);
+      if (this.isNew) {
+        return this.$store.dispatch('addNomenclatureType', this.editedModel);
       }
-      this.close();
-    },
-    close() {
-      this.$emit('close');
+
+      return this.$store.dispatch('updateNomenclatureType', this.editedModel);
     },
   },
 };

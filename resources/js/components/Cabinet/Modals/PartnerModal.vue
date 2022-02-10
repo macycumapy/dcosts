@@ -8,7 +8,7 @@
       </div>
     </div>
     <form
-      @submit.prevent="save"
+      @submit.prevent="saveAndClose"
       class="form-horizontal"
     >
       <div class="row mb-3">
@@ -45,43 +45,23 @@
   </div>
 </template>
 <script>
+import modelMixin from '@mixins/modelModal';
+
 export default {
   name: 'PartnerModal',
-  props: {
-    model: {
-      type: Object,
-      default() {
-        return {};
-      },
-    },
-  },
-  data() {
-    return {
-      editedModel: {
-        id: null,
-        name: '',
-      },
-    };
-  },
+  mixins: [modelMixin],
   computed: {
     title() {
-      return this.editedModel.id ? this.editedModel.name : 'Новый контрагент';
+      return this.isNew ? 'Новый контрагент' : this.editedModel.name;
     },
-  },
-  beforeMount() {
-    Object.assign(this.editedModel, JSON.parse(JSON.stringify(this.model)));
   },
   methods: {
     save() {
-      if (this.editedModel.id) {
-        this.$store.dispatch('updatePartner', this.editedModel);
-      } else {
-        this.$store.dispatch('addPartner', this.editedModel);
+      if (this.isNew) {
+        return this.$store.dispatch('addPartner', this.editedModel);
       }
-      this.close();
-    },
-    close() {
-      this.$emit('close');
+
+      return this.$store.dispatch('updatePartner', this.editedModel);
     },
   },
 };
