@@ -4,6 +4,7 @@ namespace App\Http\Requests\NomenclatureType;
 
 use App\Models\NomenclatureType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 /**
  * @property-read NomenclatureType $nomenclatureType
@@ -28,7 +29,11 @@ class NomenclatureTypeUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string'],
+            'name' => [
+                'required',
+                'string',
+                Rule::unique('nomenclature_types')->where('user_id', auth()->id())
+            ],
         ];
     }
 }

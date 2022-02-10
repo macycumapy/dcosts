@@ -4,6 +4,7 @@ namespace App\Http\Requests\Partner;
 
 use App\Models\Partner;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 /**
  * @property-read Partner $partner
@@ -29,7 +30,11 @@ class PartnerUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string'],
+            'name' => [
+                'required',
+                'string',
+                Rule::unique('partners')->where('user_id', auth()->id())
+            ],
         ];
     }
 }

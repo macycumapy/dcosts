@@ -4,6 +4,7 @@ namespace App\Http\Requests\CostItem;
 
 use App\Models\CostItem;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 /**
  * @property-read CostItem $costItem
@@ -29,7 +30,11 @@ class CostItemUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string'],
+            'name' => [
+                'required',
+                'string',
+                Rule::unique('cost_items')->where('user_id', auth()->id())
+            ],
         ];
     }
 }

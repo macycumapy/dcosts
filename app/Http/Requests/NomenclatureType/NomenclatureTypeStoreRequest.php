@@ -3,6 +3,7 @@
 namespace App\Http\Requests\NomenclatureType;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class NomenclatureTypeStoreRequest extends FormRequest
 {
@@ -14,7 +15,11 @@ class NomenclatureTypeStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string'],
+            'name' => [
+                'required',
+                'string',
+                Rule::unique('nomenclature_types')->where('user_id', auth()->id())
+            ],
         ];
     }
 
