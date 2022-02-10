@@ -34,7 +34,7 @@ class NomenclatureUpdateRequest extends FormRequest
             'name' => [
                 'required',
                 'string',
-                Rule::unique('nomenclatures')->where('user_id', auth()->id())
+                Rule::unique('nomenclatures')->where('user_id', auth()->id())->ignoreModel($this->nomenclature)
             ],
             'nomenclature_type_id' => [
                 'nullable',

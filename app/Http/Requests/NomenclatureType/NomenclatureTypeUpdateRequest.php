@@ -32,7 +32,7 @@ class NomenclatureTypeUpdateRequest extends FormRequest
             'name' => [
                 'required',
                 'string',
-                Rule::unique('nomenclature_types')->where('user_id', auth()->id())
+                Rule::unique('nomenclature_types')->where('user_id', auth()->id())->ignoreModel($this->nomenclatureType)
             ],
         ];
     }

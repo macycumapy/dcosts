@@ -33,7 +33,7 @@ class CostItemUpdateRequest extends FormRequest
             'name' => [
                 'required',
                 'string',
-                Rule::unique('cost_items')->where('user_id', auth()->id())
+                Rule::unique('cost_items')->where('user_id', auth()->id())->ignoreModel($this->costItem)
             ],
         ];
     }

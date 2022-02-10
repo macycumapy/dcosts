@@ -33,7 +33,7 @@ class PartnerUpdateRequest extends FormRequest
             'name' => [
                 'required',
                 'string',
-                Rule::unique('partners')->where('user_id', auth()->id())
+                Rule::unique('partners')->where('user_id', auth()->id())->ignoreModel($this->partner)
             ],
         ];
     }
