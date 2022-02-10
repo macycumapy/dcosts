@@ -6,6 +6,8 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -61,11 +63,14 @@ class AuthController extends Controller
     /**
      * Выход
      *
+     * @param Request $request
      * @return JsonResponse
      */
-    public function signout(): JsonResponse
+    public function signout(Request $request): JsonResponse
     {
-        auth()->user()->tokens()->delete();
+        auth()->user()->tokens()
+            ->where('id', Str::before($request->bearerToken(), '|'))
+            ->delete();
         
         return $this->successResponse('Токен отозван');
     }
