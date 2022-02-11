@@ -24,9 +24,8 @@ class CostItemStoreRequest extends FormRequest
                 'string',
                 Rule::unique('cost_items')->where('user_id', auth()->id())
             ],
-            'type' => [
-                'required', Rule::in(CashFlowType::values())
-            ]
+            'type' => ['required', Rule::in(CashFlowType::values())],
+            'foreign_id' => ['nullable', 'int'],
         ];
     }
 

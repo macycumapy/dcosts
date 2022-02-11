@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property int $id
  * @property string $name Наименование
+ * @property int|null $foreign_id Id внешнего источника
  */
 class NomenclatureType extends Model
 {
@@ -21,5 +22,6 @@ class NomenclatureType extends Model
     protected $fillable = [
         'name',
         'user_id',
+        'foreign_id',
     ];
 }

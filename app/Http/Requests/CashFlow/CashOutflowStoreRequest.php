@@ -21,6 +21,7 @@ class CashOutflowStoreRequest extends FormRequest
         return [
             'date' => ['required', 'date'],
             'cost_item_id' => ['nullable', Rule::exists('cost_items', 'id')],
+            'foreign_id' => ['nullable', 'int'],
             'details' => ['required', 'array'],
             'details.*.nomenclature_id' => ['required', Rule::exists('nomenclatures', 'id')],
             'details.*.count' => ['required', 'numeric'],

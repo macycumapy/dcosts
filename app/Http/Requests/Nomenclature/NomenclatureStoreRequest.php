@@ -29,6 +29,7 @@ class NomenclatureStoreRequest extends FormRequest
                 'integer',
                 Rule::exists('nomenclature_types', 'id')->where('user_id', auth()->id())
             ],
+            'foreign_id' => ['nullable', 'int'],
         ];
     }
 
