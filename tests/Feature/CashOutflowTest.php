@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
 use App\Models\CashFlow;
@@ -55,7 +57,7 @@ class CashOutflowTest extends TestCase
 
         /** @var CashFlow $cashOutflow */
         $this->assertNotNull($cashOutflow = CashFlow::find($responseData->id));
-        $this->assertSame((float)collect($data['details'])->sum(fn($item) => $item['count'] * $item['cost']), $cashOutflow->sum);
+        $this->assertSame((float)collect($data['details'])->sum(fn ($item) => $item['count'] * $item['cost']), $cashOutflow->sum);
     }
 
     public function testShow(): void
@@ -89,7 +91,7 @@ class CashOutflowTest extends TestCase
         $cashOutflow = CashFlow::factory()->outflow()->for($this->user)->create();
         $response = $this->putJson($this->uri . "/$cashOutflow->id", $data);
         $response->assertOk();
-        $this->assertSame((float)collect($data['details'])->sum(fn($item) => $item['count'] * $item['cost']), $cashOutflow->fresh()->sum);
+        $this->assertSame((float)collect($data['details'])->sum(fn ($item) => $item['count'] * $item['cost']), $cashOutflow->fresh()->sum);
     }
 
     public function testDestroy(): void

@@ -34,7 +34,7 @@ class CashFlowService
     public function getBalance(): float
     {
         $outflowType = CashFlowType::Outflow->value;
-        
+
         return (float) CashFlow::query()
             ->select('user_id', DB::raw("SUM(case when type = '{$outflowType}' then -sum else sum end) as sum"))
             ->ofUser($this->user)

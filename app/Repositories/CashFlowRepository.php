@@ -1,12 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repositories;
 
-use App\Enums\CashFlowType;
 use App\Models\CashFlow;
-use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\DB;
 
 class CashFlowRepository extends AbstractRepository
 {

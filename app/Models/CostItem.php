@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Casts\CastCashFlowType;
@@ -18,7 +20,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class CostItem extends Model
 {
-    use HasFactory, HasUserField;
+    use HasFactory;
+    use HasUserField;
 
     public $timestamps = false;
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Enums\CashFlowType;
@@ -51,7 +53,7 @@ class ReportService
             ->groupBy('category', 'nomenclature', 'nomenclature_type')
             ->orderByDesc('sum')
             ->get()
-            ->groupBy(['category', fn($item) => $item->nomenclature_type]);
+            ->groupBy(['category', fn ($item) => $item->nomenclature_type]);
 
         return $this->compareWithSum($groupedData);
     }

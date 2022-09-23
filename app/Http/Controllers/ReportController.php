@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Report\OutflowsRequest;
@@ -17,7 +19,7 @@ class ReportController extends Controller
     {
         $report = ReportService::make(auth()->user());
         $reportData = $report->getOutflows(Carbon::parse($request->date_from), Carbon::parse($request->date_to));
-        
+
         return $this->successResponse('Данные получены', $reportData);
     }
 }

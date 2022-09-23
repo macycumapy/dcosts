@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\Services;
 
 use App\Models\CashFlow;
@@ -42,7 +44,7 @@ class ReportServiceTest extends TestCase
             });
 
         $outflows = $this->service->getOutflows(now()->subDay(), now());
-        
+
         self::assertTrue($outflows->isNotEmpty());
     }
 }

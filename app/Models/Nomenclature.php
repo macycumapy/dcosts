@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Models\Traits\HasUserField;
@@ -19,7 +21,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Nomenclature extends Model
 {
-    use HasFactory, HasUserField;
+    use HasFactory;
+    use HasUserField;
 
     public $timestamps = false;
 

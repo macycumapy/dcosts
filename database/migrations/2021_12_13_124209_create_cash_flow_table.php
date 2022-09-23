@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Enums\CashFlowType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -27,7 +29,7 @@ class CreateCashFlowTable extends Migration
             $table->foreign('cost_item_id')->references('id')->on('cost_items')->onDelete('set null');
             $table->foreign('partner_id')->references('id')->on('partners')->onDelete('set null');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            
+
             $table->index('type');
         });
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Http\JsonResponse;
 
 if (!function_exists('make_response')) {

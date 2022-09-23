@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CashFlowController;
 use App\Http\Controllers\CashInflowController;
 use App\Http\Controllers\CashOutflowController;
 use App\Http\Controllers\CostItemController;
 use App\Http\Controllers\NomenclatureController;
 use App\Http\Controllers\NomenclatureTypeController;
 use App\Http\Controllers\PartnerController;
-use App\Http\Controllers\CashFlowController;
 use App\Http\Controllers\ReportController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;

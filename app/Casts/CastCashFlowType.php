@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Casts;
 
 use App\Enums\CashFlowType;
@@ -36,7 +38,7 @@ class CastCashFlowType implements CastsAttributes
         if ($value instanceof CashFlowType) {
             return $value->value;
         }
-        
+
         return $value;
     }
 }

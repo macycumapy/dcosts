@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Casts\CastCashFlowType;
@@ -31,7 +33,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class CashFlow extends Model
 {
-    use HasFactory, HasUserField;
+    use HasFactory;
+    use HasUserField;
 
     protected $casts = [
         'sum' => 'float',

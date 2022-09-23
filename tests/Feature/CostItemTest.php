@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
 use App\Enums\CashFlowType;
@@ -55,7 +57,7 @@ class CostItemTest extends TestCase
 
         /** @var CostItem $costItem */
         $this->assertNotNull($costItem = CostItem::find($responseData->id));
-        $this->assertEmpty(array_udiff_assoc($data, $costItem->toArray(), static fn($a, $b) => $a !== $b));
+        $this->assertEmpty(array_udiff_assoc($data, $costItem->toArray(), static fn ($a, $b) => $a !== $b));
     }
 
     public function storeDataProvider(): array
@@ -116,7 +118,7 @@ class CostItemTest extends TestCase
             ]]
         ];
     }
-    
+
     public function testDestroy(): void
     {
         $response = $this->deleteJson($this->uri . "/9999");

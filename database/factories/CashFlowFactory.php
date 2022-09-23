@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Enums\CashFlowType;
@@ -26,7 +28,7 @@ class CashFlowFactory extends Factory
             'type' => CashFlowType::Inflow,
         ];
     }
-    
+
     public function outflow()
     {
         return $this->state(function (array $attributes) {

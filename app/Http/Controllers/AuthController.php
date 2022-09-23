@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginRequest;
@@ -71,7 +73,7 @@ class AuthController extends Controller
         auth()->user()->tokens()
             ->where('id', Str::before($request->bearerToken(), '|'))
             ->delete();
-        
+
         return $this->successResponse('Токен отозван');
     }
 }
