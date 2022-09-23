@@ -32,9 +32,9 @@ class CostItemStoreRequest extends FormRequest
     /**
      * @return array
      */
-    public function validated(): array
+    public function validated($key = null, $default = null): array
     {
-        return array_merge(parent::validated(), [
+        return array_merge(parent::validated($key, $default), [
             'user_id' => auth()->id(),
         ]);
     }

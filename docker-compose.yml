@@ -1,51 +1,60 @@
 version: '3'
 services:
-  www:
-    image: nginx:alpine
-    volumes:
-      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - ./:/var/www
-    ports:
-      - ${APP_PORT}:80
-    depends_on:
-      - app
-      - postgres
-      - postgres_test
-  app:
-    build:
-      context: docker/php
-    container_name: ${APP_NAME}_app
-    volumes:
-      - ./:/var/www
-      # custom adjustments to php.ini
-      # i. e. "xdebug.remote_host" to debug the dockerized app
-      - ./docker/php:/usr/local/etc/php/local.conf.d/
-    ports:
-      - "9001:9000"
-    environment:
-      PHP_INI_SCAN_DIR: "/usr/local/etc/php/conf.d/:/usr/local/etc/php/local.conf.d/"
-      PHP_IDE_CONFIG: "serverName=Docker"
-  postgres:
-    image: postgres:14.0
-    container_name: ${APP_NAME}_postgres
-    restart: unless-stopped
-    tty: true
-    ports:
-      - "5433:5432"
-    environment:
-      POSTGRES_DB: ${DB_DATABASE}
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      PGDATA: /var/lib/postgresql/data/pgdata
-    volumes:
-      - ./docker/databases/${DB_DATABASE}:/var/lib/postgresql/data
-  postgres_test:
-    image: postgres:14.0
-    container_name: ${APP_NAME}_postgres_test
-    restart: unless-stopped
-    ports:
-      - "5434:5432"
-    environment:
-      POSTGRES_DB: ${DB_TESTING_DATABASE}
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    laravel.test:
+        build:
+            context: ./vendor/laravel/sail/runtimes/8.1
+            dockerfile: Dockerfile
+            args:
+                WWWGROUP: '${WWWGROUP:-1000}'
+        image: sail-8.1/app
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        ports:
+            - '${APP_PORT:-80}:80'
+            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
+        environment:
+            WWWUSER: '${WWWUSER:-1000}'
+            LARAVEL_SAIL: 1
+            XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
+            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
+        volumes:
+            - '.:/var/www/html'
+        networks:
+            - sail
+        depends_on:
+            - postgres
+            - postgres_test
+    postgres:
+        image: postgres:14.0
+        container_name: ${APP_NAME}_postgres
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "5432:5432"
+        environment:
+            POSTGRES_DB: ${DB_DATABASE}
+            POSTGRES_USER: ${DB_USERNAME}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            PGDATA: /var/lib/postgresql/data/pgdata
+        volumes:
+            - ./docker/databases/${DB_DATABASE}:/var/lib/postgresql/data
+        networks:
+            - sail
+    postgres_test:
+        image: postgres:14.0
+        container_name: ${APP_NAME}_postgres_test
+        restart: unless-stopped
+        ports:
+            - "5434:5432"
+        environment:
+            POSTGRES_DB: ${DB_TESTING_DATABASE}
+            POSTGRES_USER: ${DB_USERNAME}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            PGDATA: /var/lib/postgresql/data/pgdata
+        volumes:
+            - ./docker/databases/${DB_TESTING_DATABASE}:/var/lib/postgresql/data
+        networks:
+            - sail
+networks:
+    sail:
+        driver: bridge
