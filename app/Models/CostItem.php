@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $name Наименование
  * @property CashFlowType $type Тип движения
- * @property int|null $foreign_id Id внешнего источника
  */
 class CostItem extends Model
 {
@@ -33,6 +32,5 @@ class CostItem extends Model
         'name',
         'user_id',
         'type',
-        'foreign_id',
     ];
 }

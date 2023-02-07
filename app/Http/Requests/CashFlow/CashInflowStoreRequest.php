@@ -27,7 +27,6 @@ class CashInflowStoreRequest extends FormRequest
             'sum' => ['required', 'numeric'],
             'cost_item_id' => ['nullable', Rule::exists('cost_items', 'id')],
             'partner_id' => ['nullable', Rule::exists('partners', 'id')],
-            'foreign_id' => ['nullable', 'int'],
         ];
     }
 

@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $id
  * @property string $name Наименование
  * @property int|null $nomenclature_type_id Идентификатор типа номенклатуры
- * @property int|null $foreign_id Id внешнего источника
  *
  * @property-read NomenclatureType $nomenclatureType Тип номенклатуры
  */
@@ -30,7 +29,6 @@ class Nomenclature extends Model
         'name',
         'user_id',
         'nomenclature_type_id',
-        'foreign_id',
     ];
 
     /**

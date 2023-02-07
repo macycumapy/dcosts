@@ -25,7 +25,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int|null $cost_item_id ID статьи затрат
  * @property int|null $partner_id ID контрагента
  * @property CashFlowType $type Тип движения
- * @property int|null $foreign_id Id внешнего источника
  *
  * @property-read CostItem|null $costItem Статья затрат
  * @property-read Partner|null $partner Контрагент
@@ -48,7 +47,6 @@ class CashFlow extends Model
         'partner_id',
         'user_id',
         'type',
-        'foreign_id',
     ];
 
     /**

@@ -25,7 +25,6 @@ class PartnerStoreRequest extends FormRequest
                 'string',
                 Rule::unique('partners')->where('user_id', auth()->id())
             ],
-            'foreign_id' => ['nullable', 'int'],
         ];
     }
 
