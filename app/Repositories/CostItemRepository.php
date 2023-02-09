@@ -19,15 +19,15 @@ class CostItemRepository extends AbstractRepository
         parent::__construct($model);
     }
 
-    public function firstOrCreate(string $name): CostItem
+    public function firstOrCreate(string $name, CashFlowType $type = CashFlowType::Inflow): CostItem
     {
         return $this->query->firstOrCreate([
             'name' => Str::ucfirst($name),
-            'type' => CashFlowType::Inflow,
+            'type' => $type,
             'user_id' => Auth::id(),
         ], [
             'name' => Str::ucfirst($name),
-            'type' => CashFlowType::Inflow,
+            'type' => $type,
             'user_id' => Auth::id(),
         ]);
     }

@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property float $cost Стоимость номенклатуры
  * @property int $cash_outflow_id ID расхода
  * @property int $nomenclature_id ID номенклатуры
+ * @property string|null $comment Комментарий
  *
  * @property-read CashFlow $cashFlow Расход денежных средств
  * @property-read Nomenclature $nomenclature Номенклатура
@@ -32,6 +33,7 @@ class CashOutflowDetails extends Model
         'cost',
         'cash_outflow_id',
         'nomenclature_id',
+        'comment',
     ];
 
     /**
