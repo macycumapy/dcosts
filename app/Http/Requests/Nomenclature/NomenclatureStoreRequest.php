@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Nomenclature;
 
+use App\Actions\Nomenclatures\Data\NomenclatureCreateData;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -13,11 +14,6 @@ use Illuminate\Validation\Rule;
  */
 class NomenclatureStoreRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules(): array
     {
         return [
@@ -34,12 +30,10 @@ class NomenclatureStoreRequest extends FormRequest
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function validated($key = null, $default = null): array
+    public function validated($key = null, $default = null): NomenclatureCreateData
     {
-        return array_merge(parent::validated($key, $default), [
+        return NomenclatureCreateData::from([
+            ...parent::validated($key, $default),
             'user_id' => auth()->id(),
         ]);
     }

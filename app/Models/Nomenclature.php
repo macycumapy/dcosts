@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Scopes\SampleByUser;
 use App\Models\Traits\HasUserField;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,8 +17,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $id
  * @property string $name Наименование
  * @property int|null $nomenclature_type_id Идентификатор типа номенклатуры
- *
  * @property-read NomenclatureType $nomenclatureType Тип номенклатуры
+ * @mixin Builder
  */
 class Nomenclature extends Model
 {
@@ -30,6 +32,12 @@ class Nomenclature extends Model
         'user_id',
         'nomenclature_type_id',
     ];
+
+    protected static function boot(): void
+    {
+        parent::boot();
+        static::addGlobalScope(new SampleByUser());
+    }
 
     /**
      * Тип номенклатуры

@@ -67,7 +67,7 @@ class NomenclatureTest extends TestCase
         /** @var Nomenclature $nomenclature */
         $nomenclature = Nomenclature::factory()->create();
         $response = $this->getJson($this->uri . "/$nomenclature->id");
-        $response->assertForbidden();
+        $response->assertNotFound();
 
         /** @var Nomenclature $nomenclature */
         $nomenclature = Nomenclature::factory()->create(['user_id' => $this->user->id]);
@@ -86,7 +86,7 @@ class NomenclatureTest extends TestCase
         /** @var Nomenclature $nomenclature */
         $nomenclature = Nomenclature::factory()->create();
         $response = $this->putJson($this->uri . "/$nomenclature->id");
-        $response->assertForbidden();
+        $response->assertNotFound();
 
         /** @var Nomenclature $nomenclature */
         $nomenclature = Nomenclature::factory()->create(['user_id' => $this->user->id]);
@@ -103,7 +103,7 @@ class NomenclatureTest extends TestCase
         /** @var Nomenclature $nomenclature */
         $nomenclature = Nomenclature::factory()->create();
         $response = $this->deleteJson($this->uri . "/$nomenclature->id");
-        $response->assertForbidden();
+        $response->assertNotFound();
 
         /** @var Nomenclature $nomenclature */
         $nomenclature = Nomenclature::factory()->create(['user_id' => $this->user->id]);
