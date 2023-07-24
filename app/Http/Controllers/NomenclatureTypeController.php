@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\NomenclatureType\NomenclatureTypeOwnerRequest;
+use App\Actions\NomenclatureTypes\CreateNomenclatureTypeAction;
+use App\Actions\NomenclatureTypes\DeleteNomenclatureTypeAction;
+use App\Actions\NomenclatureTypes\UpdateNomenclatureTypeAction;
 use App\Http\Requests\NomenclatureType\NomenclatureTypeStoreRequest;
 use App\Http\Requests\NomenclatureType\NomenclatureTypeUpdateRequest;
 use App\Models\NomenclatureType;
@@ -23,67 +25,42 @@ class NomenclatureTypeController extends Controller
         $this->repository = $repository;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return JsonResponse
-     */
     public function index(): JsonResponse
     {
-        $result = $this->repository->all(['user_id' => auth()->id()]);
-
-        return $this->successResponse('Список получен', $result);
+        return $this->successResponse(
+            'Список получен',
+            NomenclatureType::all()
+        );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param NomenclatureTypeStoreRequest $request
-     * @return JsonResponse
-     */
-    public function store(NomenclatureTypeStoreRequest $request): JsonResponse
+    public function store(NomenclatureTypeStoreRequest $request, CreateNomenclatureTypeAction $action): JsonResponse
     {
-        $nomenclatureType = $this->repository->create($request->validated());
-
-        return $this->successResponse('Тип номенклатуры добавлен', $nomenclatureType);
+        return $this->successResponse(
+            'Тип номенклатуры добавлен',
+            $action->exec($request->validated())
+        );
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param NomenclatureTypeOwnerRequest $request
-     * @param NomenclatureType $nomenclatureType
-     * @return JsonResponse
-     */
-    public function show(NomenclatureTypeOwnerRequest $request, NomenclatureType $nomenclatureType): JsonResponse
+    public function show(NomenclatureType $nomenclatureType): JsonResponse
     {
-        return $this->successResponse('Тип номенклатуры получен', $nomenclatureType);
+        return $this->successResponse(
+            'Тип номенклатуры получен',
+            $nomenclatureType
+        );
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param NomenclatureTypeUpdateRequest $request
-     * @param NomenclatureType $nomenclatureType
-     * @return JsonResponse
-     */
-    public function update(NomenclatureTypeUpdateRequest $request, NomenclatureType $nomenclatureType): JsonResponse
+    public function update(NomenclatureTypeUpdateRequest $request, NomenclatureType $nomenclatureType, UpdateNomenclatureTypeAction $action): JsonResponse
     {
-        $nomenclatureType->update($request->validated());
-
-        return $this->successResponse('Тип номенклатуры обновлен', $nomenclatureType);
+        return $this->successResponse(
+            'Тип номенклатуры обновлен',
+            $action->exec($nomenclatureType, $request->validated())
+        );
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param NomenclatureTypeOwnerRequest $request
-     * @param NomenclatureType $nomenclatureType
-     * @return JsonResponse
-     */
-    public function destroy(NomenclatureTypeOwnerRequest $request, NomenclatureType $nomenclatureType): JsonResponse
+    public function destroy(NomenclatureType $nomenclatureType, DeleteNomenclatureTypeAction $action): JsonResponse
     {
-        $nomenclatureType->delete();
+        $action->exec($nomenclatureType);
+
         return $this->successResponse('Тип номенклатуры удален');
     }
 }

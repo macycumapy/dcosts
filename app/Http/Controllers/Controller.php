@@ -9,7 +9,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class Controller extends BaseController
@@ -31,7 +30,6 @@ class Controller extends BaseController
         try {
             return parent::callAction($method, $parameters);
         } catch (\Throwable $exception) {
-            Log::error($exception);
             return make_response('Возникла внутренняя ошибка!', 500);
         }
     }

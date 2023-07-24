@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\NomenclatureType;
 
+use App\Actions\NomenclatureTypes\Data\NomenclatureTypeUpdateData;
 use App\Models\NomenclatureType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -13,22 +14,7 @@ use Illuminate\Validation\Rule;
  */
 class NomenclatureTypeUpdateRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return $this->nomenclatureType->user_id === auth()->id();
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => [
@@ -37,5 +23,10 @@ class NomenclatureTypeUpdateRequest extends FormRequest
                 Rule::unique('nomenclature_types')->where('user_id', auth()->id())->ignoreModel($this->nomenclatureType)
             ],
         ];
+    }
+
+    public function validated($key = null, $default = null): NomenclatureTypeUpdateData
+    {
+        return NomenclatureTypeUpdateData::from(parent::validated($key, $default));
     }
 }
