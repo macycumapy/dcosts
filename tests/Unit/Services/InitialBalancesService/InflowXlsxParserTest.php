@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services\InitialBalancesService;
 
-use App\Services\InitialBalancesService\DTO\InflowDTO;
+use App\Services\InitialBalancesService\Data\InflowData;
 use App\Services\InitialBalancesService\Exceptions\FileParsingException;
 use App\Services\InitialBalancesService\InflowsXlsxParser;
 use Tests\TestCase;
@@ -37,19 +37,19 @@ class InflowXlsxParserTest extends TestCase
         $result = $this->parser->parse($file);
 
         $this->assertEquals(collect([
-            InflowDTO::make([
+            InflowData::from([
                 'date' => '25.04.2011 12:00',
                 'sum' => 1000,
                 'costItemName' => 'Зарплата',
                 'partnerName' => 'Экспобанк',
             ]),
-            InflowDTO::make([
+            InflowData::from([
                 'date' => '25.04.2012',
                 'sum' => 1000,
                 'costItemName' => 'Зарплата',
                 'partnerName' => 'Экспобанк',
             ]),
-            InflowDTO::make([
+            InflowData::from([
                 'date' => '25.04.2011',
                 'sum' => 1000,
                 'costItemName' => 'Кэшбэк',

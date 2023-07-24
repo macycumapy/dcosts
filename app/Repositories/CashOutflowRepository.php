@@ -10,6 +10,7 @@ use App\Models\CashOutflowDetails;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Spatie\LaravelData\Data;
 
 class CashOutflowRepository extends CashFlowRepository
 {
@@ -34,7 +35,7 @@ class CashOutflowRepository extends CashFlowRepository
             $data = array_merge($data, ['type' => CashFlowType::Outflow]);
             $this->model = $this->model->create($data);
             foreach ($data['details'] as $detail) {
-                $this->addDetails($detail);
+                $this->addDetails($detail instanceof Data ? $detail->toArray() : $detail);
             }
             $this->actualizeSum();
             DB::commit();
@@ -74,7 +75,7 @@ class CashOutflowRepository extends CashFlowRepository
      * @param array $detail
      * @return CashOutflowDetails
      */
-    protected function addDetails(array $detail): CashOutflowDetails
+    protected function addDetails($detail): CashOutflowDetails
     {
         return $this->model->details()->create($detail);
     }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\InitialBalancesService;
 
-use App\Services\InitialBalancesService\DTO\OutflowDetailsDTO;
-use App\Services\InitialBalancesService\DTO\OutflowDTO;
+use App\Services\InitialBalancesService\Data\OutflowData;
+use App\Services\InitialBalancesService\Data\OutflowDetailsData;
 use App\Services\InitialBalancesService\Exceptions\FileParsingException;
 use Carbon\Carbon;
 use Exception;
@@ -14,7 +14,7 @@ use Shuchkin\SimpleXLSX;
 
 class OutflowXlsxParser
 {
-    private OutflowDTO $currentOutflow;
+    private OutflowData $currentOutflow;
     private array $result = [];
     public function parse(string $fileData): Collection
     {
@@ -49,7 +49,7 @@ class OutflowXlsxParser
 
     private function addNewOutflow(array $row): void
     {
-        $this->result[] = OutflowDTO::make([
+        $this->result[] = OutflowData::from([
             'date' => $row[0],
             'sum' => $row[1],
             'costItemName' => $row[2],
@@ -59,7 +59,7 @@ class OutflowXlsxParser
 
     private function addNewOutflowDetails(array $row): void
     {
-        $this->result[count($this->result)-1]->details[] = OutflowDetailsDTO::make([
+        $this->result[count($this->result)-1]->details[] = OutflowDetailsData::from([
             'nomenclatureName' => $row[0],
             'nomenclatureType' => $row[1] ?: null,
             'count' => $row[2],

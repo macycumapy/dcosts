@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\InitialBalancesService;
 
-use App\Services\InitialBalancesService\DTO\InflowDTO;
+use App\Services\InitialBalancesService\Data\InflowData;
 use App\Services\InitialBalancesService\Exceptions\FileParsingException;
 use Illuminate\Support\Collection;
 use Shuchkin\SimpleXLSX;
@@ -21,7 +21,7 @@ class InflowsXlsxParser
         $rows = $xlsx->rows();
         array_shift($rows);
 
-        return collect($rows)->map(fn ($row) => InflowDTO::make([
+        return collect($rows)->map(fn ($row) => InflowData::from([
             'date' => $row[0],
             'sum' => $row[1],
             'costItemName' => $row[2],

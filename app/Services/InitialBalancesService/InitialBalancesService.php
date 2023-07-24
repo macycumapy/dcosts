@@ -11,8 +11,8 @@ use App\Repositories\CostItemRepository;
 use App\Repositories\NomenclatureRepository;
 use App\Repositories\NomenclatureTypeRepository;
 use App\Repositories\PartnerRepository;
-use App\Services\InitialBalancesService\DTO\OutflowDetailsDTO;
-use App\Services\InitialBalancesService\DTO\OutflowDTO;
+use App\Services\InitialBalancesService\Data\OutflowData;
+use App\Services\InitialBalancesService\Data\OutflowDetailsData;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -55,7 +55,7 @@ class InitialBalancesService
         $outflowData = app(OutflowXlsxParser::class)->parse($file->get());
 
         return DB::transaction(function () use ($outflowData) {
-            return collect($outflowData)->map(function (OutflowDTO $outflow) {
+            return collect($outflowData)->map(function (OutflowData $outflow) {
                 $costItem = $this->costItemRepository->firstOrCreate($outflow->costItemName, CashFlowType::Outflow);
 
                 return $this->cashOutflowRepository->create([
@@ -63,17 +63,17 @@ class InitialBalancesService
                     'cost_item_id' => $costItem->id,
                     'date' => $outflow->date,
                     'sum' => $outflow->sum,
-                    'details' => collect($outflow->details)
-                        ->map(function (OutflowDetailsDTO $details) {
+                    'details' => $outflow->details
+                        ->map(function (OutflowDetailsData $details) {
                             $nomenclatureType = $this->nomenclatureTypeRepository->firstOrCreate($details->nomenclatureType);
                             $nomenclature = $this->nomenclatureRepository->firstOrCreate($details->nomenclatureName, $nomenclatureType);
 
-                            return [
+                            return OutflowDetailsData::from([
                                 'count' => $details->count,
                                 'cost' => $details->cost,
                                 'nomenclature_id' => $nomenclature->id,
-                            ];
-                        })->toArray()
+                            ]);
+                        })
                 ]);
             });
         });

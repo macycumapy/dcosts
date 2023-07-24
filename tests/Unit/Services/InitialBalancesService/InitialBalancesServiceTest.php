@@ -9,9 +9,9 @@ use App\Models\CashFlow;
 use App\Models\CostItem;
 use App\Models\Partner;
 use App\Models\User;
-use App\Services\InitialBalancesService\DTO\InflowDTO;
-use App\Services\InitialBalancesService\DTO\OutflowDetailsDTO;
-use App\Services\InitialBalancesService\DTO\OutflowDTO;
+use App\Services\InitialBalancesService\Data\InflowData;
+use App\Services\InitialBalancesService\Data\OutflowData;
+use App\Services\InitialBalancesService\Data\OutflowDetailsData;
 use App\Services\InitialBalancesService\InflowsXlsxParser;
 use App\Services\InitialBalancesService\InitialBalancesService;
 use App\Services\InitialBalancesService\OutflowXlsxParser;
@@ -48,7 +48,7 @@ class InitialBalancesServiceTest extends TestCase
         }
     }
 
-    private function assertInflowsCreated(InflowDTO $inflow)
+    private function assertInflowsCreated(InflowData $inflow)
     {
         $partner = Partner::query()->where([
             'name' => $inflow->partnerName,
@@ -85,7 +85,7 @@ class InitialBalancesServiceTest extends TestCase
         }
     }
 
-    private function assertOutflowsCreated(OutflowDTO $outflowDTO)
+    private function assertOutflowsCreated(OutflowData $outflowDTO)
     {
         $costItem = CostItem::query()->where([
             'name' => $outflowDTO->costItemName,
@@ -109,7 +109,7 @@ class InitialBalancesServiceTest extends TestCase
         }
     }
 
-    private function assertOutflowsDetailsCreated(OutflowDetailsDTO $details, CashFlow $outflow)
+    private function assertOutflowsDetailsCreated(OutflowDetailsData $details, CashFlow $outflow)
     {
         $this->assertTrue($outflow->details()->where([
             'count' => $details->count,

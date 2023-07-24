@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services\InitialBalancesService;
 
-use App\Services\InitialBalancesService\DTO\OutflowDetailsDTO;
-use App\Services\InitialBalancesService\DTO\OutflowDTO;
+use App\Services\InitialBalancesService\Data\OutflowData;
+use App\Services\InitialBalancesService\Data\OutflowDetailsData;
 use App\Services\InitialBalancesService\Exceptions\FileParsingException;
 use App\Services\InitialBalancesService\OutflowXlsxParser;
 use Tests\TestCase;
@@ -38,12 +38,12 @@ class OutflowXlsxParserTest extends TestCase
         $result = $this->parser->parse($file);
 
         $this->assertEquals(collect([
-            OutflowDTO::make([
+            OutflowData::from([
                 'date' => '30.04.2017 23:59:59',
                 'sum' => 528.52,
                 'costItemName' => 'Дом',
                 'details' => [
-                    OutflowDetailsDTO::make([
+                    OutflowDetailsData::from([
                         'nomenclatureName' => 'ЖКХ: Электроэнергия',
                         'nomenclatureType' => 'ЖКХ',
                         'count' => 1,
@@ -52,12 +52,12 @@ class OutflowXlsxParserTest extends TestCase
                     ])
                 ],
             ]),
-            OutflowDTO::make([
+            OutflowData::from([
                 'date' => '30.04.2017 23:59:59',
                 'sum' => 802.69,
                 'costItemName' => 'Дом',
                 'details' => [
-                    OutflowDetailsDTO::make([
+                    OutflowDetailsData::from([
                         'nomenclatureName' => 'ЖКХ: Газ',
                         'nomenclatureType' => 'ЖКХ',
                         'count' => 1,
@@ -66,40 +66,40 @@ class OutflowXlsxParserTest extends TestCase
                     ])
                 ],
             ]),
-            OutflowDTO::make([
+            OutflowData::from([
                 'date' => '30.04.2017 23:59:59',
                 'sum' => 3829.92,
                 'costItemName' => 'Дом',
                 'details' => [
-                    OutflowDetailsDTO::make([
+                    OutflowDetailsData::from([
                         'nomenclatureName' => 'ЖКХ: ХВС',
                         'nomenclatureType' => 'ЖКХ',
                         'count' => 1,
                         'cost' => 720.6,
                         'comment' => null,
                     ]),
-                    OutflowDetailsDTO::make([
+                    OutflowDetailsData::from([
                         'nomenclatureName' => 'ЖКХ: Водоотведение',
                         'nomenclatureType' => 'ЖКХ',
                         'count' => 1,
                         'cost' => 429.85,
                         'comment' => null,
                     ]),
-                    OutflowDetailsDTO::make([
+                    OutflowDetailsData::from([
                         'nomenclatureName' => 'ЖКХ: Отопление',
                         'nomenclatureType' => 'ЖКХ',
                         'count' => 1,
                         'cost' => 1362.09,
                         'comment' => null,
                     ]),
-                    OutflowDetailsDTO::make([
+                    OutflowDetailsData::from([
                         'nomenclatureName' => 'ЖКХ: Ремонт',
                         'nomenclatureType' => 'ЖКХ',
                         'count' => 1,
                         'cost' => 552.77,
                         'comment' => null,
                     ]),
-                    OutflowDetailsDTO::make([
+                    OutflowDetailsData::from([
                         'nomenclatureName' => 'ЖКХ: Содержание жилья',
                         'nomenclatureType' => 'ЖКХ',
                         'count' => 1,
@@ -108,12 +108,12 @@ class OutflowXlsxParserTest extends TestCase
                     ]),
                 ],
             ]),
-            OutflowDTO::make([
+            OutflowData::from([
                 'date' => '08.05.2017 15:42:26',
                 'sum' => 740.50,
                 'costItemName' => 'Дом',
                 'details' => [
-                    OutflowDetailsDTO::make([
+                    OutflowDetailsData::from([
                         'nomenclatureName' => 'Продукты',
                         'nomenclatureType' => 'Продукты',
                         'count' => 1,
