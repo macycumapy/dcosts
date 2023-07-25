@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Partner;
 
+use App\Actions\Partners\Data\PartnerCreateData;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -12,12 +13,7 @@ use Illuminate\Validation\Rule;
  */
 class PartnerStoreRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => [
@@ -28,12 +24,10 @@ class PartnerStoreRequest extends FormRequest
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function validated($key = null, $default = null): array
+    public function validated($key = null, $default = null): PartnerCreateData
     {
-        return array_merge(parent::validated($key, $default), [
+        return PartnerCreateData::from([
+            ...parent::validated($key, $default),
             'user_id' => auth()->id(),
         ]);
     }

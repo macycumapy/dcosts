@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\NomenclatureTypes\Data;
+namespace App\Actions\Partners\Data;
 
 use Spatie\LaravelData\Data;
 
-class NomenclatureTypeCreateData extends Data
+class PartnerCreateData extends Data
 {
     public string $name;
     public int $user_id;

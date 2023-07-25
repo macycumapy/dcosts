@@ -12,5 +12,9 @@
         "array_syntax": {
             "syntax": "short"
         }
-    }
+    },
+    "exclude": [
+        "docker",
+        "storage"
+    ]
 }

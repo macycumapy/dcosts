@@ -67,7 +67,7 @@ class PartnerTest extends TestCase
         /** @var Partner $partner */
         $partner = Partner::factory()->create();
         $response = $this->getJson($this->uri . "/$partner->id");
-        $response->assertForbidden();
+        $response->assertNotFound();
 
         /** @var Partner $partner */
         $partner = Partner::factory()->create(['user_id' => $this->user->id]);
@@ -86,7 +86,7 @@ class PartnerTest extends TestCase
         /** @var Partner $partner */
         $partner = Partner::factory()->create();
         $response = $this->putJson($this->uri . "/$partner->id");
-        $response->assertForbidden();
+        $response->assertNotFound();
 
         /** @var Partner $partner */
         $partner = Partner::factory()->create(['user_id' => $this->user->id]);
@@ -103,7 +103,7 @@ class PartnerTest extends TestCase
         /** @var Partner $partner */
         $partner = Partner::factory()->create();
         $response = $this->deleteJson($this->uri . "/$partner->id");
-        $response->assertForbidden();
+        $response->assertNotFound();
 
         /** @var Partner $partner */
         $partner = Partner::factory()->create(['user_id' => $this->user->id]);

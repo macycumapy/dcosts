@@ -4,86 +4,45 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Partner\PartnerOwnerRequest;
+use App\Actions\Partners\CreatePartnerAction;
+use App\Actions\Partners\DeletePartnerAction;
+use App\Actions\Partners\UpdatePartnerAction;
 use App\Http\Requests\Partner\PartnerStoreRequest;
 use App\Http\Requests\Partner\PartnerUpdateRequest;
 use App\Models\Partner;
-use App\Repositories\PartnerRepository;
 use Illuminate\Http\JsonResponse;
 
 class PartnerController extends Controller
 {
-    protected PartnerRepository $repository;
-
-    /**
-     * @param PartnerRepository $repository
-     */
-    public function __construct(PartnerRepository $repository)
-    {
-        $this->repository = $repository;
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return JsonResponse
-     */
     public function index(): JsonResponse
     {
-        $result = $this->repository->all(['user_id' => auth()->id()]);
-
-        return $this->successResponse('Список получен', $result);
+        return $this->successResponse('Список получен', Partner::all());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param PartnerStoreRequest $request
-     * @return JsonResponse
-     */
-    public function store(PartnerStoreRequest $request): JsonResponse
+    public function store(PartnerStoreRequest $request, CreatePartnerAction $createPartnerAction): JsonResponse
     {
-        $partner = $this->repository->create($request->validated());
-
-        return $this->successResponse('Контрагент добавлен', $partner);
+        return $this->successResponse(
+            'Контрагент добавлен',
+            $createPartnerAction->exec($request->validated())
+        );
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param PartnerOwnerRequest $request
-     * @param Partner $partner
-     * @return JsonResponse
-     */
-    public function show(PartnerOwnerRequest $request, Partner $partner): JsonResponse
+    public function show(Partner $partner): JsonResponse
     {
         return $this->successResponse('Контрагент получен', $partner);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param PartnerUpdateRequest $request
-     * @param Partner $partner
-     * @return JsonResponse
-     */
-    public function update(PartnerUpdateRequest $request, Partner $partner): JsonResponse
+    public function update(PartnerUpdateRequest $request, Partner $partner, UpdatePartnerAction $updatePartnerAction): JsonResponse
     {
-        $partner->update($request->validated());
-
-        return $this->successResponse('Контрагент обновлен', $partner);
+        return $this->successResponse(
+            'Контрагент обновлен',
+            $updatePartnerAction->exec($partner, $request->validated())
+        );
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param PartnerOwnerRequest $request
-     * @param Partner $partner
-     * @return JsonResponse
-     */
-    public function destroy(PartnerOwnerRequest $request, Partner $partner): JsonResponse
+    public function destroy(Partner $partner, DeletePartnerAction $deletePartnerAction): JsonResponse
     {
-        $partner->delete();
+        $deletePartnerAction->exec($partner);
         return $this->successResponse('Контрагент удален');
     }
 }

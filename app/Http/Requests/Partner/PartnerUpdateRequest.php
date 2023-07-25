@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Partner;
 
+use App\Actions\Partners\Data\PartnerUpdateData;
 use App\Models\Partner;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -14,22 +15,7 @@ use Illuminate\Validation\Rule;
  */
 class PartnerUpdateRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return $this->partner->user_id === auth()->id();
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => [
@@ -38,5 +24,10 @@ class PartnerUpdateRequest extends FormRequest
                 Rule::unique('partners')->where('user_id', auth()->id())->ignoreModel($this->partner)
             ],
         ];
+    }
+
+    public function validated($key = null, $default = null): PartnerUpdateData
+    {
+        return PartnerUpdateData::from(parent::validated($key, $default));
     }
 }
