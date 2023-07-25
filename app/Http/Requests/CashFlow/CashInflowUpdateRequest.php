@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\CashFlow;
 
+use App\Actions\CashFlows\Data\UpdateCashFlowData;
 use App\Models\CashFlow;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -17,28 +18,18 @@ use Illuminate\Validation\Rule;
  */
 class CashInflowUpdateRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return $this->cashFlow->user_id === auth()->id();
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'date' => ['required', 'date'],
             'sum' => ['required', 'numeric'],
-            'cost_item_id' => ['nullable', Rule::exists('cost_items', 'id')],
-            'partner_id' => ['nullable', Rule::exists('partners', 'id')],
+            'cost_item_id' => ['nullable', Rule::exists('cost_items', 'id')->where('user_id', auth()->id())],
+            'partner_id' => ['nullable', Rule::exists('partners', 'id')->where('user_id', auth()->id())],
         ];
+    }
+
+    public function validated($key = null, $default = null): UpdateCashFlowData
+    {
+        return UpdateCashFlowData::from(parent::validated($key, $default));
     }
 }

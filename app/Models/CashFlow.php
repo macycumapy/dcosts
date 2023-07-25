@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Casts\CastCashFlowType;
+use App\Builder\CashFlowBuilder;
 use App\Enums\CashFlowType;
+use App\Models\Scopes\SampleByUser;
 use App\Models\Traits\HasUserField;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -25,10 +26,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int|null $cost_item_id ID статьи затрат
  * @property int|null $partner_id ID контрагента
  * @property CashFlowType $type Тип движения
- *
  * @property-read CostItem|null $costItem Статья затрат
  * @property-read Partner|null $partner Контрагент
  * @property-read Collection<CashOutflowDetails> $details Детали затрат
+ * @mixin CashFlowBuilder
  */
 class CashFlow extends Model
 {
@@ -37,7 +38,7 @@ class CashFlow extends Model
 
     protected $casts = [
         'sum' => 'float',
-        'type' => CastCashFlowType::class,
+        'type' => CashFlowType::class,
     ];
 
     public $fillable = [
@@ -49,50 +50,29 @@ class CashFlow extends Model
         'type',
     ];
 
-    /**
-     * Статья затрат
-     *
-     * @return BelongsTo
-     */
+    protected static function boot(): void
+    {
+        parent::boot();
+        static::addGlobalScope(new SampleByUser());
+    }
+
+    public function newEloquentBuilder($query): Builder
+    {
+        return new CashFlowBuilder($query);
+    }
+
     public function costItem(): BelongsTo
     {
         return $this->belongsTo(CostItem::class);
     }
 
-    /**
-     * Контрагент
-     *
-     * @return BelongsTo
-     */
     public function partner(): BelongsTo
     {
         return $this->belongsTo(Partner::class);
     }
 
-    /**
-     * Детализация затрат
-     * @return HasMany
-     */
     public function details(): HasMany
     {
         return $this->hasMany(CashOutflowDetails::class, 'cash_outflow_id');
-    }
-
-    /**
-     * @param Builder $query
-     * @return Builder
-     */
-    public function scopeOfOutflows(Builder $query): Builder
-    {
-        return $query->where('type', CashFlowType::Outflow->value);
-    }
-
-    /**
-     * @param Builder $query
-     * @return Builder
-     */
-    public function scopeOfInflows(Builder $query): Builder
-    {
-        return $query->where('type', CashFlowType::Inflow->value);
     }
 }

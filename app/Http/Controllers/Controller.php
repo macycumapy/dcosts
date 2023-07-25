@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -29,6 +30,8 @@ class Controller extends BaseController
     {
         try {
             return parent::callAction($method, $parameters);
+        } catch (ModelNotFoundException $exception) {
+            return make_response('Не удалось найти запись', 404);
         } catch (\Throwable $exception) {
             return make_response('Возникла внутренняя ошибка!', 500);
         }

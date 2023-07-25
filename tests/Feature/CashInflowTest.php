@@ -67,7 +67,7 @@ class CashInflowTest extends TestCase
         /** @var CashFlow $cashInflow */
         $cashInflow = CashFlow::factory()->create();
         $response = $this->getJson($this->uri . "/$cashInflow->id");
-        $response->assertForbidden();
+        $response->assertNotFound();
 
         /** @var CashFlow $cashInflow */
         $cashInflow = CashFlow::factory()->for($this->user)->create();
@@ -78,13 +78,13 @@ class CashInflowTest extends TestCase
     public function testUpdate(): void
     {
         $data = $this->initData();
-        $response = $this->putJson($this->uri . "/9999");
+        $response = $this->putJson($this->uri . "/9999", $data);
         $response->assertNotFound();
 
         /** @var CashFlow $cashInflow */
         $cashInflow = CashFlow::factory()->create();
-        $response = $this->putJson($this->uri . "/$cashInflow->id");
-        $response->assertForbidden();
+        $response = $this->putJson($this->uri . "/$cashInflow->id", $data);
+        $response->assertNotFound();
 
         /** @var CashFlow $cashInflow */
         $cashInflow = CashFlow::factory()->for($this->user)->create();
@@ -101,7 +101,7 @@ class CashInflowTest extends TestCase
         /** @var CashFlow $cashInflow */
         $cashInflow = CashFlow::factory()->create();
         $response = $this->deleteJson($this->uri . "/$cashInflow->id");
-        $response->assertForbidden();
+        $response->assertNotFound();
 
         /** @var CashFlow $cashInflow */
         $cashInflow = CashFlow::factory()->for($this->user)->create();
@@ -115,8 +115,8 @@ class CashInflowTest extends TestCase
         return [
             'date' => now()->toDateTimeString(),
             'sum' => 500,
-            'cost_item_id' => CostItem::factory()->create()->id,
-            'partner_id' => Partner::factory()->create()->id,
+            'cost_item_id' => CostItem::factory()->for($this->user)->create()->id,
+            'partner_id' => Partner::factory()->for($this->user)->create()->id,
         ];
     }
 }
