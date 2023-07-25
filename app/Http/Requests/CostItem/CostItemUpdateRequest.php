@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\CostItem;
 
+use App\Actions\CostItems\Data\UpdateCostItemData;
 use App\Models\CostItem;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -14,22 +15,7 @@ use Illuminate\Validation\Rule;
  */
 class CostItemUpdateRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return $this->costItem->user_id === auth()->id();
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => [
@@ -38,5 +24,10 @@ class CostItemUpdateRequest extends FormRequest
                 Rule::unique('cost_items')->where('user_id', auth()->id())->ignoreModel($this->costItem)
             ],
         ];
+    }
+
+    public function validated($key = null, $default = null): UpdateCostItemData
+    {
+        return UpdateCostItemData::from(parent::validated($key, $default));
     }
 }

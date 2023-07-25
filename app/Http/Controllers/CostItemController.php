@@ -4,86 +4,48 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CostItem\CostItemOwnerRequest;
+use App\Actions\CostItems\CreateCostItemAction;
+use App\Actions\CostItems\DeleteCostItemAction;
+use App\Actions\CostItems\UpdateCostItemAction;
 use App\Http\Requests\CostItem\CostItemStoreRequest;
 use App\Http\Requests\CostItem\CostItemUpdateRequest;
 use App\Models\CostItem;
-use App\Repositories\CostItemRepository;
 use Illuminate\Http\JsonResponse;
 
 class CostItemController extends Controller
 {
-    protected CostItemRepository $repository;
-
-    /**
-     * @param CostItemRepository $repository
-     */
-    public function __construct(CostItemRepository $repository)
-    {
-        $this->repository = $repository;
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return JsonResponse
-     */
     public function index(): JsonResponse
     {
-        $result = $this->repository->all(['user_id' => auth()->id()]);
-
-        return $this->successResponse('Список получен', $result);
+        return $this->successResponse('Список получен', CostItem::all());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param CostItemStoreRequest $request
-     * @return JsonResponse
-     */
-    public function store(CostItemStoreRequest $request): JsonResponse
+    public function store(CostItemStoreRequest $request, CreateCostItemAction $createCostItemAction): JsonResponse
     {
-        $costItem = $this->repository->create($request->validated());
-
-        return $this->successResponse('Статья затрат добавлена', $costItem);
+        return $this->successResponse(
+            'Статья затрат добавлена',
+            $createCostItemAction->exec($request->validated())
+        );
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param CostItemOwnerRequest $request
-     * @param CostItem $costItem
-     * @return JsonResponse
-     */
-    public function show(CostItemOwnerRequest $request, CostItem $costItem): JsonResponse
+    public function show(CostItem $costItem): JsonResponse
     {
-        return $this->successResponse('Статья затрат получена', $costItem);
+        return $this->successResponse(
+            'Статья затрат получена',
+            $costItem
+        );
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param CostItemUpdateRequest $request
-     * @param CostItem $costItem
-     * @return JsonResponse
-     */
-    public function update(CostItemUpdateRequest $request, CostItem $costItem): JsonResponse
+    public function update(CostItemUpdateRequest $request, CostItem $costItem, UpdateCostItemAction $updateCostItemAction): JsonResponse
     {
-        $costItem->update($request->validated());
-
-        return $this->successResponse('Статья затрат обновлена', $costItem);
+        return $this->successResponse(
+            'Статья затрат обновлена',
+            $updateCostItemAction->exec($costItem, $request->validated())
+        );
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param CostItemOwnerRequest $request
-     * @param CostItem $costItem
-     * @return JsonResponse
-     */
-    public function destroy(CostItemOwnerRequest $request, CostItem $costItem): JsonResponse
+    public function destroy(CostItem $costItem, DeleteCostItemAction $deleteCostItemAction): JsonResponse
     {
-        $costItem->delete();
+        $deleteCostItemAction->exec($costItem);
 
         return $this->successResponse('Статья затрат удалена');
     }

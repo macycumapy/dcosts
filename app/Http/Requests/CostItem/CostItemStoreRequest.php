@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\CostItem;
 
+use App\Actions\CostItems\Data\CreateCostItemData;
 use App\Enums\CashFlowType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -13,12 +14,7 @@ use Illuminate\Validation\Rule;
  */
 class CostItemStoreRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => [
@@ -30,12 +26,10 @@ class CostItemStoreRequest extends FormRequest
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function validated($key = null, $default = null): array
+    public function validated($key = null, $default = null): CreateCostItemData
     {
-        return array_merge(parent::validated($key, $default), [
+        return CreateCostItemData::from([
+            ...parent::validated($key, $default),
             'user_id' => auth()->id(),
         ]);
     }

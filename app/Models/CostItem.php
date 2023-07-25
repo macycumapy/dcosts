@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Casts\CastCashFlowType;
 use App\Enums\CashFlowType;
+use App\Models\Scopes\SampleByUser;
 use App\Models\Traits\HasUserField;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $name Наименование
  * @property CashFlowType $type Тип движения
+ * @mixin Builder
  */
 class CostItem extends Model
 {
@@ -25,7 +27,7 @@ class CostItem extends Model
     public $timestamps = false;
 
     protected $casts = [
-        'type' => CastCashFlowType::class,
+        'type' => CashFlowType::class,
     ];
 
     protected $fillable = [
@@ -33,4 +35,10 @@ class CostItem extends Model
         'user_id',
         'type',
     ];
+
+    protected static function boot(): void
+    {
+        parent::boot();
+        static::addGlobalScope(new SampleByUser());
+    }
 }

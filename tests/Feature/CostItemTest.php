@@ -57,21 +57,17 @@ class CostItemTest extends TestCase
 
         /** @var CostItem $costItem */
         $this->assertNotNull($costItem = CostItem::find($responseData->id));
-        $this->assertEmpty(array_udiff_assoc($data, $costItem->toArray(), static fn ($a, $b) => $a !== $b));
+        $this->assertEmpty(array_diff($data, $costItem->toArray()));
     }
 
     public function storeDataProvider(): array
     {
-        return [
-            CashFlowType::Outflow->value => [[
+        return collect(CashFlowType::cases())->mapWithKeys(fn (CashFlowType $type) => [
+            $type->value => [[
                 'name' => 'just a name',
-                'type' => CashFlowType::Outflow,
-            ]],
-            CashFlowType::Inflow->value => [[
-                'name' => 'just a name',
-                'type' => CashFlowType::Inflow,
-            ]],
-        ];
+                'type' => $type->value,
+            ]]
+        ])->toArray();
     }
 
     public function testShow(): void
@@ -82,7 +78,7 @@ class CostItemTest extends TestCase
         /** @var CostItem $costItem */
         $costItem = CostItem::factory()->create();
         $response = $this->getJson($this->uri . "/$costItem->id");
-        $response->assertForbidden();
+        $response->assertNotFound();
 
         /** @var CostItem $costItem */
         $costItem = CostItem::factory()->create(['user_id' => $this->user->id]);
@@ -101,7 +97,7 @@ class CostItemTest extends TestCase
         /** @var CostItem $costItem */
         $costItem = CostItem::factory()->create();
         $response = $this->putJson($this->uri . "/$costItem->id");
-        $response->assertForbidden();
+        $response->assertNotFound();
 
         /** @var CostItem $costItem */
         $costItem = CostItem::factory()->create(['user_id' => $this->user->id]);
@@ -127,7 +123,7 @@ class CostItemTest extends TestCase
         /** @var CostItem $costItem */
         $costItem = CostItem::factory()->create();
         $response = $this->deleteJson($this->uri . "/$costItem->id");
-        $response->assertForbidden();
+        $response->assertNotFound();
 
         /** @var CostItem $costItem */
         $costItem = CostItem::factory()->create(['user_id' => $this->user->id]);
