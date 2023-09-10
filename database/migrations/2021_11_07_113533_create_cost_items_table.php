@@ -17,10 +17,9 @@ class CreateCostItemsTable extends Migration
     {
         Schema::create('cost_items', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->comment('Наименование');
-            $table->unsignedBigInteger('user_id');
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->string('type', 25)->index();
+            $table->string('name');
         });
     }
 

@@ -17,13 +17,11 @@ class CreateCashOutflowDetailsTable extends Migration
     {
         Schema::create('cash_outflow_details', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('cash_flow_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('nomenclature_id')->constrained();
             $table->float('count')->default(1)->comment('Количество');
             $table->float('cost')->default(0.0)->comment('Стоимость');
-            $table->unsignedBigInteger('cash_outflow_id');
-            $table->unsignedBigInteger('nomenclature_id');
-
-            $table->foreign('cash_outflow_id')->references('id')->on('cash_flows')->onDelete('cascade');
-            $table->foreign('nomenclature_id')->references('id')->on('nomenclatures');
+            $table->string('comment')->nullable();
         });
     }
 

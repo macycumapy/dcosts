@@ -44,7 +44,7 @@ class ReportService
                 'n.name as nomenclature',
             )
             ->leftJoin('nomenclatures as n', 'n.id', '=', 'cod.nomenclature_id')
-            ->leftJoin('cash_flows as cf', 'cf.id', '=', 'cod.cash_outflow_id')
+            ->leftJoin('cash_flows as cf', 'cf.id', '=', 'cod.cash_flow_id')
             ->leftJoin('cost_items as ci', 'ci.id', '=', 'cf.cost_item_id')
             ->leftJoin('nomenclature_types as nt', 'nt.id', '=', 'n.nomenclature_type_id')
             ->whereBetween('cf.date', [$dateFrom, $dateTo->endOfDay()])

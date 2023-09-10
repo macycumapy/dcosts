@@ -43,7 +43,7 @@ class CashOutflowDetails extends Model
      */
     public function cashFlow(): BelongsTo
     {
-        return $this->belongsTo(CashFlow::class, 'cash_outflow_id');
+        return $this->belongsTo(CashFlow::class);
     }
 
     /**

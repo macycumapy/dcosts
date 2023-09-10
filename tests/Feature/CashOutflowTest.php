@@ -117,7 +117,7 @@ class CashOutflowTest extends TestCase
         /** @var CashFlow $cashOutflow */
         $cashOutflow = CashFlow::factory()->for($this->user)->outflow()->create();
         /** @var CashOutflowDetails $cashOutflowDetails */
-        $cashOutflowDetails = CashOutflowDetails::factory()->create(['cash_outflow_id' => $cashOutflow->id]);
+        $cashOutflowDetails = CashOutflowDetails::factory()->create(['cash_flow_id' => $cashOutflow->id]);
 
         $response = $this->deleteJson($this->uri . "/$cashOutflow->id");
         $response->assertOk();

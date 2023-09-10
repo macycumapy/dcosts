@@ -74,6 +74,6 @@ class CashFlow extends Model
 
     public function details(): HasMany
     {
-        return $this->hasMany(CashOutflowDetails::class, 'cash_outflow_id');
+        return $this->hasMany(CashOutflowDetails::class);
     }
 }

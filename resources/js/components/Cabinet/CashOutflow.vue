@@ -147,7 +147,7 @@ export default {
       return this.costItems.filter(item => item.type === this.cashFlowType);
     },
     cashFlowType() {
-      return this.$constants.CASH_FLOW_TYPES.Inflow.value;
+      return this.$constants.CASH_FLOW_TYPES.Outflow.value;
     },
     nomenclatureModal() {
       return NomenclatureModal;

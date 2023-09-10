@@ -6,8 +6,8 @@ namespace App\Enums;
 
 enum CashFlowType: string
 {
-    case Inflow = 'Inflow';
-    case Outflow = 'Outflow';
+    case Inflow = 'inflow';
+    case Outflow = 'outflow';
 
     public static function values(): array
     {

@@ -1,11 +1,11 @@
 export default {
   CASH_FLOW_TYPES: {
     Inflow: {
-      value: 'Inflow',
+      value: 'inflow',
       title: 'Поступление',
     },
     Outflow: {
-      value: 'Outflow',
+      value: 'outflow',
       title: 'Расход',
     },
   },
