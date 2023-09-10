@@ -4,88 +4,60 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CashFlow\CashFlowOwnerRequest;
+use App\Actions\CashFlows\CreateCashOutflowAction;
+use App\Actions\CashFlows\DeleteCashFlowAction;
+use App\Actions\CashFlows\UpdateCashOutflowAction;
 use App\Http\Requests\CashFlow\CashOutflowStoreRequest;
 use App\Http\Requests\CashFlow\CashOutflowUpdateRequest;
 use App\Http\Resources\CashFlowPaginatorResource;
 use App\Http\Resources\CashOutflowResource;
 use App\Models\CashFlow;
-use App\Repositories\CashOutflowRepository;
 use Illuminate\Http\JsonResponse;
 
 class CashOutflowController extends Controller
 {
-    protected CashOutflowRepository $repository;
-
-    /**
-     * @param CashOutflowRepository $repository
-     */
-    public function __construct(CashOutflowRepository $repository)
-    {
-        $this->repository = $repository;
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return JsonResponse
-     */
     public function index(): JsonResponse
     {
-        $paginatedList = $this->repository->paginate(['user_id' => auth()->id()]);
-        return $this->successResponse('Список получен', CashFlowPaginatorResource::make($paginatedList));
+        return $this->successResponse('Список получен', CashFlowPaginatorResource::make(CashFlow::outflows()->paginate()));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param CashOutflowStoreRequest $request
-     * @return JsonResponse
-     */
-    public function store(CashOutflowStoreRequest $request): JsonResponse
+    public function store(CashOutflowStoreRequest $request, CreateCashOutflowAction $createCashOutflowAction): JsonResponse
     {
-        $cashOutflow = $this->repository->create($request->validated());
-
-        return $this->successResponse('Расход добавлен', CashOutflowResource::make($cashOutflow));
+        return $this->successResponse(
+            'Расход добавлен',
+            CashOutflowResource::make($createCashOutflowAction->exec($request->validated())),
+        );
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param CashFlowOwnerRequest $request
-     * @param CashFlow $cashFlow
-     * @return JsonResponse
-     */
-    public function show(CashFlowOwnerRequest $request, CashFlow $cashFlow): JsonResponse
+    public function show(int $id): JsonResponse
     {
-        return $this->successResponse('Расход получен', CashOutflowResource::make($cashFlow));
+        /** @var CashFlow $cashFlow */
+        $cashFlow = CashFlow::outflows()->findOrFail($id);
+
+        return $this->successResponse(
+            'Расход получен',
+            CashOutflowResource::make($cashFlow)
+        );
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param CashOutflowUpdateRequest $request
-     * @param CashFlow $cashFlow
-     * @return JsonResponse
-     * @throws \Exception
-     */
-    public function update(CashOutflowUpdateRequest $request, CashFlow $cashFlow): JsonResponse
+    public function update(CashOutflowUpdateRequest $request, int $id, UpdateCashOutflowAction $updateCashOutflowAction): JsonResponse
     {
-        $this->repository->update($cashFlow->id, $request->validated());
+        /** @var CashFlow $cashFlow */
+        $cashFlow = CashFlow::outflows()->findOrFail($id);
 
-        return $this->successResponse('Расход обновлен', CashOutflowResource::make($cashFlow));
+        return $this->successResponse(
+            'Расход обновлен',
+            CashOutflowResource::make(
+                $updateCashOutflowAction->exec($cashFlow, $request->validated())
+            )
+        );
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param CashFlowOwnerRequest $request
-     * @param CashFlow $cashFlow
-     * @return JsonResponse
-     */
-    public function destroy(CashFlowOwnerRequest $request, CashFlow $cashFlow): JsonResponse
+    public function destroy(int $id, DeleteCashFlowAction $deleteCashFlowAction): JsonResponse
     {
-        $cashFlow->delete();
+        /** @var CashFlow $cashFlow */
+        $cashFlow = CashFlow::outflows()->findOrFail($id);
+        $deleteCashFlowAction->exec($cashFlow);
 
         return $this->successResponse('Расход удален');
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\NomenclatureType;
 
-use App\Actions\NomenclatureTypes\Data\NomenclatureTypeUpdateData;
+use App\Actions\NomenclatureTypes\Data\UpdateNomenclatureTypeData;
 use App\Models\NomenclatureType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -25,8 +25,8 @@ class NomenclatureTypeUpdateRequest extends FormRequest
         ];
     }
 
-    public function validated($key = null, $default = null): NomenclatureTypeUpdateData
+    public function validated($key = null, $default = null): UpdateNomenclatureTypeData
     {
-        return NomenclatureTypeUpdateData::from(parent::validated($key, $default));
+        return UpdateNomenclatureTypeData::from(parent::validated($key, $default));
     }
 }

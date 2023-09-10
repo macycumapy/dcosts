@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Partner;
 
-use App\Actions\Partners\Data\PartnerCreateData;
+use App\Actions\Partners\Data\CreatePartnerData;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -24,9 +24,9 @@ class PartnerStoreRequest extends FormRequest
         ];
     }
 
-    public function validated($key = null, $default = null): PartnerCreateData
+    public function validated($key = null, $default = null): CreatePartnerData
     {
-        return PartnerCreateData::from([
+        return CreatePartnerData::from([
             ...parent::validated($key, $default),
             'user_id' => auth()->id(),
         ]);

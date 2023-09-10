@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Nomenclature;
 
-use App\Actions\Nomenclatures\Data\NomenclatureCreateData;
+use App\Actions\Nomenclatures\Data\CreateNomenclatureData;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-/**
- * @property-read string name
- * @property-read int|null nomenclature_type_id
- */
 class NomenclatureStoreRequest extends FormRequest
 {
     public function rules(): array
@@ -30,9 +26,9 @@ class NomenclatureStoreRequest extends FormRequest
         ];
     }
 
-    public function validated($key = null, $default = null): NomenclatureCreateData
+    public function validated($key = null, $default = null): CreateNomenclatureData
     {
-        return NomenclatureCreateData::from([
+        return CreateNomenclatureData::from([
             ...parent::validated($key, $default),
             'user_id' => auth()->id(),
         ]);

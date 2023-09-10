@@ -22,7 +22,7 @@ class CashFlowPaginatorResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'data' => CashFlowResource::collection($this->all()),
+            'data' => CashFlowResource::collection($this->resource->all()),
             'pages' => $this->lastPage(),
             'page' => $this->currentPage(),
         ];

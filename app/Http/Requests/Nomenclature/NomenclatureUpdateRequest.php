@@ -4,16 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Nomenclature;
 
-use App\Actions\Nomenclatures\Data\NomenclatureUpdateData;
-use App\Models\Nomenclature;
+use App\Actions\Nomenclatures\Data\UpdateNomenclatureData;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-/**
- * @property-read Nomenclature $nomenclature
- * @property-read string name
- * @property-read int|null nomenclature_type_id
- */
 class NomenclatureUpdateRequest extends FormRequest
 {
     public function rules(): array
@@ -32,8 +26,8 @@ class NomenclatureUpdateRequest extends FormRequest
         ];
     }
 
-    public function validated($key = null, $default = null): NomenclatureUpdateData
+    public function validated($key = null, $default = null): UpdateNomenclatureData
     {
-        return NomenclatureUpdateData::from(parent::validated($key, $default));
+        return UpdateNomenclatureData::from(parent::validated($key, $default));
     }
 }

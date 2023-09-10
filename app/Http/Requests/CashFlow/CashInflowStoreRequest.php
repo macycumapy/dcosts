@@ -9,12 +9,6 @@ use App\Enums\CashFlowType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-/**
- * @property-read string $date
- * @property-read float $sum
- * @property-read int|null $cost_item_id
- * @property-read int|null $partner_id
- */
 class CashInflowStoreRequest extends FormRequest
 {
     public function rules(): array

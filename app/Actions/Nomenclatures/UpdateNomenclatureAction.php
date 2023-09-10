@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Actions\Nomenclatures;
 
-use App\Actions\Nomenclatures\Data\NomenclatureUpdateData;
+use App\Actions\Nomenclatures\Data\UpdateNomenclatureData;
 use App\Models\Nomenclature;
 
 class UpdateNomenclatureAction
 {
-    public function exec(Nomenclature $nomenclature, NomenclatureUpdateData $data): bool
+    public function exec(Nomenclature $nomenclature, UpdateNomenclatureData $data): bool
     {
         return $nomenclature->update($data->toArray());
     }

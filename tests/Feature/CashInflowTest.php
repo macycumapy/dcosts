@@ -56,7 +56,10 @@ class CashInflowTest extends TestCase
 
         /** @var CashFlow $cashInflow */
         $this->assertNotNull($cashInflow = CashFlow::find($responseData->id));
-        $this->assertEmpty(array_diff_assoc($data, $cashInflow->toArray()));
+        $this->assertEquals($data['date'], $cashInflow->date->toDateTimeString());
+        $this->assertEquals($data['sum'], $cashInflow->sum);
+        $this->assertEquals($data['cost_item_id'], $cashInflow->cost_item_id);
+        $this->assertEquals($data['partner_id'], $cashInflow->partner_id);
     }
 
     public function testShow(): void
@@ -90,7 +93,11 @@ class CashInflowTest extends TestCase
         $cashInflow = CashFlow::factory()->for($this->user)->create();
         $response = $this->putJson($this->uri . "/$cashInflow->id", $data);
         $response->assertOk();
-        $this->assertEmpty(array_diff_assoc($data, $cashInflow->fresh()->toArray()));
+        $cashInflow->refresh();
+        $this->assertEquals($data['date'], $cashInflow->date->toDateTimeString());
+        $this->assertEquals($data['sum'], $cashInflow->sum);
+        $this->assertEquals($data['cost_item_id'], $cashInflow->cost_item_id);
+        $this->assertEquals($data['partner_id'], $cashInflow->partner_id);
     }
 
     public function testDestroy(): void

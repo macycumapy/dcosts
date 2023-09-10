@@ -68,7 +68,7 @@ class CashOutflowTest extends TestCase
         /** @var CashFlow $cashOutflow */
         $cashOutflow = CashFlow::factory()->outflow()->create();
         $response = $this->getJson($this->uri . "/$cashOutflow->id");
-        $response->assertForbidden();
+        $response->assertNotFound();
 
         /** @var CashFlow $cashOutflow */
         $cashOutflow = CashFlow::factory()->outflow()->for($this->user)->create();
@@ -78,20 +78,30 @@ class CashOutflowTest extends TestCase
 
     public function testUpdate(): void
     {
-        $response = $this->putJson($this->uri . "/9999");
+        $data = $this->initData();
+        $response = $this->putJson($this->uri . "/9999", $data);
         $response->assertNotFound();
 
         /** @var CashFlow $cashOutflow */
         $cashOutflow = CashFlow::factory()->outflow()->create();
-        $response = $this->putJson($this->uri . "/$cashOutflow->id");
-        $response->assertForbidden();
+        $response = $this->putJson($this->uri . "/$cashOutflow->id", $data);
+        $response->assertNotFound();
 
-        $data = $this->initData();
         /** @var CashFlow $cashOutflow */
-        $cashOutflow = CashFlow::factory()->outflow()->for($this->user)->create();
+        $cashOutflow = CashFlow::factory()->outflow()->withDetails()->for($this->user)->create();
         $response = $this->putJson($this->uri . "/$cashOutflow->id", $data);
         $response->assertOk();
-        $this->assertSame((float)collect($data['details'])->sum(fn ($item) => $item['count'] * $item['cost']), $cashOutflow->fresh()->sum);
+        $cashOutflow->refresh();
+        $this->assertEquals($data['date'], $cashOutflow->date);
+        $this->assertEquals($data['cost_item_id'], $cashOutflow->cost_item_id);
+        $this->assertSame((float)collect($data['details'])->sum(fn ($item) => $item['count'] * $item['cost']), $cashOutflow->sum);
+        collect($data['details'])->each(fn ($item) => $this->assertTrue(
+            $cashOutflow->details()
+                ->where('nomenclature_id', $item['nomenclature_id'])
+                ->where('count', $item['count'])
+                ->where('cost', $item['cost'])
+                ->exists()
+        ));
     }
 
     public function testDestroy(): void
@@ -102,7 +112,7 @@ class CashOutflowTest extends TestCase
         /** @var CashFlow $cashOutflow */
         $cashOutflow = CashFlow::factory()->outflow()->create();
         $response = $this->deleteJson($this->uri . "/$cashOutflow->id");
-        $response->assertForbidden();
+        $response->assertNotFound();
 
         /** @var CashFlow $cashOutflow */
         $cashOutflow = CashFlow::factory()->for($this->user)->outflow()->create();
@@ -119,15 +129,15 @@ class CashOutflowTest extends TestCase
     {
         return [
             'date' => now()->toDateTimeString(),
-            'cost_item_id' => CostItem::factory()->create()->id,
+            'cost_item_id' => CostItem::factory()->for($this->user)->create()->id,
             'details' => [
                 [
-                    'nomenclature_id' => Nomenclature::factory()->create()->id,
+                    'nomenclature_id' => Nomenclature::factory()->for($this->user)->create()->id,
                     'count' => 12,
                     'cost' => 111,
                 ],
                 [
-                    'nomenclature_id' => Nomenclature::factory()->create()->id,
+                    'nomenclature_id' => Nomenclature::factory()->for($this->user)->create()->id,
                     'count' => 12,
                     'cost' => 111,
                 ]

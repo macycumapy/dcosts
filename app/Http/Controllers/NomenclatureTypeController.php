@@ -10,21 +10,10 @@ use App\Actions\NomenclatureTypes\UpdateNomenclatureTypeAction;
 use App\Http\Requests\NomenclatureType\NomenclatureTypeStoreRequest;
 use App\Http\Requests\NomenclatureType\NomenclatureTypeUpdateRequest;
 use App\Models\NomenclatureType;
-use App\Repositories\NomenclatureTypeRepository;
 use Illuminate\Http\JsonResponse;
 
 class NomenclatureTypeController extends Controller
 {
-    protected NomenclatureTypeRepository $repository;
-
-    /**
-     * @param NomenclatureTypeRepository $repository
-     */
-    public function __construct(NomenclatureTypeRepository $repository)
-    {
-        $this->repository = $repository;
-    }
-
     public function index(): JsonResponse
     {
         return $this->successResponse(

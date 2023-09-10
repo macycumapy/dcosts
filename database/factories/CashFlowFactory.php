@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Enums\CashFlowType;
+use App\Models\CashFlow;
+use App\Models\CashOutflowDetails;
 use App\Models\CostItem;
 use App\Models\Partner;
 use App\Models\User;
@@ -29,13 +31,20 @@ class CashFlowFactory extends Factory
         ];
     }
 
-    public function outflow()
+    public function outflow(): Factory
     {
         return $this->state(function (array $attributes) {
             return [
                 'type' => CashFlowType::Outflow,
                 'cost_item_id' => CostItem::factory()->outflow()->create(),
             ];
+        });
+    }
+
+    public function withDetails(int $count = 1): Factory
+    {
+        return $this->afterCreating(function (CashFlow $cashFlow) use ($count) {
+            CashOutflowDetails::factory($count)->for($cashFlow)->create();
         });
     }
 }

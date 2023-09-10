@@ -11,6 +11,10 @@ class CreateCashFlowAction
 {
     public function exec(CreateCashFlowData $data): CashFlow
     {
-        return CashFlow::create($data->toArray());
+        $cashFlow = new CashFlow($data->toArray());
+        $cashFlow->user()->associate($data->user_id);
+        $cashFlow->save();
+
+        return $cashFlow;
     }
 }

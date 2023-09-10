@@ -4,33 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\CashFlow;
 
-use App\Models\CashFlow;
+use App\Actions\CashFlows\Data\UpdateCashOutflowData;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-/**
- * @property-read CashFlow $cashFlow
- * @property-read string $date
- * @property-read array $details
- */
 class CashOutflowUpdateRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return $this->cashFlow->user_id === auth()->id();
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'date' => ['required', 'date'],
@@ -41,5 +21,10 @@ class CashOutflowUpdateRequest extends FormRequest
             'details.*.count' => ['required', 'numeric'],
             'details.*.cost' => ['required', 'numeric'],
         ];
+    }
+
+    public function validated($key = null, $default = null): UpdateCashOutflowData
+    {
+        return UpdateCashOutflowData::from(parent::validated($key, $default));
     }
 }

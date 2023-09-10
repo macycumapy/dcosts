@@ -8,6 +8,7 @@ use App\Builder\CashFlowBuilder;
 use App\Enums\CashFlowType;
 use App\Models\Scopes\SampleByUser;
 use App\Models\Traits\HasUserField;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,7 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @property int $id
  * @property float $sum Сумма движения
- * @property string $date Дата движения
+ * @property Carbon $date Дата движения
  * @property string $created_at Дата создания
  * @property string $updated_at Дата обновления
  * @property int|null $cost_item_id ID статьи затрат
@@ -39,6 +40,7 @@ class CashFlow extends Model
     protected $casts = [
         'sum' => 'float',
         'type' => CashFlowType::class,
+        'date' => 'datetime'
     ];
 
     public $fillable = [
@@ -46,7 +48,6 @@ class CashFlow extends Model
         'date',
         'cost_item_id',
         'partner_id',
-        'user_id',
         'type',
     ];
 

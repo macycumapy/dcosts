@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\NomenclatureType;
 
-use App\Actions\NomenclatureTypes\Data\NomenclatureTypeCreateData;
+use App\Actions\NomenclatureTypes\Data\CreateNomenclatureTypeData;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -21,9 +21,9 @@ class NomenclatureTypeStoreRequest extends FormRequest
         ];
     }
 
-    public function validated($key = null, $default = null): NomenclatureTypeCreateData
+    public function validated($key = null, $default = null): CreateNomenclatureTypeData
     {
-        return NomenclatureTypeCreateData::from([
+        return CreateNomenclatureTypeData::from([
             ...parent::validated($key, $default),
             'user_id' => auth()->id(),
         ]);

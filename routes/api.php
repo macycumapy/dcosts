@@ -66,9 +66,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::group(['prefix' => '/cash-outflow'], function () {
         Route::get('/', [CashOutflowController::class, 'index']);
         Route::post('/', [CashOutflowController::class, 'store']);
-        Route::get('/{cashFlow}', [CashOutflowController::class, 'show']);
-        Route::put('/{cashFlow}', [CashOutflowController::class, 'update']);
-        Route::delete('/{cashFlow}', [CashOutflowController::class, 'destroy']);
+        Route::get('/{id}', [CashOutflowController::class, 'show']);
+        Route::put('/{id}', [CashOutflowController::class, 'update']);
+        Route::delete('/{id}', [CashOutflowController::class, 'destroy']);
     });
 
     /** Контрагенты */

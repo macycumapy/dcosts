@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Partner;
 
-use App\Actions\Partners\Data\PartnerUpdateData;
+use App\Actions\Partners\Data\UpdatePartnerData;
 use App\Models\Partner;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -26,8 +26,8 @@ class PartnerUpdateRequest extends FormRequest
         ];
     }
 
-    public function validated($key = null, $default = null): PartnerUpdateData
+    public function validated($key = null, $default = null): UpdatePartnerData
     {
-        return PartnerUpdateData::from(parent::validated($key, $default));
+        return UpdatePartnerData::from(parent::validated($key, $default));
     }
 }

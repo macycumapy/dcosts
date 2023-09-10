@@ -59,7 +59,7 @@ class OutflowXlsxParser
 
     private function addNewOutflowDetails(array $row): void
     {
-        $this->result[count($this->result)-1]->details[] = OutflowDetailsData::from([
+        $this->result[count($this->result) - 1]->details[] = OutflowDetailsData::from([
             'nomenclatureName' => $row[0],
             'nomenclatureType' => $row[1] ?: null,
             'count' => $row[2],
