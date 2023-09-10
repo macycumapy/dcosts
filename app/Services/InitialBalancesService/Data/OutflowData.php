@@ -13,7 +13,7 @@ class OutflowData extends Data
 {
     public Carbon $date;
     public float $sum;
-    public string $costItemName;
+    public string $categoryName;
 
     #[DataCollectionOf(OutflowDetailsData::class)]
     public DataCollection $details;

@@ -20,10 +20,10 @@
         </div>
         <div class="col-sm-8 col-6 pl-0">
           <select-list
-            v-model="model.cost_item_id"
-            :key="model.cost_item_id"
-            :list="filteredCostItems"
-            :modal="costItemModal"
+            v-model="model.category_id"
+            :key="model.category_id"
+            :list="filteredCategories"
+            :modal="categoryModal"
             :modalProps="{type: cashFlowType}"
             title="Статья расхода"
           />
@@ -123,7 +123,7 @@
 import { mapGetters } from 'vuex';
 import SelectList from '../General/SelectList.vue';
 import NomenclatureModal from './Modals/NomenclatureModal.vue';
-import CostItemModal from './Modals/CostItemModal.vue';
+import CategoryModal from './Modals/CategoryModal.vue';
 
 export default {
   name: 'CashOutflow',
@@ -135,16 +135,16 @@ export default {
       model: {
         id: null,
         date: null,
-        cost_item_id: null,
+        category_id: null,
         details: [],
       },
     };
   },
   computed: {
-    ...mapGetters(['nomenclature', 'costItems']),
+    ...mapGetters(['nomenclature', 'categories']),
 
-    filteredCostItems() {
-      return this.costItems.filter(item => item.type === this.cashFlowType);
+    filteredCategories() {
+      return this.categories.filter(item => item.type === this.cashFlowType);
     },
     cashFlowType() {
       return this.$constants.CASH_FLOW_TYPES.Outflow.value;
@@ -152,8 +152,8 @@ export default {
     nomenclatureModal() {
       return NomenclatureModal;
     },
-    costItemModal() {
-      return CostItemModal;
+    categoryModal() {
+      return CategoryModal;
     },
     sum() {
       return this.model.details.length > 0

@@ -17,8 +17,8 @@ class CreateNomenclaturesTable extends Migration
     {
         Schema::create('nomenclatures', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('nomenclature_type_id')->nullable()->constrained('nomenclature_types')->nullOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('nomenclature_type_id')->nullable()->constrained()->nullOnDelete();
             $table->string('name');
         });
     }

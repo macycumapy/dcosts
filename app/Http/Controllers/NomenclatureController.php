@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Actions\Nomenclatures\CreateNomenclatureAction;
-use App\Actions\Nomenclatures\DeleteNomenclatureAction;
-use App\Actions\Nomenclatures\UpdateNomenclatureAction;
+use App\Actions\Nomenclature\CreateNomenclatureAction;
+use App\Actions\Nomenclature\DeleteNomenclatureAction;
+use App\Actions\Nomenclature\UpdateNomenclatureAction;
 use App\Http\Requests\Nomenclature\NomenclatureStoreRequest;
 use App\Http\Requests\Nomenclature\NomenclatureUpdateRequest;
 use App\Models\Nomenclature;

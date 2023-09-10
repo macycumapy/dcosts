@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Actions\Partners\CreatePartnerAction;
-use App\Actions\Partners\DeletePartnerAction;
-use App\Actions\Partners\UpdatePartnerAction;
+use App\Actions\Partner\CreatePartnerAction;
+use App\Actions\Partner\DeletePartnerAction;
+use App\Actions\Partner\UpdatePartnerAction;
 use App\Http\Requests\Partner\PartnerStoreRequest;
 use App\Http\Requests\Partner\PartnerUpdateRequest;
 use App\Models\Partner;

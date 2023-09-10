@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Actions\CashFlows\CreateCashOutflowAction;
-use App\Actions\CashFlows\DeleteCashFlowAction;
-use App\Actions\CashFlows\UpdateCashOutflowAction;
+use App\Actions\CashFlow\CreateCashOutflowAction;
+use App\Actions\CashFlow\DeleteCashFlowAction;
+use App\Actions\CashFlow\UpdateCashOutflowAction;
 use App\Http\Requests\CashFlow\CashOutflowStoreRequest;
 use App\Http\Requests\CashFlow\CashOutflowUpdateRequest;
 use App\Http\Resources\CashFlowPaginatorResource;

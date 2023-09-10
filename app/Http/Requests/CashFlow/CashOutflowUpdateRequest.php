@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\CashFlow;
 
-use App\Actions\CashFlows\Data\UpdateCashOutflowData;
+use App\Actions\CashFlow\Data\UpdateCashOutflowData;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -14,7 +14,7 @@ class CashOutflowUpdateRequest extends FormRequest
     {
         return [
             'date' => ['required', 'date'],
-            'cost_item_id' => ['nullable', Rule::exists('cost_items', 'id')],
+            'category_id' => ['nullable', Rule::exists('categories', 'id')],
             'details' => ['required', 'array'],
             'details.*.id' => ['nullable', Rule::exists('cash_outflow_details', 'id')],
             'details.*.nomenclature_id' => ['required', Rule::exists('nomenclatures', 'id')],

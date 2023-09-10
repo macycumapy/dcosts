@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Models\CashFlow;
-use App\Models\CostItem;
+use App\Models\Category;
 use App\Models\Partner;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -58,7 +58,7 @@ class CashInflowTest extends TestCase
         $this->assertNotNull($cashInflow = CashFlow::find($responseData->id));
         $this->assertEquals($data['date'], $cashInflow->date->toDateTimeString());
         $this->assertEquals($data['sum'], $cashInflow->sum);
-        $this->assertEquals($data['cost_item_id'], $cashInflow->cost_item_id);
+        $this->assertEquals($data['category_id'], $cashInflow->category_id);
         $this->assertEquals($data['partner_id'], $cashInflow->partner_id);
     }
 
@@ -96,7 +96,7 @@ class CashInflowTest extends TestCase
         $cashInflow->refresh();
         $this->assertEquals($data['date'], $cashInflow->date->toDateTimeString());
         $this->assertEquals($data['sum'], $cashInflow->sum);
-        $this->assertEquals($data['cost_item_id'], $cashInflow->cost_item_id);
+        $this->assertEquals($data['category_id'], $cashInflow->category_id);
         $this->assertEquals($data['partner_id'], $cashInflow->partner_id);
     }
 
@@ -122,7 +122,7 @@ class CashInflowTest extends TestCase
         return [
             'date' => now()->toDateTimeString(),
             'sum' => 500,
-            'cost_item_id' => CostItem::factory()->for($this->user)->create()->id,
+            'category_id' => Category::factory()->for($this->user)->create()->id,
             'partner_id' => Partner::factory()->for($this->user)->create()->id,
         ];
     }

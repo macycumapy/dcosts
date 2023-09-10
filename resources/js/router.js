@@ -6,7 +6,7 @@ import Home from './components/Cabinet/Home.vue';
 import NomenclatureTypeList from './components/Cabinet/NomenclatureTypeList.vue';
 import NomenclatureList from './components/Cabinet/NomenclatureList.vue';
 import PartnerList from './components/Cabinet/PartnerList.vue';
-import CostItemList from './components/Cabinet/CostItemList.vue';
+import CategoryList from './components/Cabinet/CategoriesList.vue';
 import CashInflowList from './components/Cabinet/CashInflowList.vue';
 import CashOutflowList from './components/Cabinet/CashOutflowList.vue';
 import CashOutflow from './components/Cabinet/CashOutflow.vue';
@@ -70,8 +70,8 @@ export const router = new Router({
         },
         {
             path: '/cost-items',
-            name: 'costItems',
-            component: CostItemList,
+            name: 'categories',
+            component: CategoryList,
             beforeEnter: onlyAuthenticated,
         },
         {

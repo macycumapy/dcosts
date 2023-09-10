@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Partner;
 
-use App\Actions\Partners\Data\CreatePartnerData;
+use App\Actions\Partner\Data\CreatePartnerData;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 

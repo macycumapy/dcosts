@@ -6,7 +6,7 @@ import request from './modules/request';
 import nomenclatureType from './modules/nomenclature_type';
 import nomenclature from './modules/nomenclature';
 import partner from './modules/partner';
-import costItem from './modules/cost_item';
+import category from './modules/category';
 import cashInflows from './modules/cash_inflow';
 import cashOutflows from './modules/cash_outflow';
 import cashFlows from './modules/cash_flow';
@@ -22,7 +22,7 @@ export const store = new Vuex.Store({
         nomenclatureType,
         nomenclature,
         partner,
-        costItem,
+        category,
         cashInflows,
         cashOutflows,
         cashFlows,

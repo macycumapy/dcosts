@@ -24,7 +24,7 @@ class InflowsXlsxParser
         return collect($rows)->map(fn ($row) => InflowData::from([
             'date' => $row[0],
             'sum' => $row[1],
-            'costItemName' => $row[2],
+            'categoryName' => $row[2],
             'partnerName' => $row[3],
         ]));
     }

@@ -23,7 +23,7 @@
               {{ new Date(item.date).toLocaleString().substr(0, 17) }}
             </div>
             <div class="col col-md-4 col-4 text-center">
-              {{ item.cost_item }}
+              {{ item.category }}
             </div>
             <div
               class="col col-md-4 col-4 text-end"

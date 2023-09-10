@@ -6,7 +6,7 @@ namespace Tests\Unit\Services\InitialBalancesService;
 
 use App\Enums\CashFlowType;
 use App\Models\CashFlow;
-use App\Models\CostItem;
+use App\Models\Category;
 use App\Models\Partner;
 use App\Models\User;
 use App\Services\InitialBalancesService\Data\InflowData;
@@ -54,20 +54,20 @@ class InitialBalancesServiceTest extends TestCase
             'name' => $inflow->partnerName,
             'user_id' => Auth::id(),
         ])->first();
-        $costItem = CostItem::query()->where([
-            'name' => $inflow->costItemName,
+        $category = Category::query()->where([
+            'name' => $inflow->categoryName,
             'type' => CashFlowType::Inflow,
             'user_id' => Auth::id(),
         ])->first();
         $this->assertModelExists($partner);
-        $this->assertModelExists($costItem);
+        $this->assertModelExists($category);
         $this->assertTrue(CashFlow::query()->where([
             'type' => CashFlowType::Inflow,
             'user_id' => Auth::id(),
             'date' => $inflow->date,
             'sum' => $inflow->sum,
             'partner_id' => $partner->id,
-            'cost_item_id' => $costItem->id,
+            'category_id' => $category->id,
         ])->exists());
     }
 
@@ -87,12 +87,12 @@ class InitialBalancesServiceTest extends TestCase
 
     private function assertOutflowsCreated(OutflowData $outflowDTO)
     {
-        $costItem = CostItem::query()->where([
-            'name' => $outflowDTO->costItemName,
+        $category = Category::query()->where([
+            'name' => $outflowDTO->categoryName,
             'type' => CashFlowType::Outflow,
             'user_id' => Auth::id(),
         ])->first();
-        $this->assertModelExists($costItem);
+        $this->assertModelExists($category);
 
         /** @var CashFlow $outflow */
         $outflow = CashFlow::query()->where([
@@ -100,7 +100,7 @@ class InitialBalancesServiceTest extends TestCase
             'user_id' => Auth::id(),
             'date' => $outflowDTO->date,
             'sum' => $outflowDTO->sum,
-            'cost_item_id' => $costItem->id,
+            'category_id' => $category->id,
         ])->first();
         $this->assertModelExists($outflow);
 

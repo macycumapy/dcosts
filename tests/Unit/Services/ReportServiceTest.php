@@ -6,7 +6,7 @@ namespace Tests\Unit\Services;
 
 use App\Models\CashFlow;
 use App\Models\CashOutflowDetails;
-use App\Models\CostItem;
+use App\Models\Category;
 use App\Models\Nomenclature;
 use App\Models\User;
 use App\Services\ReportService;
@@ -33,7 +33,7 @@ class ReportServiceTest extends TestCase
         CashFlow::factory()
             ->outflow()
             ->for($this->user)
-            ->for(CostItem::factory()->for($this->user)->create())
+            ->for(Category::factory()->for($this->user)->create())
             ->count(3)
             ->create()
             ->each(function (CashFlow $cashFlow) {

@@ -25,7 +25,7 @@ class CashFlowResource extends JsonResource
             'id' => $this->id,
             'date' => $this->date,
             'sum' => $this->sum,
-            'cost_item' => $this->costItem->name ?? null,
+            'category' => $this->category->name ?? null,
             'type' => $this->type->value,
         ];
     }

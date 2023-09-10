@@ -40,19 +40,19 @@ class InflowXlsxParserTest extends TestCase
             InflowData::from([
                 'date' => '25.04.2011 12:00',
                 'sum' => 1000,
-                'costItemName' => 'Зарплата',
+                'categoryName' => 'Зарплата',
                 'partnerName' => 'Экспобанк',
             ]),
             InflowData::from([
                 'date' => '25.04.2012',
                 'sum' => 1000,
-                'costItemName' => 'Зарплата',
+                'categoryName' => 'Зарплата',
                 'partnerName' => 'Экспобанк',
             ]),
             InflowData::from([
                 'date' => '25.04.2011',
                 'sum' => 1000,
-                'costItemName' => 'Кэшбэк',
+                'categoryName' => 'Кэшбэк',
                 'partnerName' => 'Тинькофф',
             ])
         ]), $result);

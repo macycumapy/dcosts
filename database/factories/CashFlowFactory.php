@@ -7,7 +7,7 @@ namespace Database\Factories;
 use App\Enums\CashFlowType;
 use App\Models\CashFlow;
 use App\Models\CashOutflowDetails;
-use App\Models\CostItem;
+use App\Models\Category;
 use App\Models\Partner;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -24,7 +24,7 @@ class CashFlowFactory extends Factory
         return [
             'date' => now(),
             'sum' => 500,
-            'cost_item_id' => CostItem::factory()->create(),
+            'category_id' => Category::factory()->create(),
             'partner_id' => Partner::factory()->create(),
             'user_id' => User::factory()->create(),
             'type' => CashFlowType::Inflow,
@@ -36,7 +36,7 @@ class CashFlowFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'type' => CashFlowType::Outflow,
-                'cost_item_id' => CostItem::factory()->outflow()->create(),
+                'category_id' => Category::factory()->outflow()->create(),
             ];
         });
     }

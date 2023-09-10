@@ -37,10 +37,10 @@
       <div class="row mt-3">
         <div class="col-6">
           <select-list
-            v-model="model.cost_item_id"
-            :key="model.cost_item_id"
-            :list="filteredCostItems"
-            :modal="costItemModal"
+            v-model="model.category_id"
+            :key="model.category_id"
+            :list="filteredCategories"
+            :modal="categoryModal"
             :modalProps="{type: cashFlowType}"
             title="Статья поступления"
           />
@@ -79,7 +79,7 @@
 import { mapGetters } from 'vuex';
 import SelectList from '../General/SelectList.vue';
 import PartnerModal from './Modals/PartnerModal.vue';
-import CostItemModal from './Modals/CostItemModal.vue';
+import CategoryModal from './Modals/CategoryModal.vue';
 
 export default {
   name: 'CashInflow',
@@ -91,17 +91,17 @@ export default {
       model: {
         id: null,
         date: null,
-        cost_item_id: null,
+        category_id: null,
         partner_id: null,
         sum: 0,
       },
     };
   },
   computed: {
-    ...mapGetters(['costItems', 'partners']),
+    ...mapGetters(['categories', 'partners']),
 
-    filteredCostItems() {
-      return this.costItems.filter(item => item.type === this.cashFlowType);
+    filteredCategories() {
+      return this.categories.filter(item => item.type === this.cashFlowType);
     },
     cashFlowType() {
       return this.$constants.CASH_FLOW_TYPES.Inflow.value;
@@ -109,8 +109,8 @@ export default {
     partnerModal() {
       return PartnerModal;
     },
-    costItemModal() {
-      return CostItemModal;
+    categoryModal() {
+      return CategoryModal;
     },
     prevRoute() {
       return this.$route.params.prevRoute ?? 'cashInflows';

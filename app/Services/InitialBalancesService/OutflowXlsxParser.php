@@ -52,7 +52,7 @@ class OutflowXlsxParser
         $this->result[] = OutflowData::from([
             'date' => $row[0],
             'sum' => $row[1],
-            'costItemName' => $row[2],
+            'categoryName' => $row[2],
             'details' => []
         ]);
     }

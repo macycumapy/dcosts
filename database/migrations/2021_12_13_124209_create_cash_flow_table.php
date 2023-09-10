@@ -17,9 +17,9 @@ class CreateCashFlowTable extends Migration
     {
         Schema::create('cash_flows', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('cost_item_id')->nullable()->constrained('cost_items')->nullOnDelete();
-            $table->foreignId('partner_id')->nullable()->constrained('partners')->nullOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('partner_id')->nullable()->constrained()->nullOnDelete();
             $table->string('type', 25)->index();
             $table->float('sum')->default(0.0);
             $table->timestamp('date');

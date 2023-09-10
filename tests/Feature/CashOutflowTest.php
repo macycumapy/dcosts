@@ -6,7 +6,7 @@ namespace Tests\Feature;
 
 use App\Models\CashFlow;
 use App\Models\CashOutflowDetails;
-use App\Models\CostItem;
+use App\Models\Category;
 use App\Models\Nomenclature;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -93,7 +93,7 @@ class CashOutflowTest extends TestCase
         $response->assertOk();
         $cashOutflow->refresh();
         $this->assertEquals($data['date'], $cashOutflow->date);
-        $this->assertEquals($data['cost_item_id'], $cashOutflow->cost_item_id);
+        $this->assertEquals($data['category_id'], $cashOutflow->category_id);
         $this->assertSame((float)collect($data['details'])->sum(fn ($item) => $item['count'] * $item['cost']), $cashOutflow->sum);
         collect($data['details'])->each(fn ($item) => $this->assertTrue(
             $cashOutflow->details()
@@ -129,7 +129,7 @@ class CashOutflowTest extends TestCase
     {
         return [
             'date' => now()->toDateTimeString(),
-            'cost_item_id' => CostItem::factory()->for($this->user)->create()->id,
+            'category_id' => Category::factory()->for($this->user)->create()->id,
             'details' => [
                 [
                     'nomenclature_id' => Nomenclature::factory()->for($this->user)->create()->id,

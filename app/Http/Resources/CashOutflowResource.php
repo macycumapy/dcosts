@@ -24,7 +24,7 @@ class CashOutflowResource extends JsonResource
         return [
             'id' => $this->id,
             'date' => Carbon::parse($this->date)->toDateTimeString(),
-            'cost_item_id' => $this->cost_item_id,
+            'category_id' => $this->category_id,
             'sum' => $this->sum,
             'details' => CashOutflowDetailsResource::collection($this->details),
         ];

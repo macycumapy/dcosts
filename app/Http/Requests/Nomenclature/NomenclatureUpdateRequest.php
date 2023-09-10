@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Nomenclature;
 
-use App\Actions\Nomenclatures\Data\UpdateNomenclatureData;
+use App\Actions\Nomenclature\Data\UpdateNomenclatureData;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 

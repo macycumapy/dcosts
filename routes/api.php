@@ -6,7 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CashFlowController;
 use App\Http\Controllers\CashInflowController;
 use App\Http\Controllers\CashOutflowController;
-use App\Http\Controllers\CostItemController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NomenclatureController;
 use App\Http\Controllers\NomenclatureTypeController;
 use App\Http\Controllers\PartnerController;
@@ -54,12 +54,12 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     /** Статьи затрат */
-    Route::group(['prefix' => '/cost-items'], function () {
-        Route::get('/', [CostItemController::class, 'index']);
-        Route::post('/', [CostItemController::class, 'store']);
-        Route::get('/{costItem}', [CostItemController::class, 'show']);
-        Route::put('/{costItem}', [CostItemController::class, 'update']);
-        Route::delete('/{costItem}', [CostItemController::class, 'destroy']);
+    Route::group(['prefix' => '/categories'], function () {
+        Route::get('/', [CategoryController::class, 'index']);
+        Route::post('/', [CategoryController::class, 'store']);
+        Route::get('/{category}', [CategoryController::class, 'show']);
+        Route::put('/{category}', [CategoryController::class, 'update']);
+        Route::delete('/{category}', [CategoryController::class, 'destroy']);
     });
 
     /** Расход денежных средств */

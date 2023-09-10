@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace App\Services\InitialBalancesService;
 
-use App\Actions\CashFlows\CreateCashFlowAction;
-use App\Actions\CashFlows\CreateCashOutflowAction;
-use App\Actions\CashFlows\Data\CreateCashFlowData;
-use App\Actions\CashFlows\Data\CreateCashOutflowData;
-use App\Actions\CashOutflowDetails\Data\DetailsData;
-use App\Actions\CostItems\CreateCostItemAction;
-use App\Actions\CostItems\Data\CreateCostItemData;
-use App\Actions\Nomenclatures\CreateNomenclatureAction;
-use App\Actions\Nomenclatures\Data\CreateNomenclatureData;
-use App\Actions\NomenclatureTypes\CreateNomenclatureTypeAction;
-use App\Actions\NomenclatureTypes\Data\CreateNomenclatureTypeData;
-use App\Actions\Partners\CreatePartnerAction;
-use App\Actions\Partners\Data\CreatePartnerData;
+use App\Actions\CashFlow\CreateCashFlowAction;
+use App\Actions\CashFlow\CreateCashOutflowAction;
+use App\Actions\CashFlow\Data\CreateCashFlowData;
+use App\Actions\CashFlow\Data\CreateCashOutflowData;
+use App\Actions\CashOutflowDetail\Data\DetailsData;
+use App\Actions\Category\CreateCategoryAction;
+use App\Actions\Category\Data\CreateCategoryData;
+use App\Actions\Nomenclature\CreateNomenclatureAction;
+use App\Actions\Nomenclature\Data\CreateNomenclatureData;
+use App\Actions\NomenclatureType\CreateNomenclatureTypeAction;
+use App\Actions\NomenclatureType\Data\CreateNomenclatureTypeData;
+use App\Actions\Partner\CreatePartnerAction;
+use App\Actions\Partner\Data\CreatePartnerData;
 use App\Enums\CashFlowType;
-use App\Models\CostItem;
+use App\Models\Category;
 use App\Models\Nomenclature;
 use App\Models\NomenclatureType;
 use App\Models\Partner;
@@ -32,11 +32,11 @@ use Illuminate\Support\Facades\DB;
 class InitialBalancesService
 {
     public function __construct(
-        private readonly CreatePartnerAction $createPartnerAction,
-        private readonly CreateCostItemAction $createCostItemAction,
-        private readonly CreateCashFlowAction $createCashFlowAction,
-        private readonly CreateCashOutflowAction $createCashOutflowAction,
-        private readonly CreateNomenclatureAction $createNomenclatureAction,
+        private readonly CreatePartnerAction          $createPartnerAction,
+        private readonly CreateCategoryAction         $createCategoryAction,
+        private readonly CreateCashFlowAction         $createCashFlowAction,
+        private readonly CreateCashOutflowAction      $createCashOutflowAction,
+        private readonly CreateNomenclatureAction     $createNomenclatureAction,
         private readonly CreateNomenclatureTypeAction $createNomenclatureTypeAction,
     ) {
     }
@@ -56,11 +56,11 @@ class InitialBalancesService
                     ]));
                 }
 
-                /** @var CostItem $costItem */
-                $costItem = CostItem::firstWhere('name', $inflow->costItemName);
-                if (!$costItem) {
-                    $costItem = $this->createCostItemAction->exec(CreateCostItemData::from([
-                        'name' => $inflow->costItemName,
+                /** @var Category $category */
+                $category = Category::firstWhere('name', $inflow->categoryName);
+                if (!$category) {
+                    $category = $this->createCategoryAction->exec(CreateCategoryData::from([
+                        'name' => $inflow->categoryName,
                         'type' => CashFlowType::Inflow,
                         'user_id' => Auth::id(),
                     ]));
@@ -69,7 +69,7 @@ class InitialBalancesService
                 return $this->createCashFlowAction->exec(CreateCashFlowData::from([
                     'user_id' => Auth::id(),
                     'partner_id' => $partner->id,
-                    'cost_item_id' => $costItem->id,
+                    'category_id' => $category->id,
                     'date' => $inflow->date,
                     'sum' => $inflow->sum,
                     'type' => CashFlowType::Inflow,
@@ -84,11 +84,11 @@ class InitialBalancesService
 
         return DB::transaction(function () use ($outflowData) {
             return collect($outflowData)->map(function (OutflowData $outflow) {
-                /** @var CostItem $costItem */
-                $costItem = CostItem::firstWhere('name', $outflow->costItemName);
-                if (!$costItem) {
-                    $costItem = $this->createCostItemAction->exec(CreateCostItemData::from([
-                        'name' => $outflow->costItemName,
+                /** @var Category $category */
+                $category = Category::firstWhere('name', $outflow->categoryName);
+                if (!$category) {
+                    $category = $this->createCategoryAction->exec(CreateCategoryData::from([
+                        'name' => $outflow->categoryName,
                         'type' => CashFlowType::Outflow,
                         'user_id' => Auth::id(),
                     ]));
@@ -96,7 +96,7 @@ class InitialBalancesService
 
                 return $this->createCashOutflowAction->exec(CreateCashOutflowData::from([
                     'user_id' => Auth::id(),
-                    'cost_item_id' => $costItem->id,
+                    'category_id' => $category->id,
                     'date' => $outflow->date,
                     'sum' => $outflow->sum,
                     'details' => $outflow->details

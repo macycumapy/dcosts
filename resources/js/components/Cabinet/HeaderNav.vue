@@ -86,7 +86,7 @@ export default {
         },
         {
           title: 'Категории доходов и расходов',
-          route: { name: 'costItems' },
+          route: { name: 'categories' },
         },
         {
           title: 'Поступления',

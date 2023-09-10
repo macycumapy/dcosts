@@ -11,6 +11,6 @@ class InflowData extends Data
 {
     public Carbon $date;
     public float $sum;
-    public string $costItemName;
+    public string $categoryName;
     public string $partnerName;
 }

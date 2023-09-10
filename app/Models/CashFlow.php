@@ -24,10 +24,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Carbon $date Дата движения
  * @property string $created_at Дата создания
  * @property string $updated_at Дата обновления
- * @property int|null $cost_item_id ID статьи затрат
+ * @property int|null $category_id ID статьи затрат
  * @property int|null $partner_id ID контрагента
  * @property CashFlowType $type Тип движения
- * @property-read CostItem|null $costItem Статья затрат
+ * @property-read Category|null $category Статья затрат
  * @property-read Partner|null $partner Контрагент
  * @property-read Collection<CashOutflowDetails> $details Детали затрат
  * @mixin CashFlowBuilder
@@ -46,7 +46,7 @@ class CashFlow extends Model
     public $fillable = [
         'sum',
         'date',
-        'cost_item_id',
+        'category_id',
         'partner_id',
         'type',
     ];
@@ -62,9 +62,9 @@ class CashFlow extends Model
         return new CashFlowBuilder($query);
     }
 
-    public function costItem(): BelongsTo
+    public function category(): BelongsTo
     {
-        return $this->belongsTo(CostItem::class);
+        return $this->belongsTo(Category::class);
     }
 
     public function partner(): BelongsTo

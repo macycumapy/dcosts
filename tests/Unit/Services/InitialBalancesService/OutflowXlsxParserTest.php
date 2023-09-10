@@ -41,7 +41,7 @@ class OutflowXlsxParserTest extends TestCase
             OutflowData::from([
                 'date' => '30.04.2017 23:59:59',
                 'sum' => 528.52,
-                'costItemName' => 'Дом',
+                'categoryName' => 'Дом',
                 'details' => [
                     OutflowDetailsData::from([
                         'nomenclatureName' => 'ЖКХ: Электроэнергия',
@@ -55,7 +55,7 @@ class OutflowXlsxParserTest extends TestCase
             OutflowData::from([
                 'date' => '30.04.2017 23:59:59',
                 'sum' => 802.69,
-                'costItemName' => 'Дом',
+                'categoryName' => 'Дом',
                 'details' => [
                     OutflowDetailsData::from([
                         'nomenclatureName' => 'ЖКХ: Газ',
@@ -69,7 +69,7 @@ class OutflowXlsxParserTest extends TestCase
             OutflowData::from([
                 'date' => '30.04.2017 23:59:59',
                 'sum' => 3829.92,
-                'costItemName' => 'Дом',
+                'categoryName' => 'Дом',
                 'details' => [
                     OutflowDetailsData::from([
                         'nomenclatureName' => 'ЖКХ: ХВС',
@@ -111,7 +111,7 @@ class OutflowXlsxParserTest extends TestCase
             OutflowData::from([
                 'date' => '08.05.2017 15:42:26',
                 'sum' => 740.50,
-                'costItemName' => 'Дом',
+                'categoryName' => 'Дом',
                 'details' => [
                     OutflowDetailsData::from([
                         'nomenclatureName' => 'Продукты',
